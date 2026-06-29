@@ -14,8 +14,10 @@ var/
 sdist/
 develop-eggs/
 .installed.cfg
-lib/
-lib64/
+# NOTE: anchored to repo root so these Python venv dirs do NOT match
+# frontend/src/lib (the React API client). Unanchored 'lib/' was excluding it.
+/lib/
+/lib64/
 
 # Environments
 .env
