@@ -1,0 +1,5053 @@
+{
+  "ir_version": "1.2.0",
+  "plan_name": "vendflow_vending_machine_management_platform",
+  "entities": {
+    "alert": {
+      "class": "Alert",
+      "table": "alerts",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "machine_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "machines.id",
+          "fk": "machine"
+        },
+        {
+          "name": "alert_type",
+          "type": "String",
+          "type_args": [
+            50
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "severity",
+          "type": "String",
+          "type_args": [
+            20
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "'medium'",
+          "server_default_value": "medium"
+        },
+        {
+          "name": "message",
+          "type": "Text",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "is_acknowledged",
+          "type": "Boolean",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "False",
+          "default_value": false
+        },
+        {
+          "name": "acknowledged_by",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "fk_ref": "users.id",
+          "fk": "user"
+        },
+        {
+          "name": "acknowledged_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "resolved_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "data_json",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "machine",
+        "user"
+      ],
+      "table_args_unique": [],
+      "name": "alert",
+      "source_file": "models/alert.py",
+      "fk_parents": [
+        "machine"
+      ]
+    },
+    "analytics": {
+      "class": "Analytics",
+      "table": "analytics",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "title",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "description",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "status",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "'active'",
+          "server_default_value": "active"
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [],
+      "table_args_unique": [],
+      "name": "analytics",
+      "source_file": "models/analytics.py",
+      "fk_parents": []
+    },
+    "daily_report": {
+      "class": "DailyReport",
+      "table": "daily_reports",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "machine_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "machines.id",
+          "fk": "machine"
+        },
+        {
+          "name": "report_date",
+          "type": "Date",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "total_transactions",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "0",
+          "default_value": 0
+        },
+        {
+          "name": "total_revenue",
+          "type": "Numeric",
+          "type_args": [
+            12,
+            2
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "card_revenue",
+          "type": "Numeric",
+          "type_args": [
+            12,
+            2
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "cash_revenue",
+          "type": "Numeric",
+          "type_args": [
+            12,
+            2
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "items_sold",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "0",
+          "default_value": 0
+        },
+        {
+          "name": "avg_transaction",
+          "type": "Numeric",
+          "type_args": [
+            10,
+            2
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "uptime_hours",
+          "type": "Numeric",
+          "type_args": [
+            8,
+            2
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "alerts_count",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "0",
+          "default_value": 0
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "machine"
+      ],
+      "table_args_unique": [],
+      "name": "daily_report",
+      "source_file": "models/daily_report.py",
+      "fk_parents": [
+        "machine"
+      ]
+    },
+    "email_send_log": {
+      "class": "EmailSendLog",
+      "table": "email_send_logs",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "lead_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "leads.id",
+          "fk": "lead"
+        },
+        {
+          "name": "sequence_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "email_sequences.id",
+          "fk": "email_sequence"
+        },
+        {
+          "name": "step_number",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "'0'",
+          "default_src": "0",
+          "server_default_value": "0",
+          "default_value": 0
+        },
+        {
+          "name": "subject",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "status",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "sent_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "opened_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "clicked_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "email_sequence",
+        "lead"
+      ],
+      "table_args_unique": [],
+      "name": "email_send_log",
+      "source_file": "models/email_send_log.py",
+      "fk_parents": [
+        "lead"
+      ]
+    },
+    "email_sequence": {
+      "class": "EmailSequence",
+      "table": "email_sequences",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "operator_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "operators.id",
+          "fk": "operator"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "trigger_status",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "steps_json",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "is_active",
+          "type": "Boolean",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "'1'",
+          "default_src": "True",
+          "server_default_value": "1",
+          "default_value": true
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "operator"
+      ],
+      "table_args_unique": [],
+      "name": "email_sequence",
+      "source_file": "models/email_sequence.py",
+      "fk_parents": [
+        "operator"
+      ]
+    },
+    "inventory": {
+      "class": "InventoryItem",
+      "table": "inventories",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "machine_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "machines.id",
+          "fk": "machine"
+        },
+        {
+          "name": "product_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "products.id",
+          "fk": "product"
+        },
+        {
+          "name": "slot_number",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "current_qty",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "'0'",
+          "default_src": "0",
+          "server_default_value": "0",
+          "default_value": 0
+        },
+        {
+          "name": "max_qty",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "last_restocked_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "machine",
+        "product"
+      ],
+      "table_args_unique": [
+        {
+          "columns": [
+            "machine_id",
+            "slot_number"
+          ],
+          "name": "uq_inventory_machine_slot"
+        }
+      ],
+      "name": "inventory",
+      "source_file": "models/inventory.py",
+      "fk_parents": [
+        "machine",
+        "product"
+      ]
+    },
+    "lead": {
+      "class": "Lead",
+      "table": "leads",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "operator_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "operators.id",
+          "fk": "operator"
+        },
+        {
+          "name": "business_name",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "contact_name",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "contact_email",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "contact_phone",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "city",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "state",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "zip_code",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "latitude",
+          "type": "Float",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "longitude",
+          "type": "Float",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "business_type",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "status",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "source",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "notes",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "next_follow_up_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "mockup_image_url",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "operator"
+      ],
+      "table_args_unique": [],
+      "name": "lead",
+      "source_file": "models/lead.py",
+      "fk_parents": [
+        "operator"
+      ]
+    },
+    "location": {
+      "class": "Location",
+      "table": "locations",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "operator_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "operators.id",
+          "fk": "operator"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "city",
+          "type": "String",
+          "type_args": [
+            100
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "state",
+          "type": "String",
+          "type_args": [
+            50
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "zip_code",
+          "type": "String",
+          "type_args": [
+            20
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "latitude",
+          "type": "Float",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "longitude",
+          "type": "Float",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "location_type",
+          "type": "String",
+          "type_args": [
+            50
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "contact_name",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "contact_phone",
+          "type": "String",
+          "type_args": [
+            50
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "notes",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "is_active",
+          "type": "Boolean",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "True",
+          "default_value": true
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "operator"
+      ],
+      "table_args_unique": [],
+      "name": "location",
+      "source_file": "models/location.py",
+      "fk_parents": [
+        "operator"
+      ]
+    },
+    "machine": {
+      "class": "Machine",
+      "table": "machines",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "serial_number",
+          "type": "String",
+          "type_args": [
+            100
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": true,
+          "index": true,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "machine_type",
+          "type": "String",
+          "type_args": [
+            50
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "'ice'",
+          "server_default_value": "ice"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "manufacturer",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "model",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "status",
+          "type": "String",
+          "type_args": [
+            50
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "'active'",
+          "server_default_value": "active"
+        },
+        {
+          "name": "operator_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "fk_ref": "operators.id",
+          "fk": "operator"
+        },
+        {
+          "name": "location_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "fk_ref": "locations.id",
+          "fk": "location"
+        },
+        {
+          "name": "terminal_id",
+          "type": "String",
+          "type_args": [
+            100
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "fk": "terminal"
+        },
+        {
+          "name": "pi_device_id",
+          "type": "String",
+          "type_args": [
+            100
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "fk": "pi_device"
+        },
+        {
+          "name": "sim_iccid",
+          "type": "String",
+          "type_args": [
+            50
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "firmware_version",
+          "type": "String",
+          "type_args": [
+            50
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "temperature",
+          "type": "Float",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "is_online",
+          "type": "Boolean",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "False",
+          "default_value": false
+        },
+        {
+          "name": "is_active",
+          "type": "Boolean",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "True",
+          "default_value": true
+        },
+        {
+          "name": "last_service_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "last_restock_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "last_telemetry_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "installed_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "edge_mode",
+          "type": "String",
+          "type_args": [
+            20
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "'im30_only'",
+          "server_default_value": "im30_only"
+        },
+        {
+          "name": "connectivity_type",
+          "type": "String",
+          "type_args": [
+            20
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "'cellular'",
+          "server_default_value": "cellular"
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "location",
+        "operator",
+        "pi_device",
+        "terminal"
+      ],
+      "table_args_unique": [],
+      "name": "machine",
+      "source_file": "models/machine.py",
+      "fk_parents": [
+        "location",
+        "operator"
+      ]
+    },
+    "marketing_template": {
+      "class": "MarketingTemplate",
+      "table": "marketing_templates",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "category",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "template_type",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "content_html",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "thumbnail_url",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "is_active",
+          "type": "Boolean",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "'1'",
+          "default_src": "True",
+          "server_default_value": "1",
+          "default_value": true
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [],
+      "table_args_unique": [],
+      "name": "marketing_template",
+      "source_file": "models/marketing_template.py",
+      "fk_parents": []
+    },
+    "operator": {
+      "class": "Operator",
+      "table": "operators",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "contact_name",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "contact_email",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "contact_phone",
+          "type": "String",
+          "type_args": [
+            50
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "city",
+          "type": "String",
+          "type_args": [
+            100
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "state",
+          "type": "String",
+          "type_args": [
+            50
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "zip_code",
+          "type": "String",
+          "type_args": [
+            20
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "machine_count",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "0",
+          "default_value": 0
+        },
+        {
+          "name": "monthly_volume",
+          "type": "Numeric",
+          "type_args": [
+            14,
+            2
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "processing_rate",
+          "type": "Numeric",
+          "type_args": [
+            5,
+            2
+          ],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "3.0",
+          "default_value": 3.0
+        },
+        {
+          "name": "software_rate",
+          "type": "Numeric",
+          "type_args": [
+            6,
+            2
+          ],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "9.0",
+          "default_value": 9.0
+        },
+        {
+          "name": "is_active",
+          "type": "Boolean",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "True",
+          "default_value": true
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [],
+      "table_args_unique": [],
+      "name": "operator",
+      "source_file": "models/operator.py",
+      "fk_parents": []
+    },
+    "operator_website": {
+      "class": "OperatorWebsite",
+      "table": "operator_websites",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "operator_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "operators.id",
+          "fk": "operator"
+        },
+        {
+          "name": "domain",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "subdomain",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "company_name",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "tagline",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "logo_url",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "primary_color",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "phone",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "email",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "about_text",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "services_json",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "chatbot_enabled",
+          "type": "Boolean",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "'0'",
+          "default_src": "False",
+          "server_default_value": "0",
+          "default_value": false
+        },
+        {
+          "name": "chatbot_greeting",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "is_published",
+          "type": "Boolean",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "'0'",
+          "default_src": "False",
+          "server_default_value": "0",
+          "default_value": false
+        },
+        {
+          "name": "template_id",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "fk": "template"
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "operator",
+        "template"
+      ],
+      "table_args_unique": [],
+      "name": "operator_website",
+      "source_file": "models/operator_website.py",
+      "fk_parents": [
+        "operator"
+      ]
+    },
+    "product": {
+      "class": "Product",
+      "table": "products",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "operator_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "operators.id",
+          "fk": "operator"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "sku",
+          "type": "String",
+          "type_args": [
+            100
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "category",
+          "type": "String",
+          "type_args": [
+            50
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "unit_cost",
+          "type": "Numeric",
+          "type_args": [
+            10,
+            2
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "retail_price",
+          "type": "Numeric",
+          "type_args": [
+            10,
+            2
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "par_level",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "10",
+          "default_value": 10
+        },
+        {
+          "name": "image_url",
+          "type": "String",
+          "type_args": [
+            500
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "is_active",
+          "type": "Boolean",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "True",
+          "default_value": true
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "operator"
+      ],
+      "table_args_unique": [],
+      "name": "product",
+      "source_file": "models/product.py",
+      "fk_parents": [
+        "operator"
+      ]
+    },
+    "proposal": {
+      "class": "Proposal",
+      "table": "proposals",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "lead_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "leads.id",
+          "fk": "lead"
+        },
+        {
+          "name": "operator_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "operators.id",
+          "fk": "operator"
+        },
+        {
+          "name": "title",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "description",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "machine_type",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "machine_count",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "monthly_revenue_estimate",
+          "type": "Numeric",
+          "type_args": [
+            10,
+            2
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "commission_split",
+          "type": "Numeric",
+          "type_args": [
+            10,
+            2
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "placement_fee",
+          "type": "Numeric",
+          "type_args": [
+            10,
+            2
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "contract_term_months",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "status",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "sent_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "viewed_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "signed_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "signature_data",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "pdf_url",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "lead",
+        "operator"
+      ],
+      "table_args_unique": [],
+      "name": "proposal",
+      "source_file": "models/proposal.py",
+      "fk_parents": [
+        "lead",
+        "operator"
+      ]
+    },
+    "route": {
+      "class": "Route",
+      "table": "routes",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "operator_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "operators.id",
+          "fk": "operator"
+        },
+        {
+          "name": "driver_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "users.id",
+          "fk": "user"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "''",
+          "server_default_value": ""
+        },
+        {
+          "name": "status",
+          "type": "String",
+          "type_args": [
+            20
+          ],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "server_default_src": "'planned'",
+          "server_default_value": "planned"
+        },
+        {
+          "name": "scheduled_date",
+          "type": "Date",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "started_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "completed_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "machine_ids_json",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "optimized_order_json",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "total_distance_miles",
+          "type": "Numeric",
+          "type_args": [
+            10,
+            2
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "notes",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "operator",
+        "user"
+      ],
+      "table_args_unique": [],
+      "name": "route",
+      "source_file": "models/route.py",
+      "fk_parents": [
+        "operator"
+      ]
+    },
+    "service_visit": {
+      "class": "ServiceVisit",
+      "table": "service_visits",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "machine_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "machines.id",
+          "fk": "machine"
+        },
+        {
+          "name": "driver_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "users.id",
+          "fk": "user"
+        },
+        {
+          "name": "route_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "routes.id",
+          "fk": "route"
+        },
+        {
+          "name": "visit_type",
+          "type": "String",
+          "type_args": [
+            30
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "started_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "completed_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "notes",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "cash_collected",
+          "type": "Numeric",
+          "type_args": [
+            10,
+            2
+          ],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "0",
+          "default_value": 0
+        },
+        {
+          "name": "products_restocked_json",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "issues_found_json",
+          "type": "Text",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "machine",
+        "route",
+        "user"
+      ],
+      "table_args_unique": [],
+      "name": "service_visit",
+      "source_file": "models/service_visit.py",
+      "fk_parents": [
+        "machine",
+        "route"
+      ]
+    },
+    "transaction": {
+      "class": "Transaction",
+      "table": "transactions",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "machine_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "machines.id",
+          "fk": "machine"
+        },
+        {
+          "name": "product_id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": true,
+          "fk_ref": "products.id",
+          "fk": "product"
+        },
+        {
+          "name": "amount",
+          "type": "Numeric",
+          "type_args": [
+            10,
+            2
+          ],
+          "nullable": false,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "payment_method",
+          "type": "String",
+          "type_args": [
+            20
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "payment_status",
+          "type": "String",
+          "type_args": [
+            20
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "payment_ref",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "card_brand",
+          "type": "String",
+          "type_args": [
+            20
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "card_last_four",
+          "type": "String",
+          "type_args": [
+            4
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "terminal_id",
+          "type": "String",
+          "type_args": [
+            100
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "fk": "terminal"
+        },
+        {
+          "name": "slot_number",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [
+        "machine",
+        "product",
+        "terminal"
+      ],
+      "table_args_unique": [],
+      "name": "transaction",
+      "source_file": "models/transaction.py",
+      "fk_parents": [
+        "machine",
+        "product"
+      ]
+    },
+    "upload": {
+      "class": "Uploads",
+      "table": "uploads",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "type_args": [],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [],
+      "table_args_unique": [],
+      "name": "upload",
+      "source_file": "models/uploads.py",
+      "fk_parents": []
+    },
+    "user": {
+      "class": "User",
+      "table": "users",
+      "fields": [
+        {
+          "name": "id",
+          "type": "Integer",
+          "type_args": [],
+          "nullable": false,
+          "default": false,
+          "primary_key": true,
+          "unique": false,
+          "index": true,
+          "autoincrement": true
+        },
+        {
+          "name": "email",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": false,
+          "primary_key": false,
+          "unique": true,
+          "index": true
+        },
+        {
+          "name": "hashed_password",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": false,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "full_name",
+          "type": "String",
+          "type_args": [
+            255
+          ],
+          "nullable": true,
+          "default": false,
+          "primary_key": false,
+          "unique": false,
+          "index": false
+        },
+        {
+          "name": "is_active",
+          "type": "Boolean",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "True",
+          "default_value": true
+        },
+        {
+          "name": "created_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": false,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        },
+        {
+          "name": "updated_at",
+          "type": "DateTime",
+          "type_args": [],
+          "nullable": true,
+          "default": true,
+          "primary_key": false,
+          "unique": false,
+          "index": false,
+          "default_src": "datetime.utcnow",
+          "onupdate_src": "datetime.utcnow",
+          "default_value": "datetime.utcnow"
+        }
+      ],
+      "pk": "id",
+      "fks": [],
+      "table_args_unique": [],
+      "name": "user",
+      "source_file": "models/user.py",
+      "fk_parents": []
+    }
+  },
+  "build_order": [
+    "analytics",
+    "marketing_template",
+    "operator",
+    "upload",
+    "user",
+    "email_sequence",
+    "lead",
+    "location",
+    "operator_website",
+    "product",
+    "route",
+    "email_send_log",
+    "proposal",
+    "machine",
+    "alert",
+    "daily_report",
+    "inventory",
+    "service_visit",
+    "transaction"
+  ],
+  "files": {
+    "config.py": {
+      "exports": [
+        "logger",
+        "JWT_SECRET",
+        "SECRET_KEY",
+        "ALGORITHM",
+        "ACCESS_TOKEN_EXPIRE_MINUTES",
+        "API_VERSION",
+        "DATABASE_URL",
+        "REDIS_URL",
+        "DEBUG",
+        "MAX_FILE_SIZE",
+        "ConfigError",
+        "Settings",
+        "get_settings",
+        "load_config",
+        "validate_config"
+      ],
+      "imports": [
+        "logging",
+        "os",
+        "functools",
+        "typing",
+        "pydantic_settings",
+        "pydantic"
+      ]
+    },
+    "database.py": {
+      "exports": [
+        "logger",
+        "DATABASE_URL",
+        "_connect_args",
+        "engine",
+        "SessionLocal",
+        "get_db",
+        "init_db",
+        "close_db",
+        "check_db_health"
+      ],
+      "imports": [
+        "asyncio",
+        "logging",
+        "os",
+        "typing",
+        "sqlalchemy",
+        "sqlalchemy.orm",
+        "models.base"
+      ]
+    },
+    "main.py": {
+      "exports": [
+        "logger",
+        "APP_TITLE",
+        "APP_DESCRIPTION",
+        "APP_VERSION",
+        "lifespan",
+        "app",
+        "root",
+        "health",
+        "_register_routers"
+      ],
+      "imports": [
+        "importlib",
+        "logging",
+        "os",
+        "contextlib",
+        "pathlib",
+        "fastapi",
+        "fastapi.middleware.cors",
+        "asyncio",
+        "uvicorn",
+        "database",
+        "models.base"
+      ]
+    },
+    "alembic/env.py": {
+      "exports": [
+        "_project_root",
+        "target_metadata",
+        "config",
+        "_db_url",
+        "run_migrations_offline",
+        "run_migrations_online"
+      ],
+      "imports": [
+        "os",
+        "sys",
+        "logging.config",
+        "pathlib",
+        "alembic",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "alembic/__init__.py": {
+      "exports": [],
+      "imports": []
+    },
+    "auth/dependencies.py": {
+      "exports": [
+        "logger",
+        "oauth2_scheme",
+        "get_current_user",
+        "get_current_active_user",
+        "get_admin_user",
+        "get_approved_agent",
+        "auth_dependency"
+      ],
+      "imports": [
+        "logging",
+        "fastapi",
+        "fastapi.security",
+        "sqlalchemy",
+        "sqlalchemy.orm",
+        "database",
+        "auth.jwt_handler",
+        "models.user"
+      ]
+    },
+    "auth/jwt_handler.py": {
+      "exports": [
+        "logger",
+        "oauth2_scheme",
+        "_jwt_decode_fn",
+        "create_access_token",
+        "verify_token",
+        "get_current_user"
+      ],
+      "imports": [
+        "logging",
+        "os",
+        "datetime",
+        "typing",
+        "jwt",
+        "fastapi",
+        "fastapi.security",
+        "jwt.exceptions",
+        "config"
+      ]
+    },
+    "auth/schemas.py": {
+      "exports": [
+        "logger",
+        "UserSchema",
+        "UserCreate",
+        "UserResponse",
+        "TokenSchema",
+        "TokenData"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "auth/__init__.py": {
+      "exports": [],
+      "imports": []
+    },
+    "models/alert.py": {
+      "exports": [
+        "logger",
+        "Alert"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/analytics.py": {
+      "exports": [
+        "logger",
+        "Analytics"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/base.py": {
+      "exports": [
+        "logger",
+        "get_password_hash",
+        "verify_password",
+        "Base"
+      ],
+      "imports": [
+        "hashlib",
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "passlib.context"
+      ]
+    },
+    "models/daily_report.py": {
+      "exports": [
+        "logger",
+        "DailyReport"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/email_send_log.py": {
+      "exports": [
+        "logger",
+        "EmailSendLog"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/email_sequence.py": {
+      "exports": [
+        "logger",
+        "EmailSequence"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/inventory.py": {
+      "exports": [
+        "logger",
+        "InventoryItem"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/lead.py": {
+      "exports": [
+        "logger",
+        "Lead"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/location.py": {
+      "exports": [
+        "logger",
+        "Location"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/machine.py": {
+      "exports": [
+        "logger",
+        "Machine"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/marketing_template.py": {
+      "exports": [
+        "logger",
+        "MarketingTemplate"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/operator.py": {
+      "exports": [
+        "logger",
+        "Operator"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/operator_website.py": {
+      "exports": [
+        "logger",
+        "OperatorWebsite"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/product.py": {
+      "exports": [
+        "logger",
+        "Product"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/proposal.py": {
+      "exports": [
+        "logger",
+        "Proposal"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/route.py": {
+      "exports": [
+        "logger",
+        "Route"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/service_visit.py": {
+      "exports": [
+        "logger",
+        "ServiceVisit"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/transaction.py": {
+      "exports": [
+        "logger",
+        "Transaction"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/uploads.py": {
+      "exports": [
+        "Uploads"
+      ],
+      "imports": [
+        "typing",
+        "datetime",
+        "sqlalchemy",
+        "models.base"
+      ]
+    },
+    "models/user.py": {
+      "exports": [
+        "logger",
+        "User"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "typing",
+        "sqlalchemy",
+        "sqlalchemy.orm",
+        "models.base"
+      ]
+    },
+    "models/__init__.py": {
+      "exports": [
+        "logger",
+        "_models_dir"
+      ],
+      "imports": [
+        "importlib",
+        "logging",
+        "pathlib"
+      ]
+    },
+    "routes/alerts.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_alerts",
+        "get_alert",
+        "create_alert",
+        "update_alert",
+        "delete_alert"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.alert",
+        "schemas.alert"
+      ]
+    },
+    "routes/analytics.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_analytics",
+        "get_analytics",
+        "create_analytics",
+        "update_analytics",
+        "delete_analytics"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.analytics",
+        "schemas.analytics"
+      ]
+    },
+    "routes/auth.py": {
+      "exports": [
+        "logger",
+        "router",
+        "login",
+        "token",
+        "register",
+        "get_me"
+      ],
+      "imports": [
+        "logging",
+        "fastapi",
+        "fastapi.security",
+        "sqlalchemy.orm",
+        "auth.jwt_handler",
+        "auth.dependencies",
+        "auth.schemas",
+        "database",
+        "models.user",
+        "models.base",
+        "sqlalchemy"
+      ]
+    },
+    "routes/daily_reports.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_daily_reports",
+        "get_daily_report",
+        "create_daily_report",
+        "update_daily_report",
+        "delete_daily_report"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.daily_report",
+        "schemas.daily_report"
+      ]
+    },
+    "routes/email_send_logs.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_email_send_logs",
+        "get_email_send_log",
+        "create_email_send_log",
+        "update_email_send_log",
+        "delete_email_send_log"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.email_send_log",
+        "schemas.email_send_log"
+      ]
+    },
+    "routes/email_sequences.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_email_sequences",
+        "get_email_sequence",
+        "create_email_sequence",
+        "update_email_sequence",
+        "delete_email_sequence"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.email_sequence",
+        "schemas.email_sequence"
+      ]
+    },
+    "routes/health.py": {
+      "exports": [
+        "logger",
+        "router",
+        "health_check",
+        "health_status",
+        "health_router"
+      ],
+      "imports": [
+        "datetime",
+        "logging",
+        "fastapi"
+      ]
+    },
+    "routes/inventories.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_inventory_items",
+        "get_inventory_item",
+        "create_inventory_item",
+        "update_inventory_item",
+        "delete_inventory_item"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.inventory",
+        "schemas.inventory"
+      ]
+    },
+    "routes/inventory.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_inventory",
+        "get_inventory",
+        "create_inventory",
+        "update_inventory",
+        "delete_inventory",
+        "inventory_router"
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "database",
+        "models.inventory",
+        "schemas.inventory",
+        "sqlalchemy"
+      ]
+    },
+    "routes/leads.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_leads",
+        "get_lead",
+        "create_lead",
+        "update_lead",
+        "delete_lead"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.lead",
+        "schemas.lead"
+      ]
+    },
+    "routes/locations.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_locations",
+        "get_location",
+        "create_location",
+        "update_location",
+        "delete_location"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.location",
+        "schemas.location"
+      ]
+    },
+    "routes/machines.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_machines",
+        "get_machine",
+        "create_machine",
+        "update_machine",
+        "delete_machine"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "database",
+        "models.machine",
+        "schemas.machine",
+        "sqlalchemy"
+      ]
+    },
+    "routes/marketing_templates.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_marketing_templates",
+        "get_marketing_template",
+        "create_marketing_template",
+        "update_marketing_template",
+        "delete_marketing_template"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.marketing_template",
+        "schemas.marketing_template"
+      ]
+    },
+    "routes/operators.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_operators",
+        "get_operator",
+        "create_operator",
+        "update_operator",
+        "delete_operator"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.operator",
+        "schemas.operator"
+      ]
+    },
+    "routes/operator_websites.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_operator_websites",
+        "get_operator_website",
+        "create_operator_website",
+        "update_operator_website",
+        "delete_operator_website"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.operator_website",
+        "schemas.operator_website"
+      ]
+    },
+    "routes/products.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_products",
+        "get_product",
+        "create_product",
+        "update_product",
+        "delete_product"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.product",
+        "schemas.product"
+      ]
+    },
+    "routes/proposals.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_proposals",
+        "get_proposal",
+        "create_proposal",
+        "update_proposal",
+        "delete_proposal"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.proposal",
+        "schemas.proposal"
+      ]
+    },
+    "routes/reports.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_reports",
+        "reports_summary"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.daily_report"
+      ]
+    },
+    "routes/routes.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_routes",
+        "get_route",
+        "create_route",
+        "update_route",
+        "delete_route"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.route",
+        "schemas.route"
+      ]
+    },
+    "routes/service_visits.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_service_visits",
+        "get_service_visit",
+        "create_service_visit",
+        "update_service_visit",
+        "delete_service_visit"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.service_visit",
+        "schemas.service_visit"
+      ]
+    },
+    "routes/transactions.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_transactions",
+        "get_transaction",
+        "create_transaction",
+        "update_transaction",
+        "delete_transaction"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.transaction",
+        "schemas.transaction"
+      ]
+    },
+    "routes/uploads.py": {
+      "exports": [
+        "logger",
+        "router",
+        "_UploadsModel",
+        "_get_s3_client",
+        "upload_task_file",
+        "download_task_file",
+        "delete_task_file",
+        "list_uploads",
+        "get_upload",
+        "create_upload",
+        "update_upload",
+        "delete_upload",
+        "uploads_router"
+      ],
+      "imports": [
+        "__future__",
+        "logging",
+        "typing",
+        "fastapi",
+        "fastapi.responses",
+        "sqlalchemy.orm",
+        "database",
+        "models.uploads",
+        "storage.s3_client",
+        "config",
+        "sqlalchemy"
+      ]
+    },
+    "routes/users.py": {
+      "exports": [
+        "logger",
+        "router",
+        "list_users",
+        "get_user",
+        "create_user",
+        "update_user",
+        "delete_user",
+        "users_router"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "database",
+        "models.user",
+        "schemas.user",
+        "sqlalchemy"
+      ]
+    },
+    "routes/ws.py": {
+      "exports": [
+        "logger",
+        "ws_router",
+        "router",
+        "ws_status",
+        "websocket_endpoint"
+      ],
+      "imports": [
+        "logging",
+        "fastapi"
+      ]
+    },
+    "routes/__init__.py": {
+      "exports": [],
+      "imports": []
+    },
+    "schemas/alert.py": {
+      "exports": [
+        "AlertBase",
+        "AlertCreate",
+        "AlertUpdate",
+        "AlertResponse",
+        "AlertSchema"
+      ],
+      "imports": [
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/analytics.py": {
+      "exports": [
+        "AnalyticsBase",
+        "AnalyticsCreate",
+        "AnalyticsUpdate",
+        "AnalyticsResponse",
+        "AnalyticsSchema"
+      ],
+      "imports": [
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/base.py": {
+      "exports": [
+        "logger",
+        "AppBaseModel",
+        "UserSchema",
+        "TokenResponse",
+        "ErrorResponse",
+        "SuccessResponse"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/daily_report.py": {
+      "exports": [
+        "DailyReportBase",
+        "DailyReportCreate",
+        "DailyReportUpdate",
+        "DailyReportResponse",
+        "DailyReportSchema"
+      ],
+      "imports": [
+        "decimal",
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/email_send_log.py": {
+      "exports": [
+        "EmailSendLogBase",
+        "EmailSendLogCreate",
+        "EmailSendLogUpdate",
+        "EmailSendLogResponse",
+        "EmailSendLogSchema"
+      ],
+      "imports": [
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/email_sequence.py": {
+      "exports": [
+        "EmailSequenceBase",
+        "EmailSequenceCreate",
+        "EmailSequenceUpdate",
+        "EmailSequenceResponse",
+        "EmailSequenceSchema"
+      ],
+      "imports": [
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/inventory.py": {
+      "exports": [
+        "InventoryItemBase",
+        "InventoryItemCreate",
+        "InventoryItemUpdate",
+        "InventoryItemResponse",
+        "InventoryItemSchema"
+      ],
+      "imports": [
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/lead.py": {
+      "exports": [
+        "LeadBase",
+        "LeadCreate",
+        "LeadUpdate",
+        "LeadResponse",
+        "LeadSchema"
+      ],
+      "imports": [
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/location.py": {
+      "exports": [
+        "LocationBase",
+        "LocationCreate",
+        "LocationUpdate",
+        "LocationResponse",
+        "LocationSchema"
+      ],
+      "imports": [
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/machine.py": {
+      "exports": [
+        "MachineBase",
+        "MachineCreate",
+        "MachineUpdate",
+        "MachineResponse",
+        "MachineSchema"
+      ],
+      "imports": [
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/marketing_template.py": {
+      "exports": [
+        "MarketingTemplateBase",
+        "MarketingTemplateCreate",
+        "MarketingTemplateUpdate",
+        "MarketingTemplateResponse",
+        "MarketingTemplateSchema"
+      ],
+      "imports": [
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/operator.py": {
+      "exports": [
+        "OperatorBase",
+        "OperatorCreate",
+        "OperatorUpdate",
+        "OperatorResponse",
+        "OperatorSchema"
+      ],
+      "imports": [
+        "decimal",
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/operator_website.py": {
+      "exports": [
+        "OperatorWebsiteBase",
+        "OperatorWebsiteCreate",
+        "OperatorWebsiteUpdate",
+        "OperatorWebsiteResponse",
+        "OperatorWebsiteSchema"
+      ],
+      "imports": [
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/product.py": {
+      "exports": [
+        "ProductBase",
+        "ProductCreate",
+        "ProductUpdate",
+        "ProductResponse",
+        "ProductSchema"
+      ],
+      "imports": [
+        "decimal",
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/proposal.py": {
+      "exports": [
+        "ProposalBase",
+        "ProposalCreate",
+        "ProposalUpdate",
+        "ProposalResponse",
+        "ProposalSchema"
+      ],
+      "imports": [
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/route.py": {
+      "exports": [
+        "RouteBase",
+        "RouteCreate",
+        "RouteUpdate",
+        "RouteResponse",
+        "RouteSchema"
+      ],
+      "imports": [
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/service_visit.py": {
+      "exports": [
+        "ServiceVisitBase",
+        "ServiceVisitCreate",
+        "ServiceVisitUpdate",
+        "ServiceVisitResponse",
+        "ServiceVisitSchema"
+      ],
+      "imports": [
+        "decimal",
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/transaction.py": {
+      "exports": [
+        "TransactionBase",
+        "TransactionCreate",
+        "TransactionUpdate",
+        "TransactionResponse",
+        "TransactionSchema"
+      ],
+      "imports": [
+        "decimal",
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/user.py": {
+      "exports": [
+        "logger",
+        "UserBase",
+        "UserCreate",
+        "UserUpdate",
+        "UserResponse",
+        "UserSchema"
+      ],
+      "imports": [
+        "logging",
+        "datetime",
+        "typing",
+        "pydantic"
+      ]
+    },
+    "schemas/__init__.py": {
+      "exports": [],
+      "imports": []
+    },
+    "services/alert_service.py": {
+      "exports": [
+        "logger",
+        "AlertService",
+        "get_alert_service"
+      ],
+      "imports": [
+        "__future__",
+        "database",
+        "fastapi",
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.alert"
+      ]
+    },
+    "services/analytics_service.py": {
+      "exports": [
+        "logger",
+        "AnalyticsService",
+        "get_analytics_service"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.analytics"
+      ]
+    },
+    "services/daily_report_service.py": {
+      "exports": [
+        "logger",
+        "DailyReportService",
+        "get_daily_report_service"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.daily_report"
+      ]
+    },
+    "services/email_send_log_service.py": {
+      "exports": [
+        "logger",
+        "EmailSendLogService",
+        "get_email_send_log_service"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.email_send_log"
+      ]
+    },
+    "services/email_sequence_service.py": {
+      "exports": [
+        "logger",
+        "EmailSequenceService",
+        "get_email_sequence_service"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.email_sequence"
+      ]
+    },
+    "services/inventory_service.py": {
+      "exports": [
+        "logger",
+        "InventoryService",
+        "get_inventory_service"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.inventory"
+      ]
+    },
+    "services/lead_service.py": {
+      "exports": [
+        "logger",
+        "LeadService",
+        "get_lead_service"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.lead"
+      ]
+    },
+    "services/location_service.py": {
+      "exports": [
+        "logger",
+        "LocationService",
+        "get_location_service"
+      ],
+      "imports": [
+        "__future__",
+        "database",
+        "fastapi",
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.location"
+      ]
+    },
+    "services/machine_service.py": {
+      "exports": [
+        "logger",
+        "MachineService",
+        "get_machine_service"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.machine"
+      ]
+    },
+    "services/marketing_template_service.py": {
+      "exports": [
+        "logger",
+        "MarketingTemplateService",
+        "get_marketing_template_service"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.marketing_template"
+      ]
+    },
+    "services/operator_service.py": {
+      "exports": [
+        "logger",
+        "OperatorService",
+        "get_operator_service"
+      ],
+      "imports": [
+        "__future__",
+        "database",
+        "fastapi",
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.operator"
+      ]
+    },
+    "services/operator_website_service.py": {
+      "exports": [
+        "logger",
+        "OperatorWebsiteService",
+        "get_operator_website_service"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.operator_website"
+      ]
+    },
+    "services/product_service.py": {
+      "exports": [
+        "logger",
+        "ProductService",
+        "get_product_service"
+      ],
+      "imports": [
+        "__future__",
+        "database",
+        "fastapi",
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.product"
+      ]
+    },
+    "services/proposal_service.py": {
+      "exports": [
+        "logger",
+        "ProposalService",
+        "get_proposal_service"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.proposal"
+      ]
+    },
+    "services/route_service.py": {
+      "exports": [
+        "logger",
+        "RouteService",
+        "get_route_service"
+      ],
+      "imports": [
+        "__future__",
+        "database",
+        "fastapi",
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.route"
+      ]
+    },
+    "services/service_visit_service.py": {
+      "exports": [
+        "logger",
+        "ServiceVisitService",
+        "get_service_visit_service"
+      ],
+      "imports": [
+        "__future__",
+        "database",
+        "fastapi",
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.service_visit"
+      ]
+    },
+    "services/transaction_service.py": {
+      "exports": [
+        "logger",
+        "TransactionService",
+        "get_transaction_service"
+      ],
+      "imports": [
+        "__future__",
+        "database",
+        "fastapi",
+        "logging",
+        "typing",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "models.transaction"
+      ]
+    },
+    "services/user_service.py": {
+      "exports": [
+        "logger",
+        "UserService",
+        "get_user_service"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi",
+        "sqlalchemy.orm",
+        "sqlalchemy",
+        "database",
+        "models.user"
+      ]
+    },
+    "services/__init__.py": {
+      "exports": [],
+      "imports": []
+    },
+    "storage/s3_client.py": {
+      "exports": [
+        "logger",
+        "S3Client",
+        "_s3_client_instance",
+        "upload_file",
+        "download_file",
+        "delete_file"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pydantic",
+        "boto3",
+        "botocore.exceptions"
+      ]
+    },
+    "storage/__init__.py": {
+      "exports": [],
+      "imports": []
+    },
+    "tests/conftest.py": {
+      "exports": [
+        "logger",
+        "TEST_DATABASE_URL",
+        "_test_engine",
+        "_set_sqlite_pragma",
+        "TestingSessionLocal",
+        "_seed_fk_parent_rows",
+        "setup_test_db",
+        "test_db",
+        "override_get_db",
+        "client",
+        "auth_headers"
+      ],
+      "imports": [
+        "logging",
+        "pytest",
+        "fastapi.testclient",
+        "sqlalchemy",
+        "sqlalchemy.orm",
+        "sqlalchemy.pool",
+        "models.base",
+        "database",
+        "main",
+        "datetime",
+        "importlib",
+        "pathlib"
+      ]
+    },
+    "tests/test_alerts.py": {
+      "exports": [
+        "logger",
+        "test_create_alert",
+        "test_list_alerts",
+        "test_get_alert_not_found"
+      ],
+      "imports": [
+        "logging",
+        "pytest"
+      ]
+    },
+    "tests/test_analytics.py": {
+      "exports": [
+        "logger",
+        "_payload",
+        "test_create_analytic",
+        "test_get_analytic",
+        "test_list_analytics",
+        "test_delete_analytic"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_api.py": {
+      "exports": [
+        "logger",
+        "_SKIP_PREFIXES",
+        "_discover_resource_route",
+        "test_health_endpoint",
+        "test_list_endpoint",
+        "test_create_endpoint"
+      ],
+      "imports": [
+        "logging",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_auth.py": {
+      "exports": [
+        "logger",
+        "test_register_user",
+        "test_login_user",
+        "test_protected_endpoint"
+      ],
+      "imports": [
+        "logging",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_daily_reports.py": {
+      "exports": [
+        "logger",
+        "_payload",
+        "test_create_daily_report",
+        "test_get_daily_report",
+        "test_list_daily_reports",
+        "test_delete_daily_report"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_email_send_logs.py": {
+      "exports": [
+        "logger",
+        "_payload",
+        "test_create_email_send_log",
+        "test_get_email_send_log",
+        "test_list_email_send_logs",
+        "test_delete_email_send_log"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_email_sequences.py": {
+      "exports": [
+        "logger",
+        "_payload",
+        "test_create_email_sequence",
+        "test_get_email_sequence",
+        "test_list_email_sequences",
+        "test_delete_email_sequence"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_health.py": {
+      "exports": [
+        "logger",
+        "_VALID_STATUSES",
+        "test_health_check",
+        "test_health_returns_json",
+        "test_root_endpoint"
+      ],
+      "imports": [
+        "logging",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_inventories.py": {
+      "exports": [
+        "logger",
+        "test_create_inventory",
+        "test_get_inventory",
+        "test_list_inventory",
+        "test_delete_inventory"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi.testclient",
+        "pytest"
+      ]
+    },
+    "tests/test_leads.py": {
+      "exports": [
+        "logger",
+        "_payload",
+        "test_create_lead",
+        "test_get_lead",
+        "test_list_leads",
+        "test_delete_lead"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_locations.py": {
+      "exports": [
+        "logger",
+        "test_create_location",
+        "test_get_location",
+        "test_list_locations",
+        "test_update_location",
+        "test_delete_location",
+        "test_get_location_not_found"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_machines.py": {
+      "exports": [
+        "logger",
+        "test_create_machine",
+        "test_get_machine",
+        "test_list_machines",
+        "test_delete_machine"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_marketing_templates.py": {
+      "exports": [
+        "logger",
+        "_payload",
+        "test_create_marketing_template",
+        "test_get_marketing_template",
+        "test_list_marketing_templates",
+        "test_delete_marketing_template"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_operators.py": {
+      "exports": [
+        "logger",
+        "test_create_operator",
+        "test_list_operators",
+        "test_get_operators_not_found"
+      ],
+      "imports": [
+        "logging",
+        "pytest"
+      ]
+    },
+    "tests/test_operator_websites.py": {
+      "exports": [
+        "logger",
+        "_payload",
+        "test_create_operator_website",
+        "test_get_operator_website",
+        "test_list_operator_websites",
+        "test_delete_operator_website"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_products.py": {
+      "exports": [
+        "logger",
+        "test_create_product",
+        "test_list_products",
+        "test_get_product",
+        "test_delete_product"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_proposals.py": {
+      "exports": [
+        "logger",
+        "_payload",
+        "test_create_proposal",
+        "test_get_proposal",
+        "test_list_proposals",
+        "test_delete_proposal"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "pytest",
+        "fastapi.testclient"
+      ]
+    },
+    "tests/test_routes.py": {
+      "exports": [
+        "logger",
+        "test_create_route",
+        "test_list_routes",
+        "test_get_routes_not_found"
+      ],
+      "imports": [
+        "logging",
+        "pytest"
+      ]
+    },
+    "tests/test_service_visits.py": {
+      "exports": [
+        "logger",
+        "test_create_service_visit",
+        "test_list_service_visits",
+        "test_get_service_visits_not_found"
+      ],
+      "imports": [
+        "logging",
+        "pytest"
+      ]
+    },
+    "tests/test_transactions.py": {
+      "exports": [
+        "logger",
+        "test_create_transaction",
+        "test_list_transactions",
+        "test_get_transactions_not_found"
+      ],
+      "imports": [
+        "logging",
+        "pytest"
+      ]
+    },
+    "tests/test_users.py": {
+      "exports": [
+        "logger",
+        "test_list_users",
+        "test_get_user_not_found"
+      ],
+      "imports": [
+        "logging",
+        "typing"
+      ]
+    },
+    "tests/__init__.py": {
+      "exports": [],
+      "imports": []
+    },
+    "websocket/manager.py": {
+      "exports": [
+        "logger",
+        "WebSocketManager",
+        "_manager",
+        "get_manager",
+        "WSManager",
+        "ConnectionManager"
+      ],
+      "imports": [
+        "logging",
+        "typing",
+        "fastapi"
+      ]
+    },
+    "websocket/__init__.py": {
+      "exports": [],
+      "imports": []
+    }
+  },
+  "warnings": []
+}

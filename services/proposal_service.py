@@ -1,0 +1,59 @@
+"""
+services/proposal_service.py  v1.0.0
+Locked template — JARVIS vending_machine gig.
+CRUD service for Proposal entity.
+"""
+import logging
+from typing import List, Optional
+
+from sqlalchemy.orm import Session
+from sqlalchemy import select
+
+from models.proposal import Proposal
+
+logger = logging.getLogger(__name__)
+
+
+class ProposalService:
+    """Service layer for Proposal CRUD operations."""
+
+    def __init__(self, db: Session = None):
+        self.db = db
+
+    def create(self, data: dict) -> Proposal:
+        row = Proposal(**data)
+        self.db.add(row)
+        self.db.commit()
+        self.db.refresh(row)
+        return row
+
+    def list_all(self, skip: int = 0, limit: int = 100) -> List[Proposal]:
+        result = self.db.execute(select(Proposal).offset(skip).limit(limit))
+        return list(result.scalars().all())
+
+    def get_by_id(self, row_id: int) -> Optional[Proposal]:
+        return self.db.get(Proposal, row_id)
+
+    def update(self, row_id: int, data: dict) -> Optional[Proposal]:
+        row = self.db.get(Proposal, row_id)
+        if not row:
+            return None
+        for key, value in data.items():
+            if hasattr(row, key) and value is not None:
+                setattr(row, key, value)
+        self.db.commit()
+        self.db.refresh(row)
+        return row
+
+    def delete(self, row_id: int) -> bool:
+        row = self.db.get(Proposal, row_id)
+        if not row:
+            return False
+        self.db.delete(row)
+        self.db.commit()
+        return True
+
+
+def get_proposal_service(db: Session) -> ProposalService:
+    """DI factory for ProposalService."""
+    return ProposalService(db=db)

@@ -1,0 +1,3258 @@
+{
+  "gig_validator_version": "v26.16",
+  "project": "build_vending_0625_1612",
+  "project_dir": "projects_workspace\\generated\\build_vending_0625_1612",
+  "timestamp": "2026-06-25T21:35:50.302283+00:00",
+  "grade": "A+",
+  "score": 100,
+  "ready_to_deliver": true,
+  "fiverr_ready": true,
+  "recommendation": "Ready to deliver \u2014 all probes passed",
+  "hard_failures": [],
+  "failures": [],
+  "weights_breakdown": {
+    "server": 15,
+    "routes": 10,
+    "auth": 15,
+    "crud": 15,
+    "syntax": 3,
+    "pytest": 2,
+    "test_runner": 15,
+    "runtime_semantics": 5,
+    "domain": 20
+  },
+  "probes": {
+    "server": {
+      "passed": true,
+      "is_config_error": false,
+      "startup_time": 0.95,
+      "output": "INFO:     Started server process [46156]\n",
+      "errors": [],
+      "score": 20,
+      "detail": "Server started in 0.95s",
+      "port_used": 8765,
+      "migrations_run": true,
+      "max_score": 20
+    },
+    "routes": {
+      "passed": true,
+      "score": 15,
+      "max_score": 15,
+      "detail": "12/12 routes OK, 0 returned 500 (4 param-routes probed with safe values)",
+      "steps": [
+        {
+          "path": "/",
+          "probe_path": "/",
+          "method": "GET",
+          "status": 200,
+          "passed": true
+        },
+        {
+          "path": "/health",
+          "probe_path": "/health",
+          "method": "GET",
+          "status": 200,
+          "passed": true
+        },
+        {
+          "path": "/alerts/",
+          "probe_path": "/alerts/",
+          "method": "GET",
+          "status": 200,
+          "passed": true
+        },
+        {
+          "path": "/alerts/{alert_id}",
+          "probe_path": "/alerts/1",
+          "method": "GET",
+          "note": "param-route probed with safe values \u2192 /alerts/1",
+          "status": 404,
+          "passed": true
+        },
+        {
+          "path": "/analytics/",
+          "probe_path": "/analytics/",
+          "method": "GET",
+          "status": 200,
+          "passed": true
+        },
+        {
+          "path": "/analytics/{analytics_id}",
+          "probe_path": "/analytics/1",
+          "method": "GET",
+          "note": "param-route probed with safe values \u2192 /analytics/1",
+          "status": 404,
+          "passed": true
+        },
+        {
+          "path": "/auth/me",
+          "probe_path": "/auth/me",
+          "method": "GET",
+          "status": 401,
+          "passed": true
+        },
+        {
+          "path": "/daily_reports/",
+          "probe_path": "/daily_reports/",
+          "method": "GET",
+          "status": 200,
+          "passed": true
+        },
+        {
+          "path": "/daily_reports/{daily_report_id}",
+          "probe_path": "/daily_reports/1",
+          "method": "GET",
+          "note": "param-route probed with safe values \u2192 /daily_reports/1",
+          "status": 404,
+          "passed": true
+        },
+        {
+          "path": "/email_send_logs/",
+          "probe_path": "/email_send_logs/",
+          "method": "GET",
+          "status": 200,
+          "passed": true
+        },
+        {
+          "path": "/email_send_logs/{email_send_log_id}",
+          "probe_path": "/email_send_logs/1",
+          "method": "GET",
+          "note": "param-route probed with safe values \u2192 /email_send_logs/1",
+          "status": 404,
+          "passed": true
+        },
+        {
+          "path": "/email_sequences/",
+          "probe_path": "/email_sequences/",
+          "method": "GET",
+          "status": 200,
+          "passed": true
+        }
+      ],
+      "failures": [],
+      "advisory": false
+    },
+    "auth": {
+      "passed": true,
+      "score": 20,
+      "max_score": 20,
+      "detail": "Auth cycle complete: register\u2192login\u2192token\u2192protected",
+      "steps": [
+        {
+          "name": "REGISTER",
+          "method": "POST",
+          "path": "/auth/register",
+          "status": 201,
+          "body": {
+            "id": 2,
+            "email": "testuser_1782423358@gig-test.com"
+          },
+          "passed": true
+        },
+        {
+          "name": "LOGIN",
+          "method": "POST",
+          "path": "/auth/login",
+          "status": 200,
+          "body": {
+            "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlcl8xNzgyNDIzMzU4QGdpZy10ZXN0LmNvbSIsInVzZXJfaWQiOjIsImV4cCI6MTc4MjQyNTE1OX0.mkGJ7r5cpAQO3W7zh9XalMWCdZkOjPfIAJR2ctji87M",
+            "token_type": "bearer"
+          },
+          "passed": true
+        },
+        {
+          "name": "PROTECTED",
+          "method": "GET",
+          "path": "/auth/me",
+          "status": 200,
+          "passed": true
+        }
+      ],
+      "failures": [],
+      "advisory": false,
+      "auth_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlcl8xNzgyNDIzMzU4QGdpZy10ZXN0LmNvbSIsInVzZXJfaWQiOjIsImV4cCI6MTc4MjQyNTE1OX0.mkGJ7r5cpAQO3W7zh9XalMWCdZkOjPfIAJR2ctji87M"
+    },
+    "crud": {
+      "passed": true,
+      "score": 15,
+      "max_score": 15,
+      "detail": "3/3 resource(s) passed CRUD cycle",
+      "steps": [
+        {
+          "name": "CREATE",
+          "method": "POST",
+          "url": "http://127.0.0.1:8765/alerts/",
+          "status": 422,
+          "body": {
+            "detail": [
+              {
+                "type": "int_parsing",
+                "loc": [
+                  "body",
+                  "machine_id"
+                ],
+                "msg": "Input should be a valid integer, unable to parse string as an integer",
+                "input": "test_value"
+              },
+              {
+                "type": "bool_parsing",
+                "loc": [
+                  "body",
+                  "is_acknowledged"
+                ],
+                "msg": "Input should be a valid boolean, unable to interpret input",
+                "input": "test_value"
+              },
+              {
+                "type": "int_parsing",
+                "loc": [
+                  "body",
+                  "acknowledged_by"
+                ],
+                "msg": "Input should be a valid integer, unable to parse string as an integer",
+                "input": "test_value"
+              },
+              {
+                "type": "datetime_from_date_parsing",
+                "loc": [
+                  "body",
+                  "acknowledged_at"
+                ],
+                "msg": "Input should be a valid datetime or date, invalid character in year",
+                "input": "test_value",
+                "ctx": {
+                  "error": "invalid character in year"
+                }
+              },
+              {
+                "type": "datetime_from_date_parsing",
+                "loc": [
+                  "body",
+                  "resolved_at"
+                ],
+                "msg": "Input should be a valid datetime or date, invalid character in year",
+                "input": "test_value",
+                "ctx": {
+                  "error": "invalid character in year"
+                }
+              },
+              {
+                "type": "int_parsing",
+                "loc": [
+                  "body",
+                  "id"
+                ],
+                "msg": "Input should be a valid integer, unable to parse string as an integer",
+                "input": "test_value"
+              }
+            ]
+          },
+          "passed": true
+        },
+        {
+          "name": "LIST",
+          "method": "GET",
+          "url": "http://127.0.0.1:8765/alerts/",
+          "status": 200,
+          "body": [],
+          "passed": true
+        },
+        {
+          "name": "CREATE",
+          "method": "POST",
+          "url": "http://127.0.0.1:8765/analytics/",
+          "status": 422,
+          "body": {
+            "detail": [
+              {
+                "type": "int_parsing",
+                "loc": [
+                  "body",
+                  "id"
+                ],
+                "msg": "Input should be a valid integer, unable to parse string as an integer",
+                "input": "test_value"
+              }
+            ]
+          },
+          "passed": true
+        },
+        {
+          "name": "LIST",
+          "method": "GET",
+          "url": "http://127.0.0.1:8765/analytics/",
+          "status": 200,
+          "body": [],
+          "passed": true
+        },
+        {
+          "name": "CREATE",
+          "method": "POST",
+          "url": "http://127.0.0.1:8765/daily_reports/",
+          "status": 422,
+          "body": {
+            "detail": [
+              {
+                "type": "int_parsing",
+                "loc": [
+                  "body",
+                  "total_transactions"
+                ],
+                "msg": "Input should be a valid integer, unable to parse string as an integer",
+                "input": "test_value"
+              },
+              {
+                "type": "decimal_parsing",
+                "loc": [
+                  "body",
+                  "total_revenue"
+                ],
+                "msg": "Input should be a valid decimal",
+                "input": "test_value"
+              },
+              {
+                "type": "decimal_parsing",
+                "loc": [
+                  "body",
+                  "card_revenue"
+                ],
+                "msg": "Input should be a valid decimal",
+                "input": "test_value"
+              },
+              {
+                "type": "decimal_parsing",
+                "loc": [
+                  "body",
+                  "cash_revenue"
+                ],
+                "msg": "Input should be a valid decimal",
+                "input": "test_value"
+              },
+              {
+                "type": "int_parsing",
+                "loc": [
+                  "body",
+                  "items_sold"
+                ],
+                "msg": "Input should be a valid integer, unable to parse string as an integer",
+                "input": "test_value"
+              },
+              {
+                "type": "decimal_parsing",
+                "loc": [
+                  "body",
+                  "avg_transaction"
+                ],
+                "msg": "Input should be a valid decimal",
+                "input": "test_value"
+              },
+              {
+                "type": "decimal_parsing",
+                "loc": [
+                  "body",
+                  "uptime_hours"
+                ],
+                "msg": "Input should be a valid decimal",
+                "input": "test_value"
+              },
+              {
+                "type": "int_parsing",
+                "loc": [
+                  "body",
+                  "alerts_count"
+                ],
+                "msg": "Input should be a valid integer, unable to parse string as an integer",
+                "input": "test_value"
+              },
+              {
+                "type": "int_parsing",
+                "loc": [
+                  "body",
+                  "id"
+                ],
+                "msg": "Input should be a valid integer, unable to parse string as an integer",
+                "input": "test_value"
+              }
+            ]
+          },
+          "passed": true
+        },
+        {
+          "name": "LIST",
+          "method": "GET",
+          "url": "http://127.0.0.1:8765/daily_reports/",
+          "status": 200,
+          "body": [],
+          "passed": true
+        }
+      ],
+      "failures": [],
+      "advisory": false
+    },
+    "syntax": {
+      "passed": true,
+      "score": 3,
+      "max_score": 3,
+      "detail": "All 139 .py files parse cleanly",
+      "steps": [],
+      "failures": [],
+      "advisory": false
+    },
+    "pytest": {
+      "passed": true,
+      "score": 2,
+      "max_score": 2,
+      "detail": "134 test(s) collected and ran (exit 0)",
+      "steps": [
+        {
+          "command": "C:\\Users\\barms\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m pytest --collect-only -q --tb=short --no-header --override-ini=asyncio_mode=auto",
+          "exit_code": 0,
+          "collected": 134,
+          "errors": []
+        }
+      ],
+      "failures": [],
+      "advisory": false
+    },
+    "test_runner": {
+      "passed": true,
+      "score": 20,
+      "max_score": 20,
+      "detail": "ALL 116 test(s) PASSED \u2713",
+      "steps": [
+        {
+          "command": "C:\\Users\\barms\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m pytest tests/ -v --tb=short --no-header --override-ini=asyncio_mode=auto --override-ini=asyncio_default_fixture_loop_scope=function",
+          "exit_code": 0,
+          "passed": 116,
+          "failed": 0,
+          "errors": 0,
+          "output_tail": "marketing_template_contract.py: 3 warnings\ntests/test_marketing_templates.py: 4 warnings\ntests/test_operator_contract.py: 3 warnings\ntests/test_operator_website_contract.py: 3 warnings\ntests/test_operator_websites.py: 4 warnings\ntests/test_operators.py: 3 warnings\ntests/test_product_contract.py: 3 warnings\ntests/test_products.py: 4 warnings\ntests/test_proposal_contract.py: 3 warnings\ntests/test_proposals.py: 4 warnings\ntests/test_route_contract.py: 3 warnings\ntests/test_routes.py: 3 warnings\ntests/test_service_visit_contract.py: 3 warnings\ntests/test_service_visits.py: 3 warnings\ntests/test_transaction_contract.py: 3 warnings\ntests/test_transactions.py: 3 warnings\ntests/test_user_contract.py: 3 warnings\ntests/test_users.py: 2 warnings\n  c:\\Jarvis\\projects_workspace\\generated\\build_vending_0625_1612\\auth\\jwt_handler.py:51: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n    expire = datetime.utcnow() + (\n\ntests/test_operators.py::test_create_operator\n  C:\\Users\\barms\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\pydantic\\main.py:426: UserWarning: Pydantic serializer warnings:\n    Expected `decimal` but got `float` with value `3.0` - serialized value may not be as expected\n    Expected `decimal` but got `float` with value `9.0` - serialized value may not be as expected\n    return self.__pydantic_serializer__.to_python(\n\ntests/test_service_visits.py::test_create_service_visit\n  C:\\Users\\barms\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\pydantic\\main.py:426: UserWarning: Pydantic serializer warnings:\n    Expected `decimal` but got `int` with value `0` - serialized value may not be as expected\n    return self.__pydantic_serializer__.to_python(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=============== 116 passed, 18 skipped, 284 warnings in 23.99s ================"
+        }
+      ],
+      "failures": [],
+      "advisory": false
+    },
+    "runtime_semantics": {
+      "passed": true,
+      "score": 5,
+      "max_score": 5,
+      "detail": "All 139 files clean \u2014 no undefined names, sync/async issues, or dead guards",
+      "steps": [],
+      "failures": [],
+      "advisory": false
+    },
+    "file_validation": {
+      "passed": true,
+      "score": 83,
+      "detail": "All 139 files avg 83/100",
+      "advisory": true,
+      "per_file": {
+        "config.py": {
+          "score": 88,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 5,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "database.py": {
+          "score": 87,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "main.py": {
+          "score": 86,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 2,
+            "error_handling": 2
+          }
+        },
+        "alembic/env.py": {
+          "score": 85,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "alembic/__init__.py": {
+          "score": 90,
+          "grade": "A",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 5,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "auth/dependencies.py": {
+          "score": 89,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "auth/jwt_handler.py": {
+          "score": 89,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "auth/schemas.py": {
+          "score": 87,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "auth/__init__.py": {
+          "score": 90,
+          "grade": "A",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 5,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "models/alert.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/analytics.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/base.py": {
+          "score": 85,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "models/daily_report.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/email_send_log.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/email_sequence.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/inventory.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/lead.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/location.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/machine.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/marketing_template.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/operator.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/operator_website.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/product.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/proposal.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/route.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/service_visit.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/transaction.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 0,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/uploads.py": {
+          "score": 79,
+          "grade": "C",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "models/user.py": {
+          "score": 89,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "models/__init__.py": {
+          "score": 90,
+          "grade": "A",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 5,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "routes/alerts.py": {
+          "score": 88,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "routes/analytics.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "routes/auth.py": {
+          "score": 88,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "routes/daily_reports.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "routes/email_send_logs.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "routes/email_sequences.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "routes/health.py": {
+          "score": 83,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "routes/inventories.py": {
+          "score": 88,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "routes/inventory.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "routes/leads.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "routes/locations.py": {
+          "score": 88,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "routes/machines.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "routes/marketing_templates.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "routes/operators.py": {
+          "score": 88,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "routes/operator_websites.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "routes/products.py": {
+          "score": 88,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "routes/proposals.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "routes/reports.py": {
+          "score": 82,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "routes/routes.py": {
+          "score": 89,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "routes/service_visits.py": {
+          "score": 88,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "routes/transactions.py": {
+          "score": 88,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "routes/uploads.py": {
+          "score": 89,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "routes/users.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "routes/ws.py": {
+          "score": 86,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "routes/__init__.py": {
+          "score": 90,
+          "grade": "A",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 5,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "schemas/alert.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/analytics.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/base.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/daily_report.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/email_send_log.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/email_sequence.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/inventory.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/lead.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/location.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/machine.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/marketing_template.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/operator.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/operator_website.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/product.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/proposal.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/route.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/service_visit.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/transaction.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/user.py": {
+          "score": 82,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "schemas/__init__.py": {
+          "score": 90,
+          "grade": "A",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 5,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "services/alert_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/analytics_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/daily_report_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/email_send_log_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/email_sequence_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/inventory_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/lead_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/location_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/machine_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/marketing_template_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/operator_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/operator_website_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/product_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/proposal_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/route_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/service_visit_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/transaction_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/user_service.py": {
+          "score": 84,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 3,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "services/__init__.py": {
+          "score": 90,
+          "grade": "A",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 5,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "storage/s3_client.py": {
+          "score": 87,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "storage/__init__.py": {
+          "score": 90,
+          "grade": "A",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 5,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "tests/conftest.py": {
+          "score": 85,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_alerts.py": {
+          "score": 83,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_alert_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_analytics.py": {
+          "score": 82,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "tests/test_analytics_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_api.py": {
+          "score": 87,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "tests/test_auth.py": {
+          "score": 87,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "tests/test_daily_reports.py": {
+          "score": 82,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "tests/test_daily_report_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_email_send_logs.py": {
+          "score": 82,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "tests/test_email_send_log_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_email_sequences.py": {
+          "score": 82,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "tests/test_email_sequence_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_health.py": {
+          "score": 87,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 4,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "tests/test_inventories.py": {
+          "score": 83,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_inventory_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_leads.py": {
+          "score": 82,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "tests/test_lead_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_locations.py": {
+          "score": 83,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_location_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_machines.py": {
+          "score": 82,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "tests/test_machine_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_marketing_templates.py": {
+          "score": 82,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "tests/test_marketing_template_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_operators.py": {
+          "score": 83,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_operator_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_operator_websites.py": {
+          "score": 82,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "tests/test_operator_website_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_products.py": {
+          "score": 82,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "tests/test_product_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_proposals.py": {
+          "score": 82,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 2,
+            "error_handling": 0
+          }
+        },
+        "tests/test_proposal_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_routes.py": {
+          "score": 83,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_route_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_service_visits.py": {
+          "score": 83,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_service_visit_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_transactions.py": {
+          "score": 83,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_transaction_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_users.py": {
+          "score": 83,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 2,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/test_user_contract.py": {
+          "score": 80,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 0,
+            "type_hints": 2,
+            "docs": 3,
+            "error_handling": 0
+          }
+        },
+        "tests/__init__.py": {
+          "score": 90,
+          "grade": "A",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 5,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        },
+        "websocket/manager.py": {
+          "score": 88,
+          "grade": "B",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 5,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 2
+          }
+        },
+        "websocket/__init__.py": {
+          "score": 90,
+          "grade": "A",
+          "deliverable": true,
+          "details": {
+            "syntax": true,
+            "imports": true,
+            "structure": 15,
+            "style": 5,
+            "type_hints": 3,
+            "docs": 3,
+            "error_handling": 4
+          }
+        }
+      },
+      "failed_files": [],
+      "files_checked": 139,
+      "steps": [],
+      "failures": []
+    },
+    "security": {
+      "passed": true,
+      "score": 10,
+      "detail": "No critical issues (6 advisory)",
+      "advisory": true,
+      "issues_found": 6,
+      "critical_count": 0,
+      "high_count": 0,
+      "medium_count": 5,
+      "low_count": 1,
+      "files_scanned": 139,
+      "issues": [
+        {
+          "severity": "medium",
+          "category": "cors_wildcard",
+          "description": "CORS allows all origins \u2014 restrict in production",
+          "file": "main.py",
+          "line": 115,
+          "snippet": "allow_origins=[\"*\"],"
+        },
+        {
+          "severity": "medium",
+          "category": "sensitive_logging",
+          "description": "Sensitive data may be logged",
+          "file": "routes/auth.py",
+          "line": 37,
+          "snippet": "def login(db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()):"
+        },
+        {
+          "severity": "medium",
+          "category": "sensitive_logging",
+          "description": "Sensitive data may be logged",
+          "file": "tests/test_auth.py",
+          "line": 8,
+          "snippet": "3. Login uses form data (username= field) -- matches OAuth2PasswordRequestForm"
+        },
+        {
+          "severity": "medium",
+          "category": "sensitive_logging",
+          "description": "Sensitive data may be logged",
+          "file": "tests/test_auth.py",
+          "line": 43,
+          "snippet": "response = client.post(\"/auth/login\", data={\"username\": reg_email, \"password\": reg_pass})"
+        },
+        {
+          "severity": "medium",
+          "category": "sensitive_logging",
+          "description": "Sensitive data may be logged",
+          "file": "tests/test_auth.py",
+          "line": 62,
+          "snippet": "\"/auth/login\", data={\"username\": reg_email, \"password\": reg_pass}"
+        },
+        {
+          "severity": "low",
+          "category": "missing_rate_limit",
+          "description": "No rate limiting detected",
+          "file": "project",
+          "line": 0,
+          "snippet": ""
+        }
+      ],
+      "steps": [],
+      "failures": []
+    },
+    "frontend": {
+      "passed": true,
+      "score": 10,
+      "max_score": 10,
+      "detail": "backend-only gig \u2014 frontend probe skipped",
+      "checks": {},
+      "skipped": true
+    },
+    "delivery": {
+      "passed": true,
+      "score": 0,
+      "detail": "Delivery files already present",
+      "advisory": true,
+      "files_created": [],
+      "steps": [],
+      "failures": []
+    },
+    "syntax_repair": {
+      "detail": "No syntax errors detected before probes",
+      "repaired": 0
+    },
+    "domain": {
+      "passed": true,
+      "score": 20,
+      "max_score": 20,
+      "detail": "5/5 domain probe(s) passed (100% pass rate)",
+      "steps": [
+        {
+          "name": "payment_integrity",
+          "method": "POST",
+          "path": "/transactions/",
+          "passed": true,
+          "checks": [
+            {
+              "check": "status_code",
+              "expected": [
+                422
+              ],
+              "actual": 422,
+              "passed": true
+            }
+          ],
+          "status": 422
+        },
+        {
+          "name": "transaction_ledger",
+          "method": "GET",
+          "path": "/transactions/",
+          "passed": true,
+          "checks": [
+            {
+              "check": "status_code",
+              "expected": [
+                200
+              ],
+              "actual": 200,
+              "passed": true
+            }
+          ],
+          "status": 200
+        },
+        {
+          "name": "fleet_surface",
+          "method": "GET",
+          "path": "/machines/",
+          "passed": true,
+          "checks": [
+            {
+              "check": "status_code",
+              "expected": [
+                200
+              ],
+              "actual": 200,
+              "passed": true
+            }
+          ],
+          "status": 200
+        },
+        {
+          "name": "route_ops_surface",
+          "method": "GET",
+          "path": "/routes/",
+          "passed": true,
+          "checks": [
+            {
+              "check": "status_code",
+              "expected": [
+                200
+              ],
+              "actual": 200,
+              "passed": true
+            }
+          ],
+          "status": 200
+        },
+        {
+          "name": "alert_monitoring",
+          "method": "GET",
+          "path": "/alerts/",
+          "passed": true,
+          "checks": [
+            {
+              "check": "status_code",
+              "expected": [
+                200
+              ],
+              "actual": 200,
+              "passed": true
+            }
+          ],
+          "status": 200
+        }
+      ],
+      "failures": [],
+      "advisory": false
+    },
+    "integration": {
+      "passed": true,
+      "score": 0,
+      "max_score": 0,
+      "detail": "Integration: 1 tests run, all passed",
+      "steps": [
+        {
+          "name": "AUTH-ME-CONTRACT",
+          "status": 200,
+          "passed": true,
+          "fields_found": [
+            "id",
+            "email",
+            "is_active"
+          ]
+        }
+      ],
+      "failures": [],
+      "advisory": false
+    },
+    "deploy_ready": {
+      "passed": true,
+      "score": 0,
+      "max_score": 0,
+      "detail": "5/5 deploy-readiness checks passed",
+      "steps": [
+        {
+          "name": "REQ-EXISTS",
+          "passed": true,
+          "detail": "requirements.txt exists"
+        },
+        {
+          "name": "REQ-COVERAGE",
+          "passed": true,
+          "detail": "29 imports checked \u2014 all covered"
+        },
+        {
+          "name": "PYVER-EXISTS",
+          "passed": true,
+          "detail": ".python-version exists: 3.11"
+        },
+        {
+          "name": "ENV-COVERAGE",
+          "passed": true,
+          "detail": ".env.example covers all 26 env var(s)"
+        },
+        {
+          "name": "ALEMBIC-INI",
+          "passed": true,
+          "detail": "alembic.ini exists"
+        }
+      ],
+      "failures": [],
+      "advisory": true,
+      "hard_failures": []
+    },
+    "db_preflight": {
+      "tables_found": 19,
+      "recovered": false,
+      "error": null
+    },
+    "openapi_probes": {
+      "passed": true,
+      "score": 0,
+      "max_score": 0,
+      "detail": "Advisory probe skipped on ARCH-2 re-validation (depth>0)",
+      "steps": [],
+      "failures": [],
+      "advisory": true
+    },
+    "semantic_probes": {
+      "passed": true,
+      "score": 0,
+      "max_score": 0,
+      "detail": "Advisory probe skipped on ARCH-2 re-validation (depth>0)",
+      "steps": [],
+      "failures": [],
+      "advisory": true
+    }
+  },
+  "file_verdicts": {
+    "config.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "database.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "main.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "auth/dependencies.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "auth/jwt_handler.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "auth/schemas.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "auth/__init__.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "models/base.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "models/uploads.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "models/user.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "routes/auth.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "routes/health.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "routes/uploads.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "routes/ws.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "schemas/base.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "schemas/user.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "services/user_service.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "storage/s3_client.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "storage/__init__.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/conftest.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_alert_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_analytics_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_api.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_auth.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_daily_report_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_email_send_log_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_email_sequence_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_health.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_inventory_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_lead_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_location_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_machine_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_marketing_template_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_operators.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_operator_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_operator_website_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_product_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_proposal_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_routes.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_route_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_service_visits.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_service_visit_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_transactions.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_transaction_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_users.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "tests/test_user_contract.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "websocket/manager.py": {
+      "verdict": "clean",
+      "reasons": []
+    },
+    "websocket/__init__.py": {
+      "verdict": "clean",
+      "reasons": []
+    }
+  },
+  "verdict_summary": {
+    "total_ai_files": 48,
+    "clean": 48,
+    "implicated": 0,
+    "locked_templates": 89,
+    "cache_eligible": 48
+  },
+  "frontend_build": {
+    "status": "SUCCESS",
+    "version": "1.23.0",
+    "files_total": 95,
+    "files_written": 95,
+    "scaffold_files": 95,
+    "ai_generated_pages": 34,
+    "ui_component_pages": 12,
+    "template_pages": 2,
+    "capacitor_wrapped": true,
+    "errors": [],
+    "elapsed_seconds": 187.568793
+  },
+  "frontend_multipass": {
+    "status": "SUCCESS",
+    "version": "2.4.4",
+    "passes": {
+      "import_scan": {
+        "files_scanned": 78,
+        "npm_imports": 13,
+        "resolved_imports": 23,
+        "missing_count": 11,
+        "missing_imports": {
+          "@/components/ui/badge": [
+            "src\\pages\\ProposalBuilder.tsx",
+            "src\\pages\\RouteBuilder.tsx"
+          ],
+          "@/components/ui/button": [
+            "src\\pages\\ProposalBuilder.tsx",
+            "src\\pages\\RouteBuilder.tsx"
+          ],
+          "@/components/ui/card": [
+            "src\\pages\\ProposalBuilder.tsx",
+            "src\\pages\\RouteBuilder.tsx"
+          ],
+          "@/components/ui/input": [
+            "src\\pages\\ProposalBuilder.tsx",
+            "src\\pages\\RouteBuilder.tsx"
+          ],
+          "@/components/ui/label": [
+            "src\\pages\\ProposalBuilder.tsx",
+            "src\\pages\\RouteBuilder.tsx"
+          ],
+          "@/components/ui/textarea": [
+            "src\\pages\\ProposalBuilder.tsx"
+          ],
+          "@/components/ui/dialog": [
+            "src\\pages\\RouteBuilder.tsx"
+          ],
+          "@/components/ui/select": [
+            "src\\pages\\RouteBuilder.tsx"
+          ],
+          "@/components/ui/table": [
+            "src\\pages\\RouteBuilder.tsx"
+          ],
+          "@/components/ui/tabs": [
+            "src\\pages\\RouteBuilder.tsx"
+          ],
+          "@/hooks/useCompany": [
+            "src\\pages\\Settings.tsx"
+          ]
+        }
+      },
+      "hooks_generated": 1,
+      "api_clients_generated": 0,
+      "component_stubs_generated": 10,
+      "rescan": {
+        "files_scanned": 89,
+        "npm_imports": 13,
+        "resolved_imports": 34,
+        "missing_count": 0,
+        "missing_imports": {}
+      },
+      "query_unwrap": {
+        "status": "OK",
+        "files_changed": 0,
+        "sites_fixed": 0
+      },
+      "tsc_repair": {
+        "status": "CLEAN",
+        "iterations": 2,
+        "files_fixed": 5,
+        "remaining_errors": 0
+      }
+    },
+    "files_generated": 11,
+    "unresolved_count": 0,
+    "unresolved_imports": {},
+    "elapsed_seconds": 96.852769
+  },
+  "frontend_validation": {
+    "fgv_version": "1.9.0",
+    "frontend_dir": "projects_workspace\\generated\\build_vending_0625_1612\\frontend",
+    "backend_dir": "projects_workspace\\generated\\build_vending_0625_1612",
+    "timestamp": "2026-06-25T16:41:22.353253",
+    "score": 100,
+    "grade": "A+",
+    "passed": true,
+    "capacitor_applicable": true,
+    "capacitor_passed": true,
+    "capability_pages_applicable": true,
+    "capability_pages_passed": true,
+    "capability_pages_missing": [],
+    "api_route_match_applicable": true,
+    "api_route_match_passed": true,
+    "api_route_match_unmatched": [],
+    "hard_failures": [],
+    "probes": {
+      "npm_install": {
+        "passed": true,
+        "score": 10,
+        "message": "npm install succeeded",
+        "errors": []
+      },
+      "tsc_build": {
+        "passed": true,
+        "score": 45,
+        "message": "Build succeeded \u2014 TypeScript compiles clean",
+        "errors": [],
+        "ts_errors": []
+      },
+      "route_coverage": {
+        "passed": true,
+        "score": 20,
+        "message": "Full route coverage \u2014 20/20 entities have frontend pages",
+        "frontend_routes": [
+          "/login",
+          "/register",
+          "dashboard",
+          "operator",
+          "marketing-template",
+          "analytics",
+          "user",
+          "location",
+          "product",
+          "route",
+          "lead",
+          "email-sequence",
+          "operator-website",
+          "machine",
+          "proposal",
+          "email-send-log",
+          "inventory",
+          "transaction",
+          "alert",
+          "service-visit",
+          "alerts",
+          "daily-reports",
+          "email-send-logs",
+          "email-sequences",
+          "inventories",
+          "leads",
+          "locations",
+          "machines",
+          "marketing-templates",
+          "operator-websites",
+          "operators",
+          "products",
+          "proposals",
+          "routes",
+          "service-visits",
+          "transactions",
+          "users",
+          "machine-list",
+          "machine-detail",
+          "location-list",
+          "product-catalog",
+          "inventory-management",
+          "transaction-history",
+          "alert-list",
+          "route-builder",
+          "service-visit-log",
+          "revenue-report",
+          "user-management",
+          "settings",
+          "operator-dashboard",
+          "machine-map",
+          "inventory-restock",
+          "analytics-dashboard",
+          "lead-pipeline",
+          "proposal-builder",
+          "route-planner",
+          "website-builder",
+          "email-campaigns"
+        ],
+        "backend_entities": [
+          "alerts",
+          "analytics",
+          "daily_reports",
+          "email_send_logs",
+          "email_sequences",
+          "inventories",
+          "inventory",
+          "leads",
+          "locations",
+          "machines",
+          "marketing_templates",
+          "operator_websites",
+          "operators",
+          "products",
+          "proposals",
+          "reports",
+          "routes",
+          "service_visits",
+          "transactions",
+          "users"
+        ],
+        "covered": [
+          "alerts",
+          "analytics",
+          "daily_reports",
+          "email_send_logs",
+          "email_sequences",
+          "inventories",
+          "inventory",
+          "leads",
+          "locations",
+          "machines",
+          "marketing_templates",
+          "operator_websites",
+          "operators",
+          "products",
+          "proposals",
+          "reports",
+          "routes",
+          "service_visits",
+          "transactions",
+          "users"
+        ],
+        "missing": [],
+        "coverage": 1.0
+      },
+      "page_completeness": {
+        "passed": true,
+        "score": 15,
+        "message": "5/5 pages valid",
+        "pages": [
+          "Login",
+          "Register",
+          "Home",
+          "NotFound",
+          "Dashboard"
+        ],
+        "valid_pages": [
+          "Login",
+          "Register",
+          "Home",
+          "NotFound",
+          "Dashboard"
+        ],
+        "missing_pages": [],
+        "no_default_export": []
+      },
+      "auth_contract": {
+        "passed": true,
+        "score": 10,
+        "message": "3/3 auth contract checks passed",
+        "checks": [
+          {
+            "name": "FRONTEND-API-PORT",
+            "file": "src\\lib\\api.ts",
+            "expected_port": 8765,
+            "found_port": 8765,
+            "passed": true
+          },
+          {
+            "name": "FRONTEND-LOGIN-ENDPOINT",
+            "file": "src\\lib\\api.ts",
+            "uses_auth_login": true,
+            "uses_auth_token": false,
+            "passed": true
+          },
+          {
+            "name": "FRONTEND-USER-IS-ACTIVE",
+            "file": "src\\types\\index.ts",
+            "has_is_active": true,
+            "passed": true
+          }
+        ],
+        "errors": []
+      },
+      "capacitor": {
+        "applicable": true,
+        "passed": true,
+        "score": 100,
+        "message": "Capacitor wrap valid",
+        "appId": "com.jarvisapps.buildvending06251612",
+        "appName": "JARVIS App",
+        "webDir": "dist",
+        "checks": [
+          {
+            "name": "CAP-CONFIG-FIELDS",
+            "file": "capacitor.config.ts",
+            "appId": "com.jarvisapps.buildvending06251612",
+            "appName": "JARVIS App",
+            "webDir": "dist",
+            "passed": true
+          },
+          {
+            "name": "CAP-DEPS-PRESENT",
+            "missing": [],
+            "passed": true
+          },
+          {
+            "name": "CAP-DEPS-ALIGNED",
+            "versions": {
+              "@capacitor/core": "8.3.1",
+              "@capacitor/android": "8.3.1",
+              "@capacitor/ios": "8.3.1"
+            },
+            "passed": true
+          },
+          {
+            "name": "CAP-CLI-ALIGNED",
+            "soft": true,
+            "passed": true,
+            "cli": "8.3.1",
+            "core": "8.3.1"
+          },
+          {
+            "name": "CAP-SCRIPTS",
+            "missing": [],
+            "passed": true
+          },
+          {
+            "name": "CAP-WEBDIR-BUILD",
+            "soft": true,
+            "passed": true,
+            "webDir": "dist",
+            "expected": "dist"
+          }
+        ],
+        "errors": []
+      },
+      "capability_pages": {
+        "applicable": true,
+        "passed": true,
+        "covered": [
+          "operator_dashboard",
+          "machine_map",
+          "machine_detail",
+          "inventory_restock",
+          "analytics_dashboard",
+          "lead_pipeline",
+          "proposal_builder",
+          "route_planner",
+          "website_builder",
+          "email_campaigns"
+        ],
+        "missing": [],
+        "errors": [],
+        "message": "Product complete \u2014 10/10 capability pages present"
+      },
+      "api_route_match": {
+        "applicable": true,
+        "passed": true,
+        "score": 0,
+        "calls_checked": 185,
+        "unmatched_count": 0,
+        "unmatched": [],
+        "errors": [],
+        "message": "all 185 api path(s) match backend routes"
+      }
+    },
+    "weights": {
+      "npm_install": 10,
+      "tsc_build": 45,
+      "route_coverage": 20,
+      "page_completeness": 15,
+      "auth_contract": 10
+    },
+    "elapsed_seconds": 7.355892
+  },
+  "combined_score": {
+    "version": "1.2.0",
+    "mode": "full_stack",
+    "backend_score": 100,
+    "backend_grade": "A+",
+    "backend_weight": 0.6,
+    "frontend_score": 100,
+    "frontend_grade": "A+",
+    "frontend_weight": 0.4,
+    "frontend_build_passed": true,
+    "frontend_route_coverage": 1.0,
+    "combined_score": 100,
+    "combined_grade": "A+",
+    "fiverr_ready": true,
+    "fiverr_ready_breakdown": {
+      "backend_fiverr_ready": true,
+      "frontend_build_passed": true,
+      "frontend_passed": true,
+      "frontend_hard_failures": [],
+      "result": true
+    }
+  }
+}

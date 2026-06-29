@@ -1,0 +1,6415 @@
+{
+  "timestamp": "2026-06-25T16:31:53.775487",
+  "total_files": 110,
+  "files": {
+    "config.py": {
+      "filepath": "config.py",
+      "exports": [
+        "JWT_SECRET",
+        "ACCESS_TOKEN_EXPIRE_MINUTES",
+        "DATABASE_URL",
+        "ConfigError",
+        "logger",
+        "validate_config",
+        "DEBUG",
+        "API_VERSION",
+        "Settings",
+        "REDIS_URL",
+        "get_settings",
+        "SECRET_KEY",
+        "MAX_FILE_SIZE",
+        "ALGORITHM",
+        "load_config"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "os",
+          "symbols": [
+            "os"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "functools",
+          "symbols": [
+            "lru_cache"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic_settings",
+          "symbols": [
+            "BaseSettings"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "ConfigDict"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseSettings"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/uploads.py",
+        "auth/jwt_handler.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.555644"
+    },
+    "alembic/env.py": {
+      "filepath": "alembic/env.py",
+      "exports": [
+        "run_migrations_offline",
+        "config",
+        "target_metadata",
+        "run_migrations_online"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "os",
+          "symbols": [
+            "os"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "sys",
+          "symbols": [
+            "sys"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "logging.config",
+          "symbols": [
+            "fileConfig"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pathlib",
+          "symbols": [
+            "Path"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "alembic",
+          "symbols": [
+            "context"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "engine_from_config",
+            "pool"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models",
+          "symbols": [
+            "Base"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.565464"
+    },
+    "database.py": {
+      "filepath": "database.py",
+      "exports": [
+        "engine",
+        "SessionLocal",
+        "check_db_health",
+        "get_db",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "asyncio",
+          "symbols": [
+            "asyncio"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "os",
+          "symbols": [
+            "os"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Generator"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "create_engine",
+            "text"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "sessionmaker",
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "event"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/alerts.py",
+        "routes/analytics.py",
+        "routes/auth.py",
+        "routes/daily_reports.py",
+        "routes/email_send_logs.py",
+        "routes/email_sequences.py",
+        "routes/inventories.py",
+        "routes/inventory.py",
+        "routes/leads.py",
+        "routes/locations.py",
+        "routes/machines.py",
+        "routes/marketing_templates.py",
+        "routes/operator_websites.py",
+        "routes/operators.py",
+        "routes/products.py",
+        "routes/proposals.py",
+        "routes/reports.py",
+        "routes/routes.py",
+        "routes/service_visits.py",
+        "routes/transactions.py",
+        "routes/uploads.py",
+        "routes/users.py",
+        "services/alert_service.py",
+        "services/location_service.py",
+        "services/operator_service.py",
+        "services/product_service.py",
+        "services/route_service.py",
+        "services/service_visit_service.py",
+        "services/transaction_service.py",
+        "services/user_service.py",
+        "auth/dependencies.py",
+        "main.py",
+        "tests/conftest.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.571124"
+    },
+    "models/base.py": {
+      "filepath": "models/base.py",
+      "exports": [
+        "verify_password",
+        "Base",
+        "logger",
+        "get_password_hash"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "hashlib",
+          "symbols": [
+            "hashlib"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "DeclarativeBase"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "passlib.context",
+          "symbols": [
+            "CryptContext"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "models/email_send_log.py",
+        "models/alert.py",
+        "models/analytics.py",
+        "models/daily_report.py",
+        "models/email_sequence.py",
+        "models/inventory.py",
+        "models/lead.py",
+        "models/location.py",
+        "models/machine.py",
+        "models/marketing_template.py",
+        "models/operator.py",
+        "models/operator_website.py",
+        "models/product.py",
+        "models/proposal.py",
+        "models/route.py",
+        "models/service_visit.py",
+        "models/transaction.py",
+        "models/user.py",
+        "routes/auth.py",
+        "main.py",
+        "tests/conftest.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.577340"
+    },
+    "schemas/base.py": {
+      "filepath": "schemas/base.py",
+      "exports": [
+        "AppBaseModel",
+        "ErrorResponse",
+        "SuccessResponse",
+        "logger",
+        "UserSchema",
+        "TokenResponse"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional",
+            "Any",
+            "Dict"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.582336"
+    },
+    "auth/schemas.py": {
+      "filepath": "auth/schemas.py",
+      "exports": [
+        "UserResponse",
+        "TokenData",
+        "TokenSchema",
+        "logger",
+        "UserSchema",
+        "UserCreate"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "field_validator"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/auth.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.595979"
+    },
+    "models/email_send_log.py": {
+      "filepath": "models/email_send_log.py",
+      "exports": [
+        "logger",
+        "EmailSendLog"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Column",
+            "DateTime",
+            "ForeignKey",
+            "Integer",
+            "String"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/email_send_logs.py",
+        "services/email_send_log_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.605016"
+    },
+    "models/alert.py": {
+      "filepath": "models/alert.py",
+      "exports": [
+        "Alert",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Boolean",
+            "Column",
+            "DateTime",
+            "ForeignKey",
+            "Integer",
+            "String",
+            "Text"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/alerts.py",
+        "services/alert_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.654564"
+    },
+    "models/analytics.py": {
+      "filepath": "models/analytics.py",
+      "exports": [
+        "logger",
+        "Analytics"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Column",
+            "DateTime",
+            "Integer",
+            "String",
+            "Text"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/analytics.py",
+        "services/analytics_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.663412"
+    },
+    "models/daily_report.py": {
+      "filepath": "models/daily_report.py",
+      "exports": [
+        "DailyReport",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Column",
+            "Date",
+            "DateTime",
+            "ForeignKey",
+            "Integer",
+            "Numeric"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/daily_reports.py",
+        "routes/reports.py",
+        "services/daily_report_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.672089"
+    },
+    "models/email_sequence.py": {
+      "filepath": "models/email_sequence.py",
+      "exports": [
+        "EmailSequence",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Boolean",
+            "Column",
+            "DateTime",
+            "ForeignKey",
+            "Integer",
+            "String",
+            "Text"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/email_sequences.py",
+        "services/email_sequence_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.681984"
+    },
+    "models/inventory.py": {
+      "filepath": "models/inventory.py",
+      "exports": [
+        "logger",
+        "InventoryItem"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Column",
+            "DateTime",
+            "ForeignKey",
+            "Integer",
+            "UniqueConstraint"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/inventories.py",
+        "routes/inventory.py",
+        "services/inventory_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.691000"
+    },
+    "models/lead.py": {
+      "filepath": "models/lead.py",
+      "exports": [
+        "logger",
+        "Lead"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Column",
+            "DateTime",
+            "Float",
+            "ForeignKey",
+            "Integer",
+            "String",
+            "Text"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/leads.py",
+        "services/lead_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.701490"
+    },
+    "models/location.py": {
+      "filepath": "models/location.py",
+      "exports": [
+        "Location",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Boolean",
+            "Column",
+            "DateTime",
+            "Float",
+            "ForeignKey",
+            "Integer",
+            "String",
+            "Text"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/locations.py",
+        "services/location_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.712214"
+    },
+    "models/machine.py": {
+      "filepath": "models/machine.py",
+      "exports": [
+        "logger",
+        "Machine"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Boolean",
+            "Column",
+            "DateTime",
+            "Float",
+            "ForeignKey",
+            "Integer",
+            "String"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/machines.py",
+        "services/machine_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.723495"
+    },
+    "models/marketing_template.py": {
+      "filepath": "models/marketing_template.py",
+      "exports": [
+        "logger",
+        "MarketingTemplate"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Boolean",
+            "Column",
+            "DateTime",
+            "Integer",
+            "String",
+            "Text"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/marketing_templates.py",
+        "services/marketing_template_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.735188"
+    },
+    "models/operator.py": {
+      "filepath": "models/operator.py",
+      "exports": [
+        "Operator",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Boolean",
+            "Column",
+            "DateTime",
+            "Integer",
+            "Numeric",
+            "String"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/operators.py",
+        "services/operator_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.746757"
+    },
+    "models/operator_website.py": {
+      "filepath": "models/operator_website.py",
+      "exports": [
+        "logger",
+        "OperatorWebsite"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Boolean",
+            "Column",
+            "DateTime",
+            "ForeignKey",
+            "Integer",
+            "String",
+            "Text"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/operator_websites.py",
+        "services/operator_website_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.758533"
+    },
+    "models/product.py": {
+      "filepath": "models/product.py",
+      "exports": [
+        "logger",
+        "Product"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Boolean",
+            "Column",
+            "DateTime",
+            "ForeignKey",
+            "Integer",
+            "Numeric",
+            "String"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/products.py",
+        "services/product_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.770881"
+    },
+    "models/proposal.py": {
+      "filepath": "models/proposal.py",
+      "exports": [
+        "Proposal",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Column",
+            "DateTime",
+            "Float",
+            "ForeignKey",
+            "Integer",
+            "Numeric",
+            "String",
+            "Text"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/proposals.py",
+        "services/proposal_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.783675"
+    },
+    "models/route.py": {
+      "filepath": "models/route.py",
+      "exports": [
+        "logger",
+        "Route"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Column",
+            "Date",
+            "DateTime",
+            "Float",
+            "ForeignKey",
+            "Integer",
+            "Numeric",
+            "String",
+            "Text"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/routes.py",
+        "services/route_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.796641"
+    },
+    "models/service_visit.py": {
+      "filepath": "models/service_visit.py",
+      "exports": [
+        "logger",
+        "ServiceVisit"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Column",
+            "DateTime",
+            "ForeignKey",
+            "Integer",
+            "Numeric",
+            "String",
+            "Text"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/service_visits.py",
+        "services/service_visit_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.808860"
+    },
+    "models/transaction.py": {
+      "filepath": "models/transaction.py",
+      "exports": [
+        "Transaction",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Column",
+            "DateTime",
+            "ForeignKey",
+            "Integer",
+            "Numeric",
+            "String"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/transactions.py",
+        "services/transaction_service.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.822898"
+    },
+    "models/user.py": {
+      "filepath": "models/user.py",
+      "exports": [
+        "logger",
+        "User"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "Boolean",
+            "Column",
+            "DateTime",
+            "Integer",
+            "String",
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base",
+            "get_password_hash",
+            "verify_password"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py"
+      ],
+      "dependents": [
+        "routes/auth.py",
+        "routes/users.py",
+        "services/user_service.py",
+        "auth/dependencies.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.835482"
+    },
+    "schemas/operator_website.py": {
+      "filepath": "schemas/operator_website.py",
+      "exports": [
+        "OperatorWebsiteCreate",
+        "OperatorWebsiteUpdate",
+        "OperatorWebsiteSchema",
+        "OperatorWebsiteBase",
+        "OperatorWebsiteResponse"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/operator_websites.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.853076"
+    },
+    "schemas/route.py": {
+      "filepath": "schemas/route.py",
+      "exports": [
+        "RouteBase",
+        "RouteSchema",
+        "RouteCreate",
+        "RouteUpdate",
+        "RouteResponse"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "date",
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/routes.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.867775"
+    },
+    "schemas/alert.py": {
+      "filepath": "schemas/alert.py",
+      "exports": [
+        "AlertResponse",
+        "AlertBase",
+        "AlertSchema",
+        "AlertUpdate",
+        "AlertCreate"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/alerts.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.881784"
+    },
+    "schemas/analytics.py": {
+      "filepath": "schemas/analytics.py",
+      "exports": [
+        "AnalyticsBase",
+        "AnalyticsResponse",
+        "AnalyticsUpdate",
+        "AnalyticsSchema",
+        "AnalyticsCreate"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/analytics.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.904036"
+    },
+    "schemas/daily_report.py": {
+      "filepath": "schemas/daily_report.py",
+      "exports": [
+        "DailyReportSchema",
+        "DailyReportCreate",
+        "DailyReportUpdate",
+        "DailyReportResponse",
+        "DailyReportBase"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "decimal",
+          "symbols": [
+            "Decimal"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "date",
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/daily_reports.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.917839"
+    },
+    "schemas/email_send_log.py": {
+      "filepath": "schemas/email_send_log.py",
+      "exports": [
+        "EmailSendLogResponse",
+        "EmailSendLogSchema",
+        "EmailSendLogCreate",
+        "EmailSendLogUpdate",
+        "EmailSendLogBase"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/email_send_logs.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.932304"
+    },
+    "schemas/email_sequence.py": {
+      "filepath": "schemas/email_sequence.py",
+      "exports": [
+        "EmailSequenceCreate",
+        "EmailSequenceResponse",
+        "EmailSequenceBase",
+        "EmailSequenceSchema",
+        "EmailSequenceUpdate"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/email_sequences.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.947167"
+    },
+    "schemas/inventory.py": {
+      "filepath": "schemas/inventory.py",
+      "exports": [
+        "InventoryItemSchema",
+        "InventoryItemResponse",
+        "InventoryItemCreate",
+        "InventoryItemUpdate",
+        "InventoryItemBase"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/inventories.py",
+        "routes/inventory.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.961798"
+    },
+    "schemas/lead.py": {
+      "filepath": "schemas/lead.py",
+      "exports": [
+        "LeadResponse",
+        "LeadUpdate",
+        "LeadCreate",
+        "LeadBase",
+        "LeadSchema"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/leads.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.976660"
+    },
+    "schemas/location.py": {
+      "filepath": "schemas/location.py",
+      "exports": [
+        "LocationResponse",
+        "LocationBase",
+        "LocationUpdate",
+        "LocationCreate",
+        "LocationSchema"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/locations.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:51.993155"
+    },
+    "schemas/machine.py": {
+      "filepath": "schemas/machine.py",
+      "exports": [
+        "MachineCreate",
+        "MachineSchema",
+        "MachineUpdate",
+        "MachineBase",
+        "MachineResponse"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/machines.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:52.009969"
+    },
+    "schemas/marketing_template.py": {
+      "filepath": "schemas/marketing_template.py",
+      "exports": [
+        "MarketingTemplateResponse",
+        "MarketingTemplateSchema",
+        "MarketingTemplateUpdate",
+        "MarketingTemplateBase",
+        "MarketingTemplateCreate"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/marketing_templates.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:52.027045"
+    },
+    "schemas/operator.py": {
+      "filepath": "schemas/operator.py",
+      "exports": [
+        "OperatorResponse",
+        "OperatorBase",
+        "OperatorSchema",
+        "OperatorCreate",
+        "OperatorUpdate"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "decimal",
+          "symbols": [
+            "Decimal"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/operators.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:52.043018"
+    },
+    "schemas/product.py": {
+      "filepath": "schemas/product.py",
+      "exports": [
+        "ProductCreate",
+        "ProductUpdate",
+        "ProductResponse",
+        "ProductSchema",
+        "ProductBase"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "decimal",
+          "symbols": [
+            "Decimal"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/products.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:52.060351"
+    },
+    "schemas/proposal.py": {
+      "filepath": "schemas/proposal.py",
+      "exports": [
+        "ProposalBase",
+        "ProposalUpdate",
+        "ProposalCreate",
+        "ProposalSchema",
+        "ProposalResponse"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/proposals.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:52.077956"
+    },
+    "schemas/service_visit.py": {
+      "filepath": "schemas/service_visit.py",
+      "exports": [
+        "ServiceVisitUpdate",
+        "ServiceVisitSchema",
+        "ServiceVisitResponse",
+        "ServiceVisitBase",
+        "ServiceVisitCreate"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "decimal",
+          "symbols": [
+            "Decimal"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/service_visits.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:52.096327"
+    },
+    "schemas/transaction.py": {
+      "filepath": "schemas/transaction.py",
+      "exports": [
+        "TransactionResponse",
+        "TransactionSchema",
+        "TransactionBase",
+        "TransactionCreate",
+        "TransactionUpdate"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "decimal",
+          "symbols": [
+            "Decimal"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [
+        "routes/transactions.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:19:52.114268"
+    },
+    "routes/alerts.py": {
+      "filepath": "routes/alerts.py",
+      "exports": [
+        "update_alert",
+        "get_alert",
+        "router",
+        "delete_alert",
+        "list_alerts",
+        "create_alert",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.alert",
+          "symbols": [
+            "Alert"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.alert",
+          "symbols": [
+            "AlertCreate",
+            "AlertResponse",
+            "AlertUpdate"
+          ]
+        }
+      ],
+      "dependencies": [
+        "schemas/alert.py",
+        "models/alert.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:20:03.650761"
+    },
+    "routes/analytics.py": {
+      "filepath": "routes/analytics.py",
+      "exports": [
+        "get_analytics",
+        "create_analytics",
+        "router",
+        "update_analytics",
+        "list_analytics",
+        "logger",
+        "delete_analytics"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.analytics",
+          "symbols": [
+            "Analytics"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.analytics",
+          "symbols": [
+            "AnalyticsCreate",
+            "AnalyticsUpdate",
+            "AnalyticsResponse"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/analytics.py",
+        "schemas/analytics.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:20:13.263190"
+    },
+    "routes/auth.py": {
+      "filepath": "routes/auth.py",
+      "exports": [
+        "login",
+        "router",
+        "token",
+        "register",
+        "logger",
+        "get_me"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException",
+            "status"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.security",
+          "symbols": [
+            "OAuth2PasswordRequestForm"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "auth.jwt_handler",
+          "symbols": [
+            "create_access_token"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "auth.dependencies",
+          "symbols": [
+            "get_current_active_user"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "auth.schemas",
+          "symbols": [
+            "UserCreate"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.user",
+          "symbols": [
+            "User"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "get_password_hash"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        }
+      ],
+      "dependencies": [
+        "auth/schemas.py",
+        "models/base.py",
+        "models/user.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:20:13.285357"
+    },
+    "routes/daily_reports.py": {
+      "filepath": "routes/daily_reports.py",
+      "exports": [
+        "delete_daily_report",
+        "get_daily_report",
+        "router",
+        "update_daily_report",
+        "list_daily_reports",
+        "logger",
+        "create_daily_report"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.daily_report",
+          "symbols": [
+            "DailyReport"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.daily_report",
+          "symbols": [
+            "DailyReportCreate",
+            "DailyReportUpdate",
+            "DailyReportResponse"
+          ]
+        }
+      ],
+      "dependencies": [
+        "schemas/daily_report.py",
+        "models/daily_report.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:20:23.576793"
+    },
+    "routes/email_send_logs.py": {
+      "filepath": "routes/email_send_logs.py",
+      "exports": [
+        "logger",
+        "get_email_send_log",
+        "router",
+        "delete_email_send_log",
+        "create_email_send_log",
+        "list_email_send_logs",
+        "update_email_send_log"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.email_send_log",
+          "symbols": [
+            "EmailSendLog"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.email_send_log",
+          "symbols": [
+            "EmailSendLogCreate",
+            "EmailSendLogUpdate",
+            "EmailSendLogResponse"
+          ]
+        }
+      ],
+      "dependencies": [
+        "schemas/email_send_log.py",
+        "database.py",
+        "models/email_send_log.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:20:34.110489"
+    },
+    "routes/email_sequences.py": {
+      "filepath": "routes/email_sequences.py",
+      "exports": [
+        "create_email_sequence",
+        "list_email_sequences",
+        "router",
+        "update_email_sequence",
+        "delete_email_sequence",
+        "get_email_sequence",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.email_sequence",
+          "symbols": [
+            "EmailSequence"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.email_sequence",
+          "symbols": [
+            "EmailSequenceCreate",
+            "EmailSequenceUpdate",
+            "EmailSequenceResponse"
+          ]
+        }
+      ],
+      "dependencies": [
+        "schemas/email_sequence.py",
+        "models/email_sequence.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:20:45.456633"
+    },
+    "routes/health.py": {
+      "filepath": "routes/health.py",
+      "exports": [
+        "health_router",
+        "logger",
+        "router"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:20:45.476919"
+    },
+    "routes/inventories.py": {
+      "filepath": "routes/inventories.py",
+      "exports": [
+        "create_inventory_item",
+        "list_inventory_items",
+        "delete_inventory_item",
+        "router",
+        "update_inventory_item",
+        "get_inventory_item",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.inventory",
+          "symbols": [
+            "InventoryItem"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.inventory",
+          "symbols": [
+            "InventoryItemCreate",
+            "InventoryItemResponse",
+            "InventoryItemUpdate"
+          ]
+        }
+      ],
+      "dependencies": [
+        "schemas/inventory.py",
+        "models/inventory.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:20:54.391251"
+    },
+    "routes/inventory.py": {
+      "filepath": "routes/inventory.py",
+      "exports": [
+        "create_inventory",
+        "logger",
+        "get_inventory",
+        "router",
+        "delete_inventory",
+        "list_inventory",
+        "update_inventory",
+        "inventory_router"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "__future__",
+          "symbols": [
+            "annotations"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.inventory",
+          "symbols": [
+            "InventoryItem"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.inventory",
+          "symbols": [
+            "InventoryItemCreate",
+            "InventoryItemUpdate",
+            "InventoryItemResponse"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        }
+      ],
+      "dependencies": [
+        "schemas/inventory.py",
+        "models/inventory.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:20:54.414321"
+    },
+    "routes/leads.py": {
+      "filepath": "routes/leads.py",
+      "exports": [
+        "update_lead",
+        "router",
+        "create_lead",
+        "list_leads",
+        "get_lead",
+        "logger",
+        "delete_lead"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.lead",
+          "symbols": [
+            "Lead"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.lead",
+          "symbols": [
+            "LeadCreate",
+            "LeadUpdate",
+            "LeadResponse"
+          ]
+        }
+      ],
+      "dependencies": [
+        "schemas/lead.py",
+        "models/lead.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:21:03.939635"
+    },
+    "routes/locations.py": {
+      "filepath": "routes/locations.py",
+      "exports": [
+        "create_location",
+        "delete_location",
+        "router",
+        "get_location",
+        "logger",
+        "update_location",
+        "list_locations"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.location",
+          "symbols": [
+            "Location"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.location",
+          "symbols": [
+            "LocationCreate",
+            "LocationResponse",
+            "LocationUpdate"
+          ]
+        }
+      ],
+      "dependencies": [
+        "schemas/location.py",
+        "models/location.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:21:13.322425"
+    },
+    "routes/machines.py": {
+      "filepath": "routes/machines.py",
+      "exports": [
+        "delete_machine",
+        "list_machines",
+        "create_machine",
+        "update_machine",
+        "router",
+        "get_machine",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.machine",
+          "symbols": [
+            "Machine"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.machine",
+          "symbols": [
+            "MachineCreate",
+            "MachineUpdate",
+            "MachineResponse"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/machine.py",
+        "schemas/machine.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:21:23.357953"
+    },
+    "routes/marketing_templates.py": {
+      "filepath": "routes/marketing_templates.py",
+      "exports": [
+        "logger",
+        "delete_marketing_template",
+        "router",
+        "update_marketing_template",
+        "get_marketing_template",
+        "create_marketing_template",
+        "list_marketing_templates"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.marketing_template",
+          "symbols": [
+            "MarketingTemplate"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.marketing_template",
+          "symbols": [
+            "MarketingTemplateCreate",
+            "MarketingTemplateUpdate",
+            "MarketingTemplateResponse"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/marketing_template.py",
+        "schemas/marketing_template.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:21:34.370161"
+    },
+    "routes/operator_websites.py": {
+      "filepath": "routes/operator_websites.py",
+      "exports": [
+        "get_operator_website",
+        "update_operator_website",
+        "router",
+        "create_operator_website",
+        "delete_operator_website",
+        "list_operator_websites",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.operator_website",
+          "symbols": [
+            "OperatorWebsite"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.operator_website",
+          "symbols": [
+            "OperatorWebsiteCreate",
+            "OperatorWebsiteUpdate",
+            "OperatorWebsiteResponse"
+          ]
+        }
+      ],
+      "dependencies": [
+        "schemas/operator_website.py",
+        "models/operator_website.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:21:44.824784"
+    },
+    "routes/operators.py": {
+      "filepath": "routes/operators.py",
+      "exports": [
+        "get_operator",
+        "router",
+        "create_operator",
+        "update_operator",
+        "list_operators",
+        "delete_operator",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.operator",
+          "symbols": [
+            "Operator"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.operator",
+          "symbols": [
+            "OperatorCreate",
+            "OperatorResponse",
+            "OperatorUpdate"
+          ]
+        }
+      ],
+      "dependencies": [
+        "schemas/operator.py",
+        "models/operator.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:21:54.554533"
+    },
+    "routes/products.py": {
+      "filepath": "routes/products.py",
+      "exports": [
+        "delete_product",
+        "list_products",
+        "router",
+        "update_product",
+        "logger",
+        "create_product",
+        "get_product"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.product",
+          "symbols": [
+            "Product"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.product",
+          "symbols": [
+            "ProductCreate",
+            "ProductResponse",
+            "ProductUpdate"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/product.py",
+        "schemas/product.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:22:03.283163"
+    },
+    "routes/proposals.py": {
+      "filepath": "routes/proposals.py",
+      "exports": [
+        "create_proposal",
+        "get_proposal",
+        "update_proposal",
+        "router",
+        "list_proposals",
+        "logger",
+        "delete_proposal"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.proposal",
+          "symbols": [
+            "Proposal"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.proposal",
+          "symbols": [
+            "ProposalCreate",
+            "ProposalUpdate",
+            "ProposalResponse"
+          ]
+        }
+      ],
+      "dependencies": [
+        "schemas/proposal.py",
+        "database.py",
+        "models/proposal.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:22:16.172851"
+    },
+    "routes/reports.py": {
+      "filepath": "routes/reports.py",
+      "exports": [
+        "logger",
+        "reports_summary",
+        "router",
+        "list_reports"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.daily_report",
+          "symbols": [
+            "DailyReport"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/daily_report.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:22:25.404178"
+    },
+    "routes/routes.py": {
+      "filepath": "routes/routes.py",
+      "exports": [
+        "list_routes",
+        "get_route",
+        "create_route",
+        "delete_route",
+        "router",
+        "update_route",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.route",
+          "symbols": [
+            "Route"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.route",
+          "symbols": [
+            "RouteCreate",
+            "RouteResponse",
+            "RouteUpdate"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/route.py",
+        "database.py",
+        "schemas/route.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:22:35.380711"
+    },
+    "routes/service_visits.py": {
+      "filepath": "routes/service_visits.py",
+      "exports": [
+        "create_service_visit",
+        "list_service_visits",
+        "router",
+        "update_service_visit",
+        "delete_service_visit",
+        "logger",
+        "get_service_visit"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.service_visit",
+          "symbols": [
+            "ServiceVisit"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.service_visit",
+          "symbols": [
+            "ServiceVisitCreate",
+            "ServiceVisitResponse",
+            "ServiceVisitUpdate"
+          ]
+        }
+      ],
+      "dependencies": [
+        "schemas/service_visit.py",
+        "models/service_visit.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:22:45.912214"
+    },
+    "routes/transactions.py": {
+      "filepath": "routes/transactions.py",
+      "exports": [
+        "update_transaction",
+        "create_transaction",
+        "router",
+        "get_transaction",
+        "list_transactions",
+        "delete_transaction",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.transaction",
+          "symbols": [
+            "Transaction"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.transaction",
+          "symbols": [
+            "TransactionCreate",
+            "TransactionResponse",
+            "TransactionUpdate"
+          ]
+        }
+      ],
+      "dependencies": [
+        "schemas/transaction.py",
+        "models/transaction.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:22:55.860055"
+    },
+    "routes/uploads.py": {
+      "filepath": "routes/uploads.py",
+      "exports": [
+        "get_upload",
+        "delete_task_file",
+        "upload_task_file",
+        "router",
+        "delete_upload",
+        "uploads_router",
+        "download_task_file",
+        "create_upload",
+        "logger",
+        "list_uploads",
+        "update_upload"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "__future__",
+          "symbols": [
+            "annotations"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "File",
+            "HTTPException",
+            "UploadFile"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.responses",
+          "symbols": [
+            "Response"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.uploads",
+          "symbols": [
+            "Uploads"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "storage.s3_client",
+          "symbols": [
+            "S3Client"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "config",
+          "symbols": [
+            "get_settings"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        }
+      ],
+      "dependencies": [
+        "database.py",
+        "config.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:22:55.892847"
+    },
+    "routes/users.py": {
+      "filepath": "routes/users.py",
+      "exports": [
+        "list_users",
+        "create_user",
+        "delete_user",
+        "router",
+        "users_router",
+        "get_user",
+        "update_user",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "Depends",
+            "HTTPException"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.user",
+          "symbols": [
+            "User"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "schemas.user",
+          "symbols": [
+            "UserCreate",
+            "UserUpdate",
+            "UserResponse"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/user.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:22:55.929509"
+    },
+    "routes/ws.py": {
+      "filepath": "routes/ws.py",
+      "exports": [
+        "router",
+        "logger",
+        "ws_router",
+        "ws_status"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "APIRouter",
+            "WebSocket",
+            "WebSocketDisconnect"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:22:55.960409"
+    },
+    "services/alert_service.py": {
+      "filepath": "services/alert_service.py",
+      "exports": [
+        "logger",
+        "AlertService",
+        "get_alert_service"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "__future__",
+          "symbols": [
+            "annotations"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "Depends"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.alert",
+          "symbols": [
+            "Alert"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/alert.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:22:55.992030"
+    },
+    "services/analytics_service.py": {
+      "filepath": "services/analytics_service.py",
+      "exports": [
+        "get_analytics_service",
+        "logger",
+        "AnalyticsService"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.analytics",
+          "symbols": [
+            "Analytics"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/analytics.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:23:07.096501"
+    },
+    "services/daily_report_service.py": {
+      "filepath": "services/daily_report_service.py",
+      "exports": [
+        "DailyReportService",
+        "logger",
+        "get_daily_report_service"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.daily_report",
+          "symbols": [
+            "DailyReport"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/daily_report.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:23:28.255162"
+    },
+    "services/email_send_log_service.py": {
+      "filepath": "services/email_send_log_service.py",
+      "exports": [
+        "get_email_send_log_service",
+        "logger",
+        "EmailSendLogService"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.email_send_log",
+          "symbols": [
+            "EmailSendLog"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/email_send_log.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:23:39.687463"
+    },
+    "services/email_sequence_service.py": {
+      "filepath": "services/email_sequence_service.py",
+      "exports": [
+        "get_email_sequence_service",
+        "logger",
+        "EmailSequenceService"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.email_sequence",
+          "symbols": [
+            "EmailSequence"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/email_sequence.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:23:51.059769"
+    },
+    "services/inventory_service.py": {
+      "filepath": "services/inventory_service.py",
+      "exports": [
+        "InventoryService",
+        "logger",
+        "get_inventory_service"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.inventory",
+          "symbols": [
+            "InventoryItem"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/inventory.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:24:12.164637"
+    },
+    "services/lead_service.py": {
+      "filepath": "services/lead_service.py",
+      "exports": [
+        "get_lead_service",
+        "logger",
+        "LeadService"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.lead",
+          "symbols": [
+            "Lead"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/lead.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:24:22.806831"
+    },
+    "services/location_service.py": {
+      "filepath": "services/location_service.py",
+      "exports": [
+        "logger",
+        "get_location_service",
+        "LocationService"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "__future__",
+          "symbols": [
+            "annotations"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "Depends"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.location",
+          "symbols": [
+            "Location"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/location.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:24:24.947376"
+    },
+    "services/machine_service.py": {
+      "filepath": "services/machine_service.py",
+      "exports": [
+        "get_machine_service",
+        "MachineService",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.machine",
+          "symbols": [
+            "Machine"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/machine.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:24:46.056677"
+    },
+    "services/marketing_template_service.py": {
+      "filepath": "services/marketing_template_service.py",
+      "exports": [
+        "MarketingTemplateService",
+        "logger",
+        "get_marketing_template_service"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.marketing_template",
+          "symbols": [
+            "MarketingTemplate"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/marketing_template.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:24:57.403475"
+    },
+    "services/operator_service.py": {
+      "filepath": "services/operator_service.py",
+      "exports": [
+        "OperatorService",
+        "get_operator_service",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "__future__",
+          "symbols": [
+            "annotations"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "Depends"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.operator",
+          "symbols": [
+            "Operator"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/operator.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:24:57.444537"
+    },
+    "services/operator_website_service.py": {
+      "filepath": "services/operator_website_service.py",
+      "exports": [
+        "get_operator_website_service",
+        "OperatorWebsiteService",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.operator_website",
+          "symbols": [
+            "OperatorWebsite"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/operator_website.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:20.706769"
+    },
+    "services/product_service.py": {
+      "filepath": "services/product_service.py",
+      "exports": [
+        "logger",
+        "ProductService",
+        "get_product_service"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "__future__",
+          "symbols": [
+            "annotations"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "Depends"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.product",
+          "symbols": [
+            "Product"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/product.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:20.748303"
+    },
+    "services/proposal_service.py": {
+      "filepath": "services/proposal_service.py",
+      "exports": [
+        "get_proposal_service",
+        "logger",
+        "ProposalService"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.proposal",
+          "symbols": [
+            "Proposal"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/proposal.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:42.077365"
+    },
+    "services/route_service.py": {
+      "filepath": "services/route_service.py",
+      "exports": [
+        "logger",
+        "RouteService",
+        "get_route_service"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "__future__",
+          "symbols": [
+            "annotations"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "Depends"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.route",
+          "symbols": [
+            "Route"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/route.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:42.117802"
+    },
+    "services/service_visit_service.py": {
+      "filepath": "services/service_visit_service.py",
+      "exports": [
+        "ServiceVisitService",
+        "logger",
+        "get_service_visit_service"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "__future__",
+          "symbols": [
+            "annotations"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "Depends"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.service_visit",
+          "symbols": [
+            "ServiceVisit"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/service_visit.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:42.157611"
+    },
+    "services/transaction_service.py": {
+      "filepath": "services/transaction_service.py",
+      "exports": [
+        "get_transaction_service",
+        "logger",
+        "TransactionService"
+      ],
+      "imports": [
+        {
+          "type": "from",
+          "module": "__future__",
+          "symbols": [
+            "annotations"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "Depends"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.transaction",
+          "symbols": [
+            "Transaction"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/transaction.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:42.200263"
+    },
+    "services/user_service.py": {
+      "filepath": "services/user_service.py",
+      "exports": [
+        "get_user_service",
+        "logger",
+        "UserService"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List",
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "Depends"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.user",
+          "symbols": [
+            "User"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/user.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:42.241935"
+    },
+    "schemas/user.py": {
+      "filepath": "schemas/user.py",
+      "exports": [
+        "UserResponse",
+        "UserUpdate",
+        "UserBase",
+        "logger",
+        "UserSchema",
+        "UserCreate"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pydantic",
+          "symbols": [
+            "BaseModel",
+            "ConfigDict"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:42.282465"
+    },
+    "auth/dependencies.py": {
+      "filepath": "auth/dependencies.py",
+      "exports": [
+        "logger",
+        "auth_dependency",
+        "oauth2_scheme"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "Depends",
+            "HTTPException",
+            "status"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.security",
+          "symbols": [
+            "OAuth2PasswordBearer"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "select"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "auth.jwt_handler",
+          "symbols": [
+            "verify_token"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.user",
+          "symbols": [
+            "User"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/user.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:42.324599"
+    },
+    "auth/jwt_handler.py": {
+      "filepath": "auth/jwt_handler.py",
+      "exports": [
+        "verify_token",
+        "logger",
+        "create_access_token",
+        "oauth2_scheme"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "os",
+          "symbols": [
+            "os"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "datetime",
+          "symbols": [
+            "datetime",
+            "timedelta"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Optional"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "jwt",
+          "symbols": [
+            "jwt"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "Depends",
+            "HTTPException",
+            "status"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.security",
+          "symbols": [
+            "OAuth2PasswordBearer"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "jwt.exceptions",
+          "symbols": [
+            "PyJWTError"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "config",
+          "symbols": [
+            "ALGORITHM",
+            "JWT_SECRET",
+            "ACCESS_TOKEN_EXPIRE_MINUTES"
+          ]
+        }
+      ],
+      "dependencies": [
+        "config.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:42.363856"
+    },
+    "websocket/manager.py": {
+      "filepath": "websocket/manager.py",
+      "exports": [
+        "WSManager",
+        "WebSocketManager",
+        "ConnectionManager",
+        "get_manager",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "List"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "WebSocket"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:42.401479"
+    },
+    "main.py": {
+      "filepath": "main.py",
+      "exports": [
+        "APP_VERSION",
+        "APP_TITLE",
+        "APP_DESCRIPTION",
+        "app",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "importlib",
+          "symbols": [
+            "importlib"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "os",
+          "symbols": [
+            "os"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "contextlib",
+          "symbols": [
+            "asynccontextmanager"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pathlib",
+          "symbols": [
+            "Path"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi",
+          "symbols": [
+            "FastAPI"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.middleware.cors",
+          "symbols": [
+            "CORSMiddleware"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "asyncio",
+          "symbols": [
+            "asyncio"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "uvicorn",
+          "symbols": [
+            "uvicorn"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "engine"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "close_db"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py",
+        "database.py"
+      ],
+      "dependents": [
+        "tests/conftest.py"
+      ],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:42.442883"
+    },
+    "tests/conftest.py": {
+      "filepath": "tests/conftest.py",
+      "exports": [
+        "TestingSessionLocal",
+        "override_get_db",
+        "auth_headers",
+        "client",
+        "test_db",
+        "logger",
+        "TEST_DATABASE_URL",
+        "setup_test_db"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy",
+          "symbols": [
+            "create_engine",
+            "event"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.orm",
+          "symbols": [
+            "sessionmaker",
+            "Session"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "sqlalchemy.pool",
+          "symbols": [
+            "StaticPool"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "models.base",
+          "symbols": [
+            "Base"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "database",
+          "symbols": [
+            "get_db"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "main",
+          "symbols": [
+            "app"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "database",
+          "symbols": [
+            "_jarvis_database"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "datetime",
+          "symbols": [
+            "_seed_dt"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "importlib",
+          "symbols": [
+            "importlib"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "pathlib",
+          "symbols": [
+            "Path"
+          ]
+        }
+      ],
+      "dependencies": [
+        "models/base.py",
+        "main.py",
+        "database.py"
+      ],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:42.484786"
+    },
+    "tests/test_alerts.py": {
+      "filepath": "tests/test_alerts.py",
+      "exports": [
+        "test_list_alerts",
+        "test_create_alert",
+        "logger",
+        "test_get_alert_not_found"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:25:53.962962"
+    },
+    "tests/test_analytics.py": {
+      "filepath": "tests/test_analytics.py",
+      "exports": [
+        "test_delete_analytic",
+        "test_list_analytics",
+        "test_create_analytic",
+        "logger",
+        "test_get_analytic"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Dict"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:26:03.266294"
+    },
+    "tests/test_api.py": {
+      "filepath": "tests/test_api.py",
+      "exports": [
+        "test_health_endpoint",
+        "logger",
+        "test_list_endpoint",
+        "test_create_endpoint"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:26:03.313065"
+    },
+    "tests/test_auth.py": {
+      "filepath": "tests/test_auth.py",
+      "exports": [
+        "test_login_user",
+        "test_protected_endpoint",
+        "logger",
+        "test_register_user"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:26:03.368305"
+    },
+    "tests/test_daily_reports.py": {
+      "filepath": "tests/test_daily_reports.py",
+      "exports": [
+        "test_delete_daily_report",
+        "test_create_daily_report",
+        "test_get_daily_report",
+        "logger",
+        "test_list_daily_reports"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Dict"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:26:12.748541"
+    },
+    "tests/test_email_send_logs.py": {
+      "filepath": "tests/test_email_send_logs.py",
+      "exports": [
+        "test_get_email_send_log",
+        "test_create_email_send_log",
+        "test_list_email_send_logs",
+        "test_delete_email_send_log",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Dict"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:26:23.555323"
+    },
+    "tests/test_email_sequences.py": {
+      "filepath": "tests/test_email_sequences.py",
+      "exports": [
+        "test_delete_email_sequence",
+        "test_list_email_sequences",
+        "test_create_email_sequence",
+        "test_get_email_sequence",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Dict"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:26:33.292699"
+    },
+    "tests/test_health.py": {
+      "filepath": "tests/test_health.py",
+      "exports": [
+        "logger",
+        "test_root_endpoint",
+        "test_health_check",
+        "test_health_returns_json"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:26:33.338544"
+    },
+    "tests/test_inventories.py": {
+      "filepath": "tests/test_inventories.py",
+      "exports": [
+        "test_list_inventory",
+        "test_delete_inventory",
+        "test_get_inventory",
+        "logger",
+        "test_create_inventory"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Dict"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:26:33.384507"
+    },
+    "tests/test_leads.py": {
+      "filepath": "tests/test_leads.py",
+      "exports": [
+        "test_delete_lead",
+        "logger",
+        "test_list_leads",
+        "test_get_lead",
+        "test_create_lead"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Dict"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:26:43.356623"
+    },
+    "tests/test_locations.py": {
+      "filepath": "tests/test_locations.py",
+      "exports": [
+        "test_update_location",
+        "test_get_location_not_found",
+        "test_get_location",
+        "test_create_location",
+        "test_delete_location",
+        "logger",
+        "test_list_locations"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Dict"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:26:54.106085"
+    },
+    "tests/test_machines.py": {
+      "filepath": "tests/test_machines.py",
+      "exports": [
+        "test_get_machine",
+        "test_list_machines",
+        "test_delete_machine",
+        "test_create_machine",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Dict"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:27:03.857219"
+    },
+    "tests/test_marketing_templates.py": {
+      "filepath": "tests/test_marketing_templates.py",
+      "exports": [
+        "test_delete_marketing_template",
+        "test_get_marketing_template",
+        "test_create_marketing_template",
+        "test_list_marketing_templates",
+        "logger"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Dict"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:27:13.893089"
+    },
+    "tests/test_operator_websites.py": {
+      "filepath": "tests/test_operator_websites.py",
+      "exports": [
+        "logger",
+        "test_get_operator_website",
+        "test_create_operator_website",
+        "test_delete_operator_website",
+        "test_list_operator_websites"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Dict"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:27:23.678559"
+    },
+    "tests/test_operators.py": {
+      "filepath": "tests/test_operators.py",
+      "exports": [
+        "test_list_operators",
+        "test_create_operator",
+        "logger",
+        "test_get_operators_not_found"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:27:23.733625"
+    },
+    "tests/test_products.py": {
+      "filepath": "tests/test_products.py",
+      "exports": [
+        "test_create_product",
+        "logger",
+        "test_list_products",
+        "test_get_product",
+        "test_delete_product"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Dict"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:27:33.408113"
+    },
+    "tests/test_proposals.py": {
+      "filepath": "tests/test_proposals.py",
+      "exports": [
+        "test_delete_proposal",
+        "test_get_proposal",
+        "test_create_proposal",
+        "logger",
+        "test_list_proposals"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Dict"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "fastapi.testclient",
+          "symbols": [
+            "TestClient"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:27:43.954298"
+    },
+    "tests/test_routes.py": {
+      "filepath": "tests/test_routes.py",
+      "exports": [
+        "test_list_routes",
+        "test_create_route",
+        "logger",
+        "test_get_routes_not_found"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:27:44.020058"
+    },
+    "tests/test_service_visits.py": {
+      "filepath": "tests/test_service_visits.py",
+      "exports": [
+        "test_list_service_visits",
+        "test_create_service_visit",
+        "logger",
+        "test_get_service_visits_not_found"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:27:44.075756"
+    },
+    "tests/test_transactions.py": {
+      "filepath": "tests/test_transactions.py",
+      "exports": [
+        "test_list_transactions",
+        "logger",
+        "test_create_transaction",
+        "test_get_transactions_not_found"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "import",
+          "module": "pytest",
+          "symbols": [
+            "pytest"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:27:44.131771"
+    },
+    "tests/test_users.py": {
+      "filepath": "tests/test_users.py",
+      "exports": [
+        "test_list_users",
+        "logger",
+        "test_get_user_not_found"
+      ],
+      "imports": [
+        {
+          "type": "import",
+          "module": "logging",
+          "symbols": [
+            "logging"
+          ]
+        },
+        {
+          "type": "from",
+          "module": "typing",
+          "symbols": [
+            "Any"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "quality_score": 100,
+      "built_at": "2026-06-25T16:27:44.180527"
+    }
+  }
+}

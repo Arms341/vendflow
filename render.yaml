@@ -1,0 +1,34 @@
+# render.yaml — VendFlow one-repo Blueprint (FastAPI backend + Postgres)
+# Render builds the backend from the repo ROOT. Vercel builds frontend/ separately.
+# Connect this repo in Render via:  New +  ->  Blueprint  ->  pick the repo.
+services:
+  - type: web
+    name: vendflow-api
+    runtime: python
+    plan: starter            # 'free' works too, but cold-starts ~50s after 15m idle (live-demo risk)
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: vendflow-db
+          property: connectionString
+      - key: APP_TITLE
+        value: VendFlow
+      - key: APP_DESCRIPTION
+        value: Ice-machine fleet management
+      - key: APP_VERSION
+        value: 1.0.0
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.11.9
+
+databases:
+  - name: vendflow-db
+    databaseName: vendflow
+    user: vendflow
+    plan: free               # free Postgres expires ~30 days — fine for a demo window

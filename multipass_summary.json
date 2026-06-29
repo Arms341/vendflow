@@ -1,0 +1,86 @@
+{
+  "version": "2.4.394",
+  "passes": [
+    {
+      "type": "DETERMINISTIC_CLEANUP",
+      "files_processed": 117,
+      "files_modified": 101,
+      "issues_found": 87,
+      "issues_fixed": 87,
+      "quality_improvement": 5.0
+    },
+    {
+      "type": "BASELINE",
+      "files_processed": 117,
+      "files_modified": 0,
+      "issues_found": 0,
+      "issues_fixed": 0,
+      "quality_improvement": 0.0
+    },
+    {
+      "type": "INTEGRATION",
+      "files_processed": 117,
+      "files_modified": 0,
+      "issues_found": 32,
+      "issues_fixed": 0,
+      "quality_improvement": 0.0
+    },
+    {
+      "type": "CROSS_FILE",
+      "files_processed": 119,
+      "files_modified": 0,
+      "issues_found": 30,
+      "issues_fixed": 0,
+      "quality_improvement": 0.0
+    },
+    {
+      "type": "IMPORT_GRAPH",
+      "files_processed": 119,
+      "files_modified": 0,
+      "issues_found": 0,
+      "issues_fixed": 0,
+      "quality_improvement": 0.0
+    },
+    {
+      "type": "FIX",
+      "files_processed": 2,
+      "files_modified": 1,
+      "issues_found": 2,
+      "issues_fixed": 0,
+      "quality_improvement": 8.0
+    },
+    {
+      "type": "POLISH",
+      "files_processed": 0,
+      "files_modified": 0,
+      "issues_found": 0,
+      "issues_fixed": 0,
+      "quality_improvement": 0.0
+    },
+    {
+      "type": "MANIFEST_COHERENCE",
+      "files_processed": 120,
+      "files_modified": 2,
+      "issues_found": 2,
+      "issues_fixed": 2,
+      "quality_improvement": 2.0
+    },
+    {
+      "type": "FINAL_VALIDATION",
+      "files_processed": 120,
+      "files_modified": 0,
+      "issues_found": 0,
+      "issues_fixed": 0,
+      "quality_improvement": 0.0
+    },
+    {
+      "type": "PYTEST_SMOKE",
+      "files_processed": 73,
+      "files_modified": 0,
+      "issues_found": 1,
+      "issues_fixed": 0,
+      "quality_improvement": 0.0
+    }
+  ],
+  "total_quality_improvement": 15.0
+}
