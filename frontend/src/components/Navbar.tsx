@@ -1,9 +1,9 @@
-// VendFlow — Navbar v3.0.0 (vending walk nav for the Chancey demo).
-// Adds the demo walk links: Dashboard → Fleet → Route Optimization → Alerts.
+// VendFlow — Navbar v3.1.0 (vending walk nav for the Chancey demo).
+// Demo walk links: Dashboard → Fleet → Routes → Alerts → Revenue.
 // Keeps universal logo/brand + user/logout. Gig-specific override of the
 // universal Navbar for the vending_machine build.
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, Map, Navigation, Bell } from 'lucide-react';
+import { LogOut, LayoutDashboard, Map, Navigation, Bell, DollarSign } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useBrand } from '@/contexts/BrandContext';
 
@@ -12,6 +12,7 @@ const LINKS = [
   { to: '/machine-map', label: 'Fleet', icon: Map },
   { to: '/route-planner', label: 'Routes', icon: Navigation },
   { to: '/alerts', label: 'Alerts', icon: Bell },
+  { to: '/revenue-report', label: 'Revenue', icon: DollarSign },
 ];
 
 export default function Navbar() {
