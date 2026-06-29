@@ -1,4 +1,6 @@
-// Universal App Router v1.1.0
+// Universal App Router v1.2.0 — eager page imports (no React.lazy)
+// Lazy-loading removed: lazy pages threw React #426 on click-navigation
+// (suspend during synchronous input). Eager imports = no suspension, ever.
 // Locked UNIVERSAL template — works for ANY gig type.
 // Provides: Login, Register, Dashboard, NotFound + protected layout.
 // Gig-specific routes are added by gig-specific App.tsx overrides.
@@ -13,66 +15,61 @@ import Register from '@/pages/Register';
 import Home from '@/pages/Home';
 import NotFound from '@/pages/NotFound';
 import Dashboard from '@/pages/Dashboard';
-
-// NOTE: declared as `function App` with the default export at the bottom so
-// FSB ROUTE-COVERAGE-INJECT (which splices lazy consts in just before
-// `function App`) can never split an `export default function` statement.
-const OperatorPage = React.lazy(() => import('@/pages/OperatorPage'));
-const MarketingTemplatePage = React.lazy(() => import('@/pages/MarketingTemplatePage'));
-const AnalyticsPage = React.lazy(() => import('@/pages/AnalyticsPage'));
-const UserPage = React.lazy(() => import('@/pages/UserPage'));
-const LocationPage = React.lazy(() => import('@/pages/LocationPage'));
-const ProductPage = React.lazy(() => import('@/pages/ProductPage'));
-const RoutePage = React.lazy(() => import('@/pages/RoutePage'));
-const LeadPage = React.lazy(() => import('@/pages/LeadPage'));
-const EmailSequencePage = React.lazy(() => import('@/pages/EmailSequencePage'));
-const OperatorWebsitePage = React.lazy(() => import('@/pages/OperatorWebsitePage'));
-const MachinePage = React.lazy(() => import('@/pages/MachinePage'));
-const ProposalPage = React.lazy(() => import('@/pages/ProposalPage'));
-const EmailSendLogPage = React.lazy(() => import('@/pages/EmailSendLogPage'));
-const InventoryPage = React.lazy(() => import('@/pages/InventoryPage'));
-const TransactionPage = React.lazy(() => import('@/pages/TransactionPage'));
-const AlertPage = React.lazy(() => import('@/pages/AlertPage'));
-const ServiceVisitPage = React.lazy(() => import('@/pages/ServiceVisitPage'));
-const AlertsPage = React.lazy(() => import('@/pages/AlertsPage'));
-const DailyReportsPage = React.lazy(() => import('@/pages/DailyReportsPage'));
-const EmailSendLogsPage = React.lazy(() => import('@/pages/EmailSendLogsPage'));
-const EmailSequencesPage = React.lazy(() => import('@/pages/EmailSequencesPage'));
-const InventoriesPage = React.lazy(() => import('@/pages/InventoriesPage'));
-const LeadsPage = React.lazy(() => import('@/pages/LeadsPage'));
-const LocationsPage = React.lazy(() => import('@/pages/LocationsPage'));
-const MachinesPage = React.lazy(() => import('@/pages/MachinesPage'));
-const MarketingTemplatesPage = React.lazy(() => import('@/pages/MarketingTemplatesPage'));
-const OperatorWebsitesPage = React.lazy(() => import('@/pages/OperatorWebsitesPage'));
-const OperatorsPage = React.lazy(() => import('@/pages/OperatorsPage'));
-const ProductsPage = React.lazy(() => import('@/pages/ProductsPage'));
-const ProposalsPage = React.lazy(() => import('@/pages/ProposalsPage'));
-const RoutesPage = React.lazy(() => import('@/pages/RoutesPage'));
-const ServiceVisitsPage = React.lazy(() => import('@/pages/ServiceVisitsPage'));
-const TransactionsPage = React.lazy(() => import('@/pages/TransactionsPage'));
-const UsersPage = React.lazy(() => import('@/pages/UsersPage'));
-
-const MachineList = React.lazy(() => import('@/pages/MachineList'));
-const MachineDetail = React.lazy(() => import('@/pages/MachineDetail'));
-const LocationList = React.lazy(() => import('@/pages/LocationList'));
-const ProductCatalog = React.lazy(() => import('@/pages/ProductCatalog'));
-const InventoryManagement = React.lazy(() => import('@/pages/InventoryManagement'));
-const TransactionHistory = React.lazy(() => import('@/pages/TransactionHistory'));
-const AlertList = React.lazy(() => import('@/pages/AlertList'));
-const RouteBuilder = React.lazy(() => import('@/pages/RouteBuilder'));
-const ServiceVisitLog = React.lazy(() => import('@/pages/ServiceVisitLog'));
-const RevenueReport = React.lazy(() => import('@/pages/RevenueReport'));
-const UserManagement = React.lazy(() => import('@/pages/UserManagement'));
-const Settings = React.lazy(() => import('@/pages/Settings'));
-const OperatorDashboard = React.lazy(() => import('@/pages/OperatorDashboard'));
-const MachineMap = React.lazy(() => import('@/pages/MachineMap'));
-const InventoryRestock = React.lazy(() => import('@/pages/InventoryRestock'));
-const AnalyticsDashboard = React.lazy(() => import('@/pages/AnalyticsDashboard'));
-const LeadPipeline = React.lazy(() => import('@/pages/LeadPipeline'));
-const ProposalBuilder = React.lazy(() => import('@/pages/ProposalBuilder'));
-const RoutePlanner = React.lazy(() => import('@/pages/RoutePlanner'));
-const WebsiteBuilder = React.lazy(() => import('@/pages/WebsiteBuilder'));
-const EmailCampaigns = React.lazy(() => import('@/pages/EmailCampaigns'));
+import OperatorPage from '@/pages/OperatorPage';
+import MarketingTemplatePage from '@/pages/MarketingTemplatePage';
+import AnalyticsPage from '@/pages/AnalyticsPage';
+import UserPage from '@/pages/UserPage';
+import LocationPage from '@/pages/LocationPage';
+import ProductPage from '@/pages/ProductPage';
+import RoutePage from '@/pages/RoutePage';
+import LeadPage from '@/pages/LeadPage';
+import EmailSequencePage from '@/pages/EmailSequencePage';
+import OperatorWebsitePage from '@/pages/OperatorWebsitePage';
+import MachinePage from '@/pages/MachinePage';
+import ProposalPage from '@/pages/ProposalPage';
+import EmailSendLogPage from '@/pages/EmailSendLogPage';
+import InventoryPage from '@/pages/InventoryPage';
+import TransactionPage from '@/pages/TransactionPage';
+import AlertPage from '@/pages/AlertPage';
+import ServiceVisitPage from '@/pages/ServiceVisitPage';
+import AlertsPage from '@/pages/AlertsPage';
+import DailyReportsPage from '@/pages/DailyReportsPage';
+import EmailSendLogsPage from '@/pages/EmailSendLogsPage';
+import EmailSequencesPage from '@/pages/EmailSequencesPage';
+import InventoriesPage from '@/pages/InventoriesPage';
+import LeadsPage from '@/pages/LeadsPage';
+import LocationsPage from '@/pages/LocationsPage';
+import MachinesPage from '@/pages/MachinesPage';
+import MarketingTemplatesPage from '@/pages/MarketingTemplatesPage';
+import OperatorWebsitesPage from '@/pages/OperatorWebsitesPage';
+import OperatorsPage from '@/pages/OperatorsPage';
+import ProductsPage from '@/pages/ProductsPage';
+import ProposalsPage from '@/pages/ProposalsPage';
+import RoutesPage from '@/pages/RoutesPage';
+import ServiceVisitsPage from '@/pages/ServiceVisitsPage';
+import TransactionsPage from '@/pages/TransactionsPage';
+import UsersPage from '@/pages/UsersPage';
+import MachineList from '@/pages/MachineList';
+import MachineDetail from '@/pages/MachineDetail';
+import LocationList from '@/pages/LocationList';
+import ProductCatalog from '@/pages/ProductCatalog';
+import InventoryManagement from '@/pages/InventoryManagement';
+import TransactionHistory from '@/pages/TransactionHistory';
+import AlertList from '@/pages/AlertList';
+import RouteBuilder from '@/pages/RouteBuilder';
+import ServiceVisitLog from '@/pages/ServiceVisitLog';
+import RevenueReport from '@/pages/RevenueReport';
+import UserManagement from '@/pages/UserManagement';
+import Settings from '@/pages/Settings';
+import OperatorDashboard from '@/pages/OperatorDashboard';
+import MachineMap from '@/pages/MachineMap';
+import InventoryRestock from '@/pages/InventoryRestock';
+import AnalyticsDashboard from '@/pages/AnalyticsDashboard';
+import LeadPipeline from '@/pages/LeadPipeline';
+import ProposalBuilder from '@/pages/ProposalBuilder';
+import RoutePlanner from '@/pages/RoutePlanner';
+import WebsiteBuilder from '@/pages/WebsiteBuilder';
+import EmailCampaigns from '@/pages/EmailCampaigns';
 
 function App() {
   return (
