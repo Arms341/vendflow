@@ -1,10 +1,12 @@
-// JARVIS App — MachineMap v2.0.0
+// JARVIS App — MachineMap v3.0.0
 // Live geographic fleet map. Self-contained SVG — no map library, no tile
 // servers, no extra dependencies. Plots every machine at its location's real
 // lat/long, color-coded by live status, with West-Texas city labels, status
-// filters, hover tooltip, and click-for-detail. Projection bounds are computed
-// from the data at runtime, so it works for any region the locations cover.
-import { useMemo, useState } from 'react';
+// filters, hover tooltip, click-for-detail, and ZOOM + PAN:
+//   - scroll wheel / trackpad to zoom (centered on the cursor)
+//   - click-drag to pan ; double-click to zoom in ; +/-/Reset buttons
+// Pins and labels counter-scale so they stay crisp at any zoom level.
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import { Machine, Location } from '@/types/index';
@@ -20,7 +22,6 @@ const STATUS_META: Record<StatusKey, { label: string; fill: string; chip: string
 };
 const STATUS_ORDER: StatusKey[] = ['online', 'maintenance', 'offline', 'error'];
 
-// Backend stores status as active/maintenance/offline (not "online"); normalize.
 function normStatus(s: string | null | undefined): StatusKey {
   const v = String(s ?? '').toLowerCase();
   if (v === 'active' || v === 'online' || v === 'operational' || v === 'ok' || v === 'running') return 'online';
@@ -29,7 +30,6 @@ function normStatus(s: string | null | undefined): StatusKey {
   return 'offline';
 }
 
-// Real West-Texas city anchors for geographic context (label layer only).
 const CITY_ANCHORS: { name: string; lat: number; lng: number }[] = [
   { name: 'Amarillo', lat: 35.222, lng: -101.8313 },
   { name: 'Plainview', lat: 34.1845, lng: -101.7068 },
@@ -46,6 +46,8 @@ const CITY_ANCHORS: { name: string; lat: number; lng: number }[] = [
 const VB_W = 1000;
 const VB_H = 620;
 const PAD = 64;
+const MIN_K = 1;
+const MAX_K = 9;
 
 interface Pin {
   id: number;
@@ -54,6 +56,12 @@ interface Pin {
   status: StatusKey;
   machine: Machine;
   locName: string;
+}
+
+interface ViewT {
+  k: number;
+  x: number;
+  y: number;
 }
 
 export default function MachineMap() {
@@ -65,6 +73,10 @@ export default function MachineMap() {
     offline: true,
     error: true,
   });
+  const [view, setView] = useState<ViewT>({ k: 1, x: 0, y: 0 });
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const dragRef = useRef<{ cx: number; cy: number; ox: number; oy: number } | null>(null);
+  const movedRef = useRef(false);
 
   const { data: machines, isLoading, error } = useQuery<Machine[]>({
     queryKey: ['machines', 'map'],
@@ -81,7 +93,6 @@ export default function MachineMap() {
     return m;
   }, [locationsData]);
 
-  // Equirectangular projection with cos(lat) longitude correction; bounds from data.
   const project = useMemo(() => {
     const lats: number[] = [];
     const lngs: number[] = [];
@@ -127,7 +138,6 @@ export default function MachineMap() {
       const loc = mc.location_id != null ? locById.get(mc.location_id) : undefined;
       if (!loc || typeof loc.latitude !== 'number' || typeof loc.longitude !== 'number') return;
       const base = project.toXY(loc.latitude, loc.longitude);
-      // Deterministic jitter so machines sharing a location fan out instead of stacking.
       const angle = (mc.id * 2.399963) % (Math.PI * 2);
       const radius = 3 + ((mc.id * 13) % 13);
       out.push({
@@ -150,6 +160,67 @@ export default function MachineMap() {
     return c;
   }, [pins]);
 
+  // ---- zoom / pan helpers ----
+  const clampK = (k: number) => Math.min(MAX_K, Math.max(MIN_K, k));
+
+  const clientToVB = (clientX: number, clientY: number): { x: number; y: number } => {
+    const r = svgRef.current?.getBoundingClientRect();
+    if (!r || r.width === 0 || r.height === 0) return { x: VB_W / 2, y: VB_H / 2 };
+    return {
+      x: ((clientX - r.left) / r.width) * VB_W,
+      y: ((clientY - r.top) / r.height) * VB_H,
+    };
+  };
+
+  const zoomByFactor = (vbx: number, vby: number, factor: number) => {
+    setView((v) => {
+      const k2 = clampK(v.k * factor);
+      if (k2 === v.k) return v;
+      const wx = (vbx - v.x) / v.k;
+      const wy = (vby - v.y) / v.k;
+      let x = vbx - wx * k2;
+      let y = vby - wy * k2;
+      if (k2 === 1) {
+        x = 0;
+        y = 0;
+      }
+      return { k: k2, x, y };
+    });
+  };
+
+  // wheel zoom via a non-passive native listener (so we can preventDefault)
+  useEffect(() => {
+    const el = svgRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const p = clientToVB(e.clientX, e.clientY);
+      zoomByFactor(p.x, p.y, e.deltaY < 0 ? 1.18 : 1 / 1.18);
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    if (e.button !== 0) return;
+    movedRef.current = false;
+    dragRef.current = { cx: e.clientX, cy: e.clientY, ox: view.x, oy: view.y };
+  };
+  const onMouseMove = (e: React.MouseEvent) => {
+    const d = dragRef.current;
+    if (!d) return;
+    const r = svgRef.current?.getBoundingClientRect();
+    if (!r) return;
+    const dx = (e.clientX - d.cx) * (VB_W / r.width);
+    const dy = (e.clientY - d.cy) * (VB_H / r.height);
+    if (Math.abs(dx) > 2 || Math.abs(dy) > 2) movedRef.current = true;
+    setView((v) => ({ ...v, x: d.ox + dx, y: d.oy + dy }));
+  };
+  const endDrag = () => {
+    dragRef.current = null;
+  };
+
   if (isLoading) return <LoadingSpinner fullPage />;
   if (error) return <div className="p-6 text-red-600">Failed to load machines</div>;
 
@@ -162,6 +233,18 @@ export default function MachineMap() {
   for (let lng = Math.ceil(project.minLng); lng <= Math.floor(project.maxLng); lng += 1) lngLines.push(lng);
   const latLines: number[] = [];
   for (let lat = Math.ceil(project.minLat); lat <= Math.floor(project.maxLat); lat += 1) latLines.push(lat);
+
+  const z = 1 / view.k; // counter-scale factor so pins/labels stay constant on screen
+  const gt = `translate(${view.x} ${view.y}) scale(${view.k})`;
+
+  const tip = hoveredPin
+    ? {
+        x: view.x + hoveredPin.x * view.k,
+        y: view.y + hoveredPin.y * view.k,
+        label: hoveredPin.machine.name || hoveredPin.machine.serial_number,
+        sub: `${STATUS_META[hoveredPin.status].label} · ${hoveredPin.locName}`,
+      }
+    : null;
 
   return (
     <div className="space-y-5">
@@ -207,12 +290,51 @@ export default function MachineMap() {
         })}
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="relative bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div className="absolute top-3 right-3 z-10 flex flex-col gap-1">
+          <button
+            onClick={() => zoomByFactor(VB_W / 2, VB_H / 2, 1.5)}
+            className="w-8 h-8 rounded-lg bg-white border border-gray-200 shadow-sm text-gray-700 text-lg leading-none hover:bg-gray-50"
+            title="Zoom in"
+          >
+            +
+          </button>
+          <button
+            onClick={() => zoomByFactor(VB_W / 2, VB_H / 2, 1 / 1.5)}
+            className="w-8 h-8 rounded-lg bg-white border border-gray-200 shadow-sm text-gray-700 text-lg leading-none hover:bg-gray-50"
+            title="Zoom out"
+          >
+            −
+          </button>
+          <button
+            onClick={() => setView({ k: 1, x: 0, y: 0 })}
+            className="w-8 h-8 rounded-lg bg-white border border-gray-200 shadow-sm text-gray-500 text-xs leading-none hover:bg-gray-50"
+            title="Reset view"
+          >
+            ⤢
+          </button>
+        </div>
+        {view.k > 1 && (
+          <div className="absolute top-3 left-3 z-10 text-xs text-gray-500 bg-white/80 rounded px-2 py-1 border border-gray-200">
+            {view.k.toFixed(1)}× · drag to pan
+          </div>
+        )}
+
         <svg
+          ref={svgRef}
           viewBox={`0 0 ${VB_W} ${VB_H}`}
           className="w-full h-auto block select-none"
           role="img"
           aria-label="Map of machines across West Texas"
+          style={{ cursor: 'grab', touchAction: 'none' }}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={endDrag}
+          onMouseLeave={endDrag}
+          onDoubleClick={(e) => {
+            const p = clientToVB(e.clientX, e.clientY);
+            zoomByFactor(p.x, p.y, 1.8);
+          }}
         >
           <defs>
             <radialGradient id="vfMapBg" cx="50%" cy="40%" r="80%">
@@ -222,47 +344,52 @@ export default function MachineMap() {
           </defs>
           <rect x="0" y="0" width={VB_W} height={VB_H} fill="url(#vfMapBg)" />
 
-          {lngLines.map((lng) => {
-            const { x } = project.toXY(project.minLat, lng);
-            return <line key={`lng${lng}`} x1={x} y1={PAD * 0.5} x2={x} y2={VB_H - PAD * 0.5} stroke="#e5e7eb" strokeWidth={1} />;
-          })}
-          {latLines.map((lat) => {
-            const { y } = project.toXY(lat, project.minLng);
-            return <line key={`lat${lat}`} x1={PAD * 0.5} y1={y} x2={VB_W - PAD * 0.5} y2={y} stroke="#e5e7eb" strokeWidth={1} />;
-          })}
+          <g transform={gt}>
+            {lngLines.map((lng) => {
+              const { x } = project.toXY(project.minLat, lng);
+              return <line key={`lng${lng}`} x1={x} y1={PAD * 0.5} x2={x} y2={VB_H - PAD * 0.5} stroke="#e5e7eb" strokeWidth={1 * z} />;
+            })}
+            {latLines.map((lat) => {
+              const { y } = project.toXY(lat, project.minLng);
+              return <line key={`lat${lat}`} x1={PAD * 0.5} y1={y} x2={VB_W - PAD * 0.5} y2={y} stroke="#e5e7eb" strokeWidth={1 * z} />;
+            })}
 
-          {cityPts.map((c) => (
-            <g key={c.name}>
-              <circle cx={c.x} cy={c.y} r={3} fill="#94a3b8" />
-              <text x={c.x + 7} y={c.y + 4} fontSize={13} fill="#64748b" fontWeight={600}>
-                {c.name}
-              </text>
-            </g>
-          ))}
+            {cityPts.map((c) => (
+              <g key={c.name}>
+                <circle cx={c.x} cy={c.y} r={3 * z} fill="#94a3b8" />
+                <text x={c.x + 7 * z} y={c.y + 4 * z} fontSize={13 * z} fill="#64748b" fontWeight={600}>
+                  {c.name}
+                </text>
+              </g>
+            ))}
 
-          {visiblePins.map((p) => {
-            const isHover = hovered === p.id;
-            return (
-              <circle
-                key={p.id}
-                cx={p.x}
-                cy={p.y}
-                r={isHover ? 7 : 4.5}
-                fill={STATUS_META[p.status].fill}
-                stroke="#ffffff"
-                strokeWidth={isHover ? 2 : 1.25}
-                opacity={0.92}
-                style={{ cursor: 'pointer' }}
-                onMouseEnter={() => setHovered(p.id)}
-                onMouseLeave={() => setHovered((h) => (h === p.id ? null : h))}
-                onClick={() => setSelected(p.machine)}
-              >
-                <title>{`${p.machine.name || p.machine.serial_number} — ${STATUS_META[p.status].label} — ${p.locName}`}</title>
-              </circle>
-            );
-          })}
+            {visiblePins.map((p) => {
+              const isHover = hovered === p.id;
+              return (
+                <circle
+                  key={p.id}
+                  cx={p.x}
+                  cy={p.y}
+                  r={(isHover ? 7 : 4.5) * z}
+                  fill={STATUS_META[p.status].fill}
+                  stroke="#ffffff"
+                  strokeWidth={(isHover ? 2 : 1.25) * z}
+                  opacity={0.92}
+                  style={{ cursor: 'pointer' }}
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onMouseEnter={() => setHovered(p.id)}
+                  onMouseLeave={() => setHovered((h) => (h === p.id ? null : h))}
+                  onClick={() => {
+                    if (!movedRef.current) setSelected(p.machine);
+                  }}
+                >
+                  <title>{`${p.machine.name || p.machine.serial_number} — ${STATUS_META[p.status].label} — ${p.locName}`}</title>
+                </circle>
+              );
+            })}
+          </g>
 
-          {hoveredPin && <MapTooltip pin={hoveredPin} />}
+          {tip && <MapTooltip x={tip.x} y={tip.y} label={tip.label} sub={tip.sub} />}
         </svg>
       </div>
 
@@ -315,12 +442,10 @@ export default function MachineMap() {
   );
 }
 
-function MapTooltip({ pin }: { pin: Pin }) {
-  const label = pin.machine.name || pin.machine.serial_number;
-  const sub = `${STATUS_META[pin.status].label} · ${pin.locName}`;
+function MapTooltip({ x, y, label, sub }: { x: number; y: number; label: string; sub: string }) {
   const w = Math.max(label.length, sub.length) * 7 + 24;
-  const tx = Math.min(Math.max(pin.x - w / 2, 6), VB_W - w - 6);
-  const ty = pin.y - 54 < 6 ? pin.y + 16 : pin.y - 54;
+  const tx = Math.min(Math.max(x - w / 2, 6), VB_W - w - 6);
+  const ty = y - 54 < 6 ? y + 16 : y - 54;
   return (
     <g pointerEvents="none">
       <rect x={tx} y={ty} width={w} height={40} rx={8} fill="#0f172a" opacity={0.92} />
