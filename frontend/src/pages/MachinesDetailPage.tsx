@@ -9,6 +9,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import toast from 'react-hot-toast';
 import { fmtValue } from '@/lib/format';
 import { useRefLabels } from '@/lib/useRefLabels';
+import TerminalPanel from '@/components/TerminalPanel';   // S204: the terminal, from HQ
 
 const _errMsg = (e: unknown): string => {
   const x = e as { response?: { data?: { detail?: unknown } }; message?: string };
@@ -118,6 +119,7 @@ export default function MachinesDetailPage() {
           </div>
         ))}
       </dl>
+      {record.terminal_id ? <TerminalPanel terminalId={String(record.terminal_id)} /> : null}
     </div>
   );
 }

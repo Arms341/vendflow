@@ -9,3 +9,13 @@ Applied by `C:\Jarvis\_s204_scratch\apply_hq_s204.py` (idempotent). Proven on a 
 | Machine page: an unlabelled box showing "1" beside Telemetry | The box is labelled Temperature, starts empty, and the button is disabled until a reading is typed | action request fields need labels |
 | "Marketingdashboard" / money without a currency | The three generated dashboards: real headings, `fmtCurrency` on money tiles, no Id column, parents by name | B5 |
 | Lists led with ID / Operator Id / Machine Id | 23 generated lists: no leading ID column; a foreign key shows the parent's name under a header without " Id". `useRefLabels` v1.1.0 also resolves account, route and driver | Road 1 / B3 |
+
+## Later the same day — the terminal, from HQ
+
+| Change | Files |
+|---|---|
+| Machine page gains a **Payment terminal** panel when the machine has a terminal id: last check-in, app version, applied settings revision, what the terminal refused, its status lines and recent log, and a settings form drawn from the server's `spec` | `components/TerminalPanel.tsx` (+ test), `pages/MachinesDetailPage.tsx` |
+
+Server side: vendflow-api `routes/terminal_configs.py`, `services/terminal_settings.py`,
+`models/terminal_config.py`, `routes/webhooks.py` v1.6.0. Terminal side: VendFlowPay 0.3.5
+(`REMOTE_SETTINGS.md` in that repo).
