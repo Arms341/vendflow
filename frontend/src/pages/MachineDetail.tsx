@@ -55,9 +55,9 @@ export default function MachineDetail() {
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
         <h1 className="text-2xl font-bold">Machines #{String(record.id ?? '')}</h1>
-        <div className="flex space-x-2">
+        <div className="flex flex-wrap gap-2">
           <Link to="/machines" className="px-3 py-2 bg-gray-100 rounded-md text-sm font-medium">Back</Link>
         </div>
       </div>

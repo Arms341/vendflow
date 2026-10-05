@@ -6,13 +6,13 @@ import { listEmailSendLogs } from '@/lib/apiClient';
 import type { EmailSendLogResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { fmtValue } from '@/lib/format';
+import { useRefLabels } from '@/lib/useRefLabels';
 
 type Row = EmailSendLogResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
-  { key: "lead_id", label: "Lead Id", render: (row) => fmtValue("lead_id", row.lead_id) },
+  { key: "lead_id", label: "Lead", render: (row) => fmtValue("lead_id", row.lead_id) },
   { key: "sequence_id", label: "Sequence Id", render: (row) => fmtValue("sequence_id", row.sequence_id) },
   { key: "step_number", label: "Step Number", render: (row) => fmtValue("step_number", row.step_number) },
   { key: "subject", label: "Subject", render: (row) => fmtValue("subject", row.subject) },
@@ -20,6 +20,7 @@ const COLUMNS: Col[] = [
 ];
 
 export default function EmailSendLogsPage() {
+  const refLabel = useRefLabels(COLUMNS.map((c: Col) => c.key));   // S204: parents by name
   const { data, isLoading, error } = useQuery({
     queryKey: ["email_send_logs"],
     queryFn: () => listEmailSendLogs(),
@@ -61,7 +62,7 @@ export default function EmailSendLogsPage() {
               <tr key={row.id}>
                 {COLUMNS.map((col: Col) => (
                   <td key={col.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {col.render(row)}
+                    {refLabel(col.key, (row as Record<string, unknown>)[col.key]) ?? col.render(row)}
                   </td>
                 ))}
                 <td className="px-6 py-4 whitespace-nowrap text-sm">

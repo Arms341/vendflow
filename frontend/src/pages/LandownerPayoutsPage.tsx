@@ -7,6 +7,7 @@ import type { LandownerPayoutResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import toast from 'react-hot-toast';
 import { fmtValue } from '@/lib/format';
+import { useRefLabels } from '@/lib/useRefLabels';
 
 const _errMsg = (e: unknown): string => {
   const x = e as { response?: { data?: { detail?: unknown } }; message?: string };
@@ -30,15 +31,15 @@ type Row = LandownerPayoutResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
-  { key: "operator_id", label: "Operator Id", render: (row) => fmtValue("operator_id", row.operator_id) },
-  { key: "landowner_id", label: "Landowner Id", render: (row) => fmtValue("landowner_id", row.landowner_id) },
+  { key: "operator_id", label: "Operator", render: (row) => fmtValue("operator_id", row.operator_id) },
+  { key: "landowner_id", label: "Landowner", render: (row) => fmtValue("landowner_id", row.landowner_id) },
   { key: "agreement_id", label: "Agreement Id", render: (row) => fmtValue("agreement_id", row.agreement_id) },
   { key: "period_start", label: "Period Start", render: (row) => fmtValue("period_start", row.period_start) },
   { key: "period_end", label: "Period End", render: (row) => fmtValue("period_end", row.period_end) },
 ];
 
 export default function LandownerPayoutsPage() {
+  const refLabel = useRefLabels(COLUMNS.map((c: Col) => c.key));   // S204: parents by name
   const { data, isLoading, error } = useQuery({
     queryKey: ["landowner_payouts"],
     queryFn: () => listLandownerPayouts(),
@@ -86,7 +87,7 @@ export default function LandownerPayoutsPage() {
               <tr key={row.id}>
                 {COLUMNS.map((col: Col) => (
                   <td key={col.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {col.render(row)}
+                    {refLabel(col.key, (row as Record<string, unknown>)[col.key]) ?? col.render(row)}
                   </td>
                 ))}
                 <td className="px-6 py-4 whitespace-nowrap text-sm">

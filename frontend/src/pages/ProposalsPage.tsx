@@ -6,20 +6,21 @@ import { listProposals } from '@/lib/apiClient';
 import type { ProposalResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { fmtValue } from '@/lib/format';
+import { useRefLabels } from '@/lib/useRefLabels';
 
 type Row = ProposalResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
-  { key: "lead_id", label: "Lead Id", render: (row) => fmtValue("lead_id", row.lead_id) },
-  { key: "operator_id", label: "Operator Id", render: (row) => fmtValue("operator_id", row.operator_id) },
+  { key: "lead_id", label: "Lead", render: (row) => fmtValue("lead_id", row.lead_id) },
+  { key: "operator_id", label: "Operator", render: (row) => fmtValue("operator_id", row.operator_id) },
   { key: "title", label: "Title", render: (row) => fmtValue("title", row.title) },
   { key: "description", label: "Description", render: (row) => fmtValue("description", row.description) },
   { key: "machine_type", label: "Machine Type", render: (row) => fmtValue("machine_type", row.machine_type) },
 ];
 
 export default function ProposalsPage() {
+  const refLabel = useRefLabels(COLUMNS.map((c: Col) => c.key));   // S204: parents by name
   const { data, isLoading, error } = useQuery({
     queryKey: ["proposals"],
     queryFn: () => listProposals(),
@@ -61,7 +62,7 @@ export default function ProposalsPage() {
               <tr key={row.id}>
                 {COLUMNS.map((col: Col) => (
                   <td key={col.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {col.render(row)}
+                    {refLabel(col.key, (row as Record<string, unknown>)[col.key]) ?? col.render(row)}
                   </td>
                 ))}
                 <td className="px-6 py-4 whitespace-nowrap text-sm">

@@ -15,9 +15,9 @@ import ErrorBoundary from './ErrorBoundary';
 
 export default function Layout() {
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 md:flex">
       <Sidebar />
-      <main className="flex-1 min-w-0 px-6 lg:px-8 py-8">
+      <main className="flex-1 min-w-0 px-3 md:px-6 lg:px-8 py-5 md:py-8">
         <ErrorBoundary>
           <Suspense
             fallback={

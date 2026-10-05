@@ -11,7 +11,6 @@ type Row = MachineResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
   { key: "serial_number", label: "Serial Number", render: (row) => fmtValue("serial_number", row.serial_number) },
   { key: "machine_type", label: "Machine Type", render: (row) => fmtValue("machine_type", row.machine_type) },
   { key: "name", label: "Name", render: (row) => fmtValue("name", row.name) },

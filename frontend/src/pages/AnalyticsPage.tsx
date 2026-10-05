@@ -11,7 +11,6 @@ type Row = AnalyticsResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
   { key: "title", label: "Title", render: (row) => fmtValue("title", row.title) },
   { key: "description", label: "Description", render: (row) => fmtValue("description", row.description) },
   { key: "status", label: "Status", render: (row) => fmtValue("status", row.status) },

@@ -5,11 +5,13 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 import { listEmailSendLogs, listEmailSequences, listLeads, listProposals } from '@/lib/apiClient';
 import type { EmailSendLogResponse, EmailSequenceResponse, LeadResponse, ProposalResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { fmtValue } from '@/lib/format';
+import { fmtValue, fmtCurrency } from '@/lib/format';
+import { useRefLabels } from '@/lib/useRefLabels';
 
 type ChartDatum = { name: string; count: number };
 
 export default function MarketingDashboard() {
+  const refLabel = useRefLabels(["lead_id", "operator_id"]);   // S204: parents by name
   const { data: emailSendLogsData, isLoading: emailSendLogsLoading } = useQuery<EmailSendLogResponse[]>({
     queryKey: ["email_send_logs"],
     queryFn: () => listEmailSendLogs(),
@@ -40,7 +42,7 @@ export default function MarketingDashboard() {
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Marketingdashboard</h1>
+      <h1 className="text-2xl font-bold">Marketing</h1>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <div className="bg-white rounded-lg shadow p-4">
@@ -61,11 +63,11 @@ export default function MarketingDashboard() {
         </div>
         <div className="bg-white rounded-lg shadow p-4">
           <div className="text-sm text-gray-500">Total Monthly Revenue Estimate</div>
-          <div className="text-2xl font-bold">{sum0.toFixed(2)}</div>
+          <div className="text-2xl font-bold">{fmtCurrency(sum0)}</div>
         </div>
         <div className="bg-white rounded-lg shadow p-4">
           <div className="text-sm text-gray-500">Total Placement Fee</div>
-          <div className="text-2xl font-bold">{sum1.toFixed(2)}</div>
+          <div className="text-2xl font-bold">{fmtCurrency(sum1)}</div>
         </div>
       </div>
 
@@ -79,9 +81,8 @@ export default function MarketingDashboard() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Lead Id</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Operator Id</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Lead</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Operator</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Machine Type</th>
@@ -90,11 +91,10 @@ export default function MarketingDashboard() {
             <tbody className="bg-white divide-y divide-gray-200">
               {recentRows.map((row: ProposalResponse) => (
                 <tr key={row.id}>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("id", row.id)}</td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("lead_id", row.lead_id)}</td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("operator_id", row.operator_id)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{refLabel("lead_id", row.lead_id) ?? fmtValue("lead_id", row.lead_id)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{refLabel("operator_id", row.operator_id) ?? fmtValue("operator_id", row.operator_id)}</td>
                   <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("title", row.title)}</td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("description", row.description)}</td>
+                  <td className="px-4 py-2 max-w-xs truncate text-sm text-gray-900">{fmtValue("description", row.description)}</td>
                   <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("machine_type", row.machine_type)}</td>
                 </tr>
               ))}

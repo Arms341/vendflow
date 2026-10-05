@@ -1,13 +1,16 @@
-// VendFlow — Sidebar navigation  v2.0.0  (S191)
+// VendFlow — Sidebar navigation  v2.1.0  (S204)
+// v2.1.0: below md the sidebar is an off-canvas drawer behind a top bar with a menu button.
+// It was a fixed 256px column at every width, which left a phone ~120px of page.
 // v2.0.0: dark chrome, per-item icons, real section separation. The v1 sidebar
 // grouped the links correctly but read as one flat list — the group headings
 // were 10px grey text with nothing else to separate them, and 24 identical
 // text rows give the eye nothing to land on. Colour separates chrome from
 // content; icons make a row scannable without reading it.
 // Builder home: Road 1 / B1.
+import { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
-  LogOut, LayoutDashboard, Megaphone, Snowflake,
+  LogOut, LayoutDashboard, Megaphone, Snowflake, Menu, X,
   Box, Package, Bell, Wrench, Route as RouteIcon,
   CreditCard, FileText, BarChart3, Tag,
   Building2, MapPin, Users, Percent, Banknote,
@@ -196,8 +199,33 @@ export default function Sidebar() {
 
   const groups = groupItems(activeSection.id, activeSection.items);
 
+  // v2.1.0: the drawer (phones only). Any navigation closes it; so does Escape.
+  const [open, setOpen] = useState(false);
+  useEffect(() => { setOpen(false); }, [location.pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
   return (
-    <aside className="w-64 shrink-0 bg-slate-900 h-screen sticky top-0 flex flex-col">
+    <>
+    <div className="md:hidden sticky top-0 z-30 flex h-14 items-center gap-2 bg-slate-900 px-2">
+      <button type="button" onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open}
+        className="flex h-11 w-11 items-center justify-center rounded-md text-slate-200 hover:bg-slate-800">
+        <Menu size={22} />
+      </button>
+      <Link to="/dashboard" className="min-w-0 truncate text-[15px] font-semibold text-white">
+        {company?.company_name || BRAND.name}
+      </Link>
+    </div>
+    {open && <div className="md:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setOpen(false)} aria-hidden="true" />}
+    <aside className={`fixed left-0 top-0 z-50 h-full w-64 shrink-0 bg-slate-900 flex flex-col transition-transform duration-200 md:sticky md:z-auto md:h-screen md:translate-x-0 ${open ? 'translate-x-0' : '-translate-x-full'}`}>
+      <button type="button" onClick={() => setOpen(false)} aria-label="Close menu"
+        className="md:hidden absolute right-2 top-3 flex h-10 w-10 items-center justify-center rounded-md text-slate-300 hover:bg-slate-800">
+        <X size={20} />
+      </button>
       {/* Brand */}
       <Link to="/dashboard" className="flex items-center gap-2.5 px-4 h-16 shrink-0 border-b border-slate-800">
         {company?.logo_url ? (
@@ -293,5 +321,6 @@ export default function Sidebar() {
         </button>
       </div>
     </aside>
+    </>
   );
 }

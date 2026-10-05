@@ -84,7 +84,7 @@ export default function InventoriesFormPage() {
 
   return (
     <div className="p-6 max-w-2xl">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
         <h1 className="text-2xl font-bold">{isEdit ? 'Edit Inventory' : 'New Inventory'}</h1>
         <Link to="/inventories" className="px-3 py-2 bg-gray-100 rounded-md text-sm font-medium">Cancel</Link>
       </div>

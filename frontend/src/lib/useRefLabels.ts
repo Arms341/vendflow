@@ -1,4 +1,4 @@
-// VendFlow — foreign keys as names  v1.0.0  (S191)
+// VendFlow — foreign keys as names  v1.1.0  (S204: + account, route, driver; list pages use it too)
 //
 // WHY THIS EXISTS: detail and list pages rendered `Operator Id: 1` and
 // `Location Id: 3`. The id is the database's business, not the operator's.
@@ -8,6 +8,7 @@
 import { useQueries } from '@tanstack/react-query';
 import {
   listOperators, listLocations, listMachines, listProducts, listLandowners, listLeads,
+  listWholesaleAccounts, listRoutes, listUsers,
 } from '@/lib/apiClient';
 import { fetchAll } from '@/lib/paginate';
 
@@ -15,6 +16,7 @@ import { fetchAll } from '@/lib/paginate';
 type Row = {
   id?: number | null; name?: string | null; serial_number?: string | null;
   business_name?: string | null; title?: string | null;
+  full_name?: string | null; email?: string | null;
 };
 
 const SOURCES: { key: string; fk: string; fn: () => Promise<Row[]> }[] = [
@@ -24,6 +26,9 @@ const SOURCES: { key: string; fk: string; fn: () => Promise<Row[]> }[] = [
   { key: 'products', fk: 'product_id', fn: () => fetchAll((q) => listProducts(q) as Promise<Row[]>) },
   { key: 'landowners', fk: 'landowner_id', fn: () => fetchAll((q) => listLandowners(q) as Promise<Row[]>) },
   { key: 'leads', fk: 'lead_id', fn: () => fetchAll((q) => listLeads(q) as Promise<Row[]>) },
+  { key: 'wholesale_accounts', fk: 'account_id', fn: () => fetchAll((q) => listWholesaleAccounts(q) as Promise<Row[]>) },
+  { key: 'routes', fk: 'route_id', fn: () => fetchAll((q) => listRoutes(q) as Promise<Row[]>) },
+  { key: 'users', fk: 'driver_id', fn: () => fetchAll((q) => listUsers(q) as Promise<Row[]>) },
 ];
 
 /**
@@ -46,7 +51,7 @@ export function useRefLabels(presentKeys: string[]) {
     const data = (results[i]?.data ?? []) as Row[];
     data.forEach((r) => {
       if (r?.id != null) {
-        m.set(r.id, String(r.name ?? r.business_name ?? r.title ?? r.serial_number ?? `#${r.id}`));
+        m.set(r.id, String(r.name ?? r.business_name ?? r.title ?? r.full_name ?? r.email ?? r.serial_number ?? `#${r.id}`));
       }
     });
     maps[s.fk] = m;

@@ -93,7 +93,7 @@ export default function TransactionsFormPage() {
 
   return (
     <div className="p-6 max-w-2xl">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
         <h1 className="text-2xl font-bold">{isEdit ? 'Edit Transaction' : 'New Transaction'}</h1>
         <Link to="/transactions" className="px-3 py-2 bg-gray-100 rounded-md text-sm font-medium">Cancel</Link>
       </div>

@@ -6,13 +6,13 @@ import { listLocations } from '@/lib/apiClient';
 import type { LocationResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { fmtValue } from '@/lib/format';
+import { useRefLabels } from '@/lib/useRefLabels';
 
 type Row = LocationResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
-  { key: "operator_id", label: "Operator Id", render: (row) => fmtValue("operator_id", row.operator_id) },
+  { key: "operator_id", label: "Operator", render: (row) => fmtValue("operator_id", row.operator_id) },
   { key: "name", label: "Name", render: (row) => fmtValue("name", row.name) },
   { key: "address", label: "Address", render: (row) => fmtValue("address", row.address) },
   { key: "city", label: "City", render: (row) => fmtValue("city", row.city) },
@@ -20,6 +20,7 @@ const COLUMNS: Col[] = [
 ];
 
 export default function LocationsPage() {
+  const refLabel = useRefLabels(COLUMNS.map((c: Col) => c.key));   // S204: parents by name
   const { data, isLoading, error } = useQuery({
     queryKey: ["locations"],
     queryFn: () => listLocations(),
@@ -61,7 +62,7 @@ export default function LocationsPage() {
               <tr key={row.id}>
                 {COLUMNS.map((col: Col) => (
                   <td key={col.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {col.render(row)}
+                    {refLabel(col.key, (row as Record<string, unknown>)[col.key]) ?? col.render(row)}
                   </td>
                 ))}
                 <td className="px-6 py-4 whitespace-nowrap text-sm">

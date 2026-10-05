@@ -11,7 +11,6 @@ type Row = OperatorResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
   { key: "name", label: "Name", render: (row) => fmtValue("name", row.name) },
   { key: "contact_name", label: "Contact Name", render: (row) => fmtValue("contact_name", row.contact_name) },
   { key: "contact_email", label: "Contact Email", render: (row) => fmtValue("contact_email", row.contact_email) },

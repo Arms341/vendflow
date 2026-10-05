@@ -11,7 +11,6 @@ type Row = MarketingTemplateResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
   { key: "name", label: "Name", render: (row) => fmtValue("name", row.name) },
   { key: "category", label: "Category", render: (row) => fmtValue("category", row.category) },
   { key: "template_type", label: "Template Type", render: (row) => fmtValue("template_type", row.template_type) },

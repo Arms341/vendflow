@@ -7,6 +7,7 @@ import type { StandingOrderResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import toast from 'react-hot-toast';
 import { fmtValue } from '@/lib/format';
+import { useRefLabels } from '@/lib/useRefLabels';
 
 const _errMsg = (e: unknown): string => {
   const x = e as { response?: { data?: { detail?: unknown } }; message?: string };
@@ -30,15 +31,15 @@ type Row = StandingOrderResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
-  { key: "operator_id", label: "Operator Id", render: (row) => fmtValue("operator_id", row.operator_id) },
-  { key: "account_id", label: "Account Id", render: (row) => fmtValue("account_id", row.account_id) },
-  { key: "machine_id", label: "Machine Id", render: (row) => fmtValue("machine_id", row.machine_id) },
+  { key: "operator_id", label: "Operator", render: (row) => fmtValue("operator_id", row.operator_id) },
+  { key: "account_id", label: "Account", render: (row) => fmtValue("account_id", row.account_id) },
+  { key: "machine_id", label: "Machine", render: (row) => fmtValue("machine_id", row.machine_id) },
   { key: "frequency", label: "Frequency", render: (row) => fmtValue("frequency", row.frequency) },
   { key: "quantity_bags", label: "Quantity Bags", render: (row) => fmtValue("quantity_bags", row.quantity_bags) },
 ];
 
 export default function StandingOrdersPage() {
+  const refLabel = useRefLabels(COLUMNS.map((c: Col) => c.key));   // S204: parents by name
   const { data, isLoading, error } = useQuery({
     queryKey: ["standing_orders"],
     queryFn: () => listStandingOrders(),
@@ -86,7 +87,7 @@ export default function StandingOrdersPage() {
               <tr key={row.id}>
                 {COLUMNS.map((col: Col) => (
                   <td key={col.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {col.render(row)}
+                    {refLabel(col.key, (row as Record<string, unknown>)[col.key]) ?? col.render(row)}
                   </td>
                 ))}
                 <td className="px-6 py-4 whitespace-nowrap text-sm">

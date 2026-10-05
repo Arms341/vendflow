@@ -5,11 +5,13 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 import { listDailyReports, listMachines, listWholesaleAccounts, listWholesaleOrders } from '@/lib/apiClient';
 import type { DailyReportResponse, MachineResponse, WholesaleAccountResponse, WholesaleOrderResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { fmtValue } from '@/lib/format';
+import { fmtValue, fmtCurrency } from '@/lib/format';
+import { useRefLabels } from '@/lib/useRefLabels';
 
 type ChartDatum = { name: string; count: number };
 
 export default function AnalyticsDashboard() {
+  const refLabel = useRefLabels(["machine_id"]);   // S204: parents by name
   const { data: dailyReportsData, isLoading: dailyReportsLoading } = useQuery<DailyReportResponse[]>({
     queryKey: ["daily_reports"],
     queryFn: () => listDailyReports(),
@@ -52,7 +54,7 @@ export default function AnalyticsDashboard() {
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Analyticsdashboard</h1>
+      <h1 className="text-2xl font-bold">Analytics</h1>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <div className="bg-white rounded-lg shadow p-4">
@@ -73,11 +75,11 @@ export default function AnalyticsDashboard() {
         </div>
         <div className="bg-white rounded-lg shadow p-4">
           <div className="text-sm text-gray-500">Total Revenue</div>
-          <div className="text-2xl font-bold">{sum0.toFixed(2)}</div>
+          <div className="text-2xl font-bold">{fmtCurrency(sum0)}</div>
         </div>
         <div className="bg-white rounded-lg shadow p-4">
           <div className="text-sm text-gray-500">Total Card Revenue</div>
-          <div className="text-2xl font-bold">{sum1.toFixed(2)}</div>
+          <div className="text-2xl font-bold">{fmtCurrency(sum1)}</div>
         </div>
       </div>
 
@@ -123,8 +125,7 @@ export default function AnalyticsDashboard() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Machine Id</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Machine</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Report Date</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total Transactions</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total Revenue</th>
@@ -134,8 +135,7 @@ export default function AnalyticsDashboard() {
             <tbody className="bg-white divide-y divide-gray-200">
               {recentRows.map((row: DailyReportResponse) => (
                 <tr key={row.id}>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("id", row.id)}</td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("machine_id", row.machine_id)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{refLabel("machine_id", row.machine_id) ?? fmtValue("machine_id", row.machine_id)}</td>
                   <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("report_date", row.report_date)}</td>
                   <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("total_transactions", row.total_transactions)}</td>
                   <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("total_revenue", row.total_revenue)}</td>

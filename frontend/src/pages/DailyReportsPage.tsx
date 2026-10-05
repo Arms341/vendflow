@@ -7,13 +7,13 @@ import type { DailyReportResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { fetchAll } from '@/lib/paginate';
 import { fmtValue } from '@/lib/format';
+import { useRefLabels } from '@/lib/useRefLabels';
 
 type Row = DailyReportResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
-  { key: "machine_id", label: "Machine Id", render: (row) => fmtValue("machine_id", row.machine_id) },
+  { key: "machine_id", label: "Machine", render: (row) => fmtValue("machine_id", row.machine_id) },
   { key: "report_date", label: "Report Date", render: (row) => fmtValue("report_date", row.report_date) },
   { key: "total_transactions", label: "Total Transactions", render: (row) => fmtValue("total_transactions", row.total_transactions) },
   { key: "total_revenue", label: "Total Revenue", render: (row) => fmtValue("total_revenue", row.total_revenue) },
@@ -21,6 +21,7 @@ const COLUMNS: Col[] = [
 ];
 
 export default function DailyReportsPage() {
+  const refLabel = useRefLabels(COLUMNS.map((c: Col) => c.key));   // S204: parents by name
   const { data, isLoading, error } = useQuery({
     queryKey: ["daily_reports"],
     queryFn: () => fetchAll((q) => listDailyReports(q)),
@@ -62,7 +63,7 @@ export default function DailyReportsPage() {
               <tr key={row.id}>
                 {COLUMNS.map((col: Col) => (
                   <td key={col.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {col.render(row)}
+                    {refLabel(col.key, (row as Record<string, unknown>)[col.key]) ?? col.render(row)}
                   </td>
                 ))}
                 <td className="px-6 py-4 whitespace-nowrap text-sm">

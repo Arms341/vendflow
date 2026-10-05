@@ -11,7 +11,6 @@ type Row = UserResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
   { key: "email", label: "Email", render: (row) => fmtValue("email", row.email) },
   { key: "full_name", label: "Full Name", render: (row) => fmtValue("full_name", row.full_name) },
   { key: "is_active", label: "Is Active", render: (row) => fmtValue("is_active", row.is_active) },

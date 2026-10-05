@@ -6,20 +6,21 @@ import { listWholesaleOrders } from '@/lib/apiClient';
 import type { WholesaleOrderResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { fmtValue } from '@/lib/format';
+import { useRefLabels } from '@/lib/useRefLabels';
 
 type Row = WholesaleOrderResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
-  { key: "operator_id", label: "Operator Id", render: (row) => fmtValue("operator_id", row.operator_id) },
-  { key: "account_id", label: "Account Id", render: (row) => fmtValue("account_id", row.account_id) },
+  { key: "operator_id", label: "Operator", render: (row) => fmtValue("operator_id", row.operator_id) },
+  { key: "account_id", label: "Account", render: (row) => fmtValue("account_id", row.account_id) },
   { key: "standing_order_id", label: "Standing Order Id", render: (row) => fmtValue("standing_order_id", row.standing_order_id) },
-  { key: "machine_id", label: "Machine Id", render: (row) => fmtValue("machine_id", row.machine_id) },
+  { key: "machine_id", label: "Machine", render: (row) => fmtValue("machine_id", row.machine_id) },
   { key: "transaction_id", label: "Transaction Id", render: (row) => fmtValue("transaction_id", row.transaction_id) },
 ];
 
 export default function WholesaleOrdersPage() {
+  const refLabel = useRefLabels(COLUMNS.map((c: Col) => c.key));   // S204: parents by name
   const { data, isLoading, error } = useQuery({
     queryKey: ["wholesale_orders"],
     queryFn: () => listWholesaleOrders(),
@@ -61,7 +62,7 @@ export default function WholesaleOrdersPage() {
               <tr key={row.id}>
                 {COLUMNS.map((col: Col) => (
                   <td key={col.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {col.render(row)}
+                    {refLabel(col.key, (row as Record<string, unknown>)[col.key]) ?? col.render(row)}
                   </td>
                 ))}
                 <td className="px-6 py-4 whitespace-nowrap text-sm">

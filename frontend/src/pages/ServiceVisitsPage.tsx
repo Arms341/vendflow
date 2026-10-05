@@ -6,20 +6,21 @@ import { listServiceVisits } from '@/lib/apiClient';
 import type { ServiceVisitResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { fmtValue } from '@/lib/format';
+import { useRefLabels } from '@/lib/useRefLabels';
 
 type Row = ServiceVisitResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
-  { key: "machine_id", label: "Machine Id", render: (row) => fmtValue("machine_id", row.machine_id) },
-  { key: "driver_id", label: "Driver Id", render: (row) => fmtValue("driver_id", row.driver_id) },
-  { key: "route_id", label: "Route Id", render: (row) => fmtValue("route_id", row.route_id) },
+  { key: "machine_id", label: "Machine", render: (row) => fmtValue("machine_id", row.machine_id) },
+  { key: "driver_id", label: "Driver", render: (row) => fmtValue("driver_id", row.driver_id) },
+  { key: "route_id", label: "Route", render: (row) => fmtValue("route_id", row.route_id) },
   { key: "visit_type", label: "Visit Type", render: (row) => fmtValue("visit_type", row.visit_type) },
   { key: "notes", label: "Notes", render: (row) => fmtValue("notes", row.notes) },
 ];
 
 export default function ServiceVisitsPage() {
+  const refLabel = useRefLabels(COLUMNS.map((c: Col) => c.key));   // S204: parents by name
   const { data, isLoading, error } = useQuery({
     queryKey: ["service_visits"],
     queryFn: () => listServiceVisits(),
@@ -61,7 +62,7 @@ export default function ServiceVisitsPage() {
               <tr key={row.id}>
                 {COLUMNS.map((col: Col) => (
                   <td key={col.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {col.render(row)}
+                    {refLabel(col.key, (row as Record<string, unknown>)[col.key]) ?? col.render(row)}
                   </td>
                 ))}
                 <td className="px-6 py-4 whitespace-nowrap text-sm">

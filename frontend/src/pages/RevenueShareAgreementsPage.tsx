@@ -6,20 +6,21 @@ import { listRevenueShareAgreements } from '@/lib/apiClient';
 import type { RevenueShareAgreementResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { fmtValue } from '@/lib/format';
+import { useRefLabels } from '@/lib/useRefLabels';
 
 type Row = RevenueShareAgreementResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
-  { key: "operator_id", label: "Operator Id", render: (row) => fmtValue("operator_id", row.operator_id) },
-  { key: "landowner_id", label: "Landowner Id", render: (row) => fmtValue("landowner_id", row.landowner_id) },
-  { key: "location_id", label: "Location Id", render: (row) => fmtValue("location_id", row.location_id) },
-  { key: "machine_id", label: "Machine Id", render: (row) => fmtValue("machine_id", row.machine_id) },
+  { key: "operator_id", label: "Operator", render: (row) => fmtValue("operator_id", row.operator_id) },
+  { key: "landowner_id", label: "Landowner", render: (row) => fmtValue("landowner_id", row.landowner_id) },
+  { key: "location_id", label: "Location", render: (row) => fmtValue("location_id", row.location_id) },
+  { key: "machine_id", label: "Machine", render: (row) => fmtValue("machine_id", row.machine_id) },
   { key: "share_type", label: "Share Type", render: (row) => fmtValue("share_type", row.share_type) },
 ];
 
 export default function RevenueShareAgreementsPage() {
+  const refLabel = useRefLabels(COLUMNS.map((c: Col) => c.key));   // S204: parents by name
   const { data, isLoading, error } = useQuery({
     queryKey: ["revenue_share_agreements"],
     queryFn: () => listRevenueShareAgreements(),
@@ -61,7 +62,7 @@ export default function RevenueShareAgreementsPage() {
               <tr key={row.id}>
                 {COLUMNS.map((col: Col) => (
                   <td key={col.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {col.render(row)}
+                    {refLabel(col.key, (row as Record<string, unknown>)[col.key]) ?? col.render(row)}
                   </td>
                 ))}
                 <td className="px-6 py-4 whitespace-nowrap text-sm">

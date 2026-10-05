@@ -6,13 +6,13 @@ import { listOperatorWebsites } from '@/lib/apiClient';
 import type { OperatorWebsiteResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { fmtValue } from '@/lib/format';
+import { useRefLabels } from '@/lib/useRefLabels';
 
 type Row = OperatorWebsiteResponse;
 type Col = { key: string; label: string; render: (row: Row) => string };
 
 const COLUMNS: Col[] = [
-  { key: "id", label: "ID", render: (row) => fmtValue("id", row.id) },
-  { key: "operator_id", label: "Operator Id", render: (row) => fmtValue("operator_id", row.operator_id) },
+  { key: "operator_id", label: "Operator", render: (row) => fmtValue("operator_id", row.operator_id) },
   { key: "domain", label: "Domain", render: (row) => fmtValue("domain", row.domain) },
   { key: "subdomain", label: "Subdomain", render: (row) => fmtValue("subdomain", row.subdomain) },
   { key: "company_name", label: "Company Name", render: (row) => fmtValue("company_name", row.company_name) },
@@ -20,6 +20,7 @@ const COLUMNS: Col[] = [
 ];
 
 export default function OperatorWebsitesPage() {
+  const refLabel = useRefLabels(COLUMNS.map((c: Col) => c.key));   // S204: parents by name
   const { data, isLoading, error } = useQuery({
     queryKey: ["operator_websites"],
     queryFn: () => listOperatorWebsites(),
@@ -61,7 +62,7 @@ export default function OperatorWebsitesPage() {
               <tr key={row.id}>
                 {COLUMNS.map((col: Col) => (
                   <td key={col.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {col.render(row)}
+                    {refLabel(col.key, (row as Record<string, unknown>)[col.key]) ?? col.render(row)}
                   </td>
                 ))}
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
