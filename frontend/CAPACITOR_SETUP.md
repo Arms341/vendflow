@@ -6,7 +6,7 @@ folders (`android/`, `ios/`) are **not** committed — they are generated on you
 with `npx cap add`, because they are large, toolchain-specific trees.
 
 App identity (override per gig via FSB build vars `capacitor_app_id` / `capacitor_app_name`):
-- appId:   `com.jarvisapps.buildvending06251612`
+- appId:   `com.jarvisapps.vendingmachinebuild09171242`
 - appName: `JARVIS App`
 - webDir:  `dist`  (Vite build output)
 

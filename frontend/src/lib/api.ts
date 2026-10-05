@@ -14,7 +14,7 @@
 //         default port 8765.
 import axios from 'axios';
 
-const TOKEN_KEY = 'build_vending_0625_1612-token';
+const TOKEN_KEY = 'vending_machine_build_0917_1242-token';
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8765',

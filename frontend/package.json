@@ -1,5 +1,5 @@
 {
-  "name": "build_vending_0625_1612",
+  "name": "vending_machine_build_0917_1242",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -17,7 +17,8 @@
     "cap:add:ios": "cap add ios",
     "cap:open:android": "cap open android",
     "cap:open:ios": "cap open ios",
-    "mobile:build": "npm run build && cap sync"
+    "mobile:build": "npm run build && cap sync",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "react": "18.2.0",
@@ -55,7 +56,8 @@
     "vitest": "1.0.4",
     "@testing-library/react": "14.1.2",
     "@testing-library/jest-dom": "6.1.5",
-    "@capacitor/cli": "8.3.1"
+    "@capacitor/cli": "8.3.1",
+    "jsdom": "23.0.1"
   },
   "overrides": {
     "acorn": "8.14.0"

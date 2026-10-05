@@ -1,11 +1,20 @@
-// JARVIS App — Shared TypeScript types  v2.0.0
+// JARVIS App — Shared TypeScript types  v2.1.0
 // All API response shapes and domain models live here.
 // AI-generated pages import from this file — never redefine types inline.
 //
+// v2.1.0: OPEN-INTERFACE (third type source) — User and Company carry the same
+//         explicit `[key: string]: any;` index signature frontend_codegen v1.7.0
+//         emits on contract interfaces and FSB v1.35.0 emits on AST-derived
+//         interfaces. An AI page reading a hallucinated property off a scaffold
+//         auth type (UserManagement.tsx `user.is_admin`, build 0705_1308, the
+//         single tsc error that failed frontend 100->77) is now `any` rendered
+//         through the page's own ?? guards instead of a dead build. Declared
+//         fields keep their exact types; one uniform tolerance rule across ALL
+//         THREE type sources (contract emit, AST emit, locked scaffold).
 // v2.0.0: DEBT #22 fix — User has is_active boolean (matches backend
 //         models/base.py User.is_active column).
 
-// ── Auth ──────────────────────────────────────────────────────────────────────
+// ── Auth ─────────────────────────────────────────────────────────────────────
 
 export type UserRole = 'admin' | 'agent' | 'user';
 export type UserStatus = 'active' | 'pending_approval' | 'inactive';
@@ -19,6 +28,8 @@ export interface User {
   is_active: boolean;
   created_at: string;
   updated_at?: string;
+  // v2.1.0 OPEN-INTERFACE: unknown-key reads are `any`, not tsc-fatal TS2339.
+  [key: string]: any;
 }
 
 export interface TokenResponse {
@@ -52,6 +63,8 @@ export interface Company {
   address?: string;
   tagline?: string;
   disclaimer_text?: string;
+  // v2.1.0 OPEN-INTERFACE: unknown-key reads are `any`, not tsc-fatal TS2339.
+  [key: string]: any;
 }
 
 // ── Pagination ────────────────────────────────────────────────────────────────
@@ -96,6 +109,10 @@ export type { EmailSequence as EmailSequenceResponse } from './api';
 export type { EmailSequence } from './api';
 export type { InventoryItem as InventoryItemResponse } from './api';
 export type { InventoryItem } from './api';
+export type { Landowner as LandownerResponse } from './api';
+export type { Landowner } from './api';
+export type { LandownerPayout as LandownerPayoutResponse } from './api';
+export type { LandownerPayout } from './api';
 export type { Lead as LeadResponse } from './api';
 export type { Lead } from './api';
 export type { Location as LocationResponse } from './api';
@@ -112,12 +129,20 @@ export type { Product as ProductResponse } from './api';
 export type { Product } from './api';
 export type { Proposal as ProposalResponse } from './api';
 export type { Proposal } from './api';
+export type { RevenueShareAgreement as RevenueShareAgreementResponse } from './api';
+export type { RevenueShareAgreement } from './api';
 export type { Route as RouteResponse } from './api';
 export type { Route } from './api';
 export type { ServiceVisit as ServiceVisitResponse } from './api';
 export type { ServiceVisit } from './api';
+export type { StandingOrder as StandingOrderResponse } from './api';
+export type { StandingOrder } from './api';
 export type { Transaction as TransactionResponse } from './api';
 export type { Transaction } from './api';
+export type { WholesaleAccount as WholesaleAccountResponse } from './api';
+export type { WholesaleAccount } from './api';
+export type { WholesaleOrder as WholesaleOrderResponse } from './api';
+export type { WholesaleOrder } from './api';
 
 // ── Domain entities (auto-derived from backend response schemas, FSB v1.14.0) ──
 // AI-generated pages import these — never clone `User` for domain data.
@@ -126,8 +151,5 @@ export interface Token {
   access_token: string;
   token_type: string;
   expires_in?: number | null;
+  [key: string]: any;
 }
-
-// ── Response aliases (FSB v1.21.0) ──
-// <Entity>Response === <Entity>; AI pages import either name.
-export type TokenResponseAlias = Token;

@@ -1,357 +1,262 @@
-import { useState, useEffect } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Proposal } from '@/types/index';
-import { api } from '@/lib/api';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+// JARVIS App — ProposalBuilder (CONTRACT-FIRST wizard archetype, generated). DO NOT EDIT BY HAND.
+// Generated deterministically by frontend_codegen.py v1.33.0 (emit_wizard_page).
+import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
+import { createProposals, createProposalsSend } from '@/lib/apiClient';
+import type { ProposalCreate, ProposalResponse } from '@/types/api';
 
-function ProposalBuilder() {
+type FieldKind = 'string' | 'integer' | 'number' | 'boolean' | 'enum';
+type FieldSpec = {
+  name: string;
+  label: string;
+  kind: FieldKind;
+  required: boolean;
+  options?: string[];
+};
+type StepSpec = { title: string; fields: FieldSpec[] };
+
+const STEPS: StepSpec[] = [
+  {
+    title: "Required",
+    fields: [
+      { name: "title", label: "Title", kind: "string", required: true },
+      { name: "status", label: "Status", kind: "string", required: true },
+    ],
+  },
+  {
+    title: "Details 1",
+    fields: [
+      { name: "lead_id", label: "Lead Id", kind: "integer", required: false },
+      { name: "operator_id", label: "Operator Id", kind: "integer", required: false },
+      { name: "description", label: "Description", kind: "string", required: false },
+      { name: "machine_type", label: "Machine Type", kind: "string", required: false },
+      { name: "machine_count", label: "Machine Count", kind: "integer", required: false },
+      { name: "monthly_revenue_estimate", label: "Monthly Revenue Estimate", kind: "number", required: false },
+    ],
+  },
+  {
+    title: "Details 2",
+    fields: [
+      { name: "commission_split", label: "Commission Split", kind: "number", required: false },
+      { name: "placement_fee", label: "Placement Fee", kind: "number", required: false },
+      { name: "contract_term_months", label: "Contract Term Months", kind: "integer", required: false },
+    ],
+  },
+];
+
+const ALL_FIELDS: FieldSpec[] = STEPS.reduce<FieldSpec[]>((acc, s) => acc.concat(s.fields), []);
+
+function coerce(spec: FieldSpec, raw: string): unknown {
+  if (raw === '') return undefined;
+  if (spec.kind === 'integer') {
+    const n = parseInt(raw, 10);
+    return Number.isFinite(n) ? n : undefined;
+  }
+  if (spec.kind === 'number') {
+    const n = Number(raw);
+    return Number.isFinite(n) ? n : undefined;
+  }
+  if (spec.kind === 'boolean') return raw === 'true';
+  return raw;
+}
+
+export default function ProposalBuilder() {
   const queryClient = useQueryClient();
-  const [proposal, setProposal] = useState<Proposal | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [isSending, setIsSending] = useState(false);
-  const [isSigning, setIsSigning] = useState(false);
+  const [step, setStep] = useState(0);
+  const [values, setValues] = useState<Record<string, string>>({});
+  const [created, setCreated] = useState<ProposalResponse | null>(null);
+  const [note, setNote] = useState<string>('');
 
-  const { data: proposals, isLoading, error } = useQuery<Proposal[]>({
-    queryKey: ['proposals'],
-    queryFn: () => api.get('/proposals/').then((r) => r.data),
+  const reviewIndex = STEPS.length;
+  const doneIndex = STEPS.length + 1;
+
+  const setField = (name: string, raw: string) =>
+    setValues((prev) => ({ ...prev, [name]: raw }));
+
+  const missing = (s: StepSpec): string[] =>
+    s.fields.filter((f: any) => f.required && !(values[f.name] ?? '').trim()).map((f: any) => f.label);
+
+  const buildPayload = (): ProposalCreate => {
+    const out: Record<string, unknown> = {};
+    for (const f of ALL_FIELDS) {
+      const v = coerce(f, values[f.name] ?? '');
+      if (v !== undefined) out[f.name] = v;
+    }
+    return out as unknown as ProposalCreate;
+  };
+
+  const createMutation = useMutation({
+    mutationFn: () => createProposals(buildPayload()),
+    onSuccess: (row: ProposalResponse) => {
+      setCreated(row);
+      setNote('');
+      setStep(doneIndex);
+      queryClient.invalidateQueries({ queryKey: ["proposals"] });
+    },
+    onError: () => setNote('Could not save. Check the required fields and try again.'),
   });
 
-  const { data: leads } = useQuery({
-    queryKey: ['leads'],
-    queryFn: () => api.get('/leads/').then((r) => r.data),
+  const sendMutation = useMutation({
+    mutationFn: (id: number) => createProposalsSend(id),
+    onSuccess: () => {
+      setNote('Send complete.');
+      queryClient.invalidateQueries({ queryKey: ["proposals"] });
+    },
+    onError: () => setNote('Send failed.'),
   });
-
-  useEffect(() => {
-    if (proposals && proposals.length > 0) {
-      setProposal(proposals[0]);
-    }
-  }, [proposals]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    if (proposal) {
-      setProposal({
-        ...proposal,
-        [name]: name === 'machine_count' || name === 'monthly_revenue_estimate' || name === 'commission_split' || name === 'contract_term_months' || name === 'placement_fee'
-          ? Number(value)
-          : value,
-      });
-    }
-  };
-
-  const handleSave = async () => {
-    if (!proposal) return;
-    
-    try {
-      await api.post(`/proposals/${proposal.id}/`, proposal);
-      setIsEditing(false);
-      queryClient.invalidateQueries({ queryKey: ['proposals'] });
-    } catch (err) {
-      console.error('Failed to save proposal:', err);
-    }
-  };
-
-  const handleSend = async () => {
-    if (!proposal) return;
-    setIsSending(true);
-    
-    try {
-      await api.post(`/proposals/${proposal.id}/send/`);
-      queryClient.invalidateQueries({ queryKey: ['proposals'] });
-      setIsSending(false);
-    } catch (err) {
-      console.error('Failed to send proposal:', err);
-      setIsSending(false);
-    }
-  };
-
-  const handleSign = async () => {
-    if (!proposal) return;
-    setIsSigning(true);
-    
-    try {
-      await api.post(`/proposals/${proposal.id}/sign/`);
-      queryClient.invalidateQueries({ queryKey: ['proposals'] });
-      setIsSigning(false);
-    } catch (err) {
-      console.error('Failed to sign proposal:', err);
-      setIsSigning(false);
-    }
-  };
-
-  if (isLoading) return <LoadingSpinner />;
-  if (error) return <div className="p-6 text-red-600">Failed to load proposals</div>;
-  if (!proposal) return <div className="p-6">No proposal found</div>;
-
-  const lead = leads?.find((l: any) => l.id === proposal.lead_id);
+  const current = step < STEPS.length ? STEPS[step] : null;
+  const blocked = current ? missing(current) : [];
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Proposal Builder</h1>
-        <div className="flex space-x-2">
-          {proposal.status === 'draft' && (
-            <Button onClick={() => setIsEditing(!isEditing)}>
-              {isEditing ? 'Cancel' : 'Edit'}
-            </Button>
-          )}
-          {proposal.status === 'draft' && (
-            <Button onClick={handleSend} disabled={isSending}>
-              {isSending ? 'Sending...' : 'Send Proposal'}
-            </Button>
-          )}
-          {proposal.status === 'sent' && (
-            <Button onClick={handleSign} disabled={isSigning}>
-              {isSigning ? 'Signing...' : 'Sign Proposal'}
-            </Button>
-          )}
-        </div>
-      </div>
+    <div className="p-6 max-w-3xl">
+      <h1 className="text-2xl font-bold mb-1">Proposal Builder</h1>
+          <p className="mt-1 text-sm text-gray-500">{"Proposal creation and preview screen: configure machine count, revenue estimates, commission split, and send/sign flow"}</p>
+      <ol className="flex flex-wrap gap-2 my-4 text-sm">
+        {STEPS.map((s: any, i: any) => (
+          <li
+            key={s.title}
+            className={
+              'px-3 py-1 rounded-full border ' +
+              (i === step
+                ? 'bg-blue-600 text-white border-blue-600'
+                : i < step
+                ? 'bg-green-50 text-green-700 border-green-200'
+                : 'bg-gray-50 text-gray-500 border-gray-200')
+            }
+          >
+            {i + 1}. {s.title}
+          </li>
+        ))}
+        <li
+          className={
+            'px-3 py-1 rounded-full border ' +
+            (step >= reviewIndex
+              ? 'bg-blue-600 text-white border-blue-600'
+              : 'bg-gray-50 text-gray-500 border-gray-200')
+          }
+        >
+          {STEPS.length + 1}. Review
+        </li>
+      </ol>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Proposal Details</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="title">Title</Label>
-                {isEditing ? (
-                  <Input
-                    id="title"
-                    name="title"
-                    value={proposal.title}
-                    onChange={handleInputChange}
-                  />
+      {note && <div className="mb-4 p-3 rounded-md bg-red-50 text-red-700 text-sm">{note}</div>}
+
+      {current && (
+        <div className="bg-white border border-gray-200 rounded-md p-4">
+          <h2 className="font-semibold mb-3">{current.title}</h2>
+          <div className="grid grid-cols-1 gap-4">
+            {current.fields.map((f: any) => (
+              <label key={f.name} className="block">
+                <span className="block text-sm font-medium text-gray-700 mb-1">
+                  {f.label}
+                  {f.required && <span className="text-red-600"> *</span>}
+                </span>
+                {f.kind === 'enum' ? (
+                  <select
+                    className="w-full border border-gray-300 rounded-md px-3 py-2"
+                    value={values[f.name] ?? ''}
+                    onChange={(e) => setField(f.name, e.target.value)}
+                  >
+                    <option value="">Select...</option>
+                    {(f.options ?? []).map((o: any) => (
+                      <option key={o} value={o}>
+                        {o}
+                      </option>
+                    ))}
+                  </select>
+                ) : f.kind === 'boolean' ? (
+                  <select
+                    className="w-full border border-gray-300 rounded-md px-3 py-2"
+                    value={values[f.name] ?? ''}
+                    onChange={(e) => setField(f.name, e.target.value)}
+                  >
+                    <option value="">Select...</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                  </select>
                 ) : (
-                  <p className="mt-1 text-sm text-gray-900">{proposal.title}</p>
-                )}
-              </div>
-
-              <div>
-                <Label htmlFor="description">Description</Label>
-                {isEditing ? (
-                  <Textarea
-                    id="description"
-                    name="description"
-                    value={proposal.description || ''}
-                    onChange={handleInputChange}
-                    rows={3}
+                  <input
+                    className="w-full border border-gray-300 rounded-md px-3 py-2"
+                    type={f.kind === 'integer' || f.kind === 'number' ? 'number' : 'text'}
+                    value={values[f.name] ?? ''}
+                    onChange={(e) => setField(f.name, e.target.value)}
                   />
-                ) : (
-                  <p className="mt-1 text-sm text-gray-900">{proposal.description || 'No description'}</p>
                 )}
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {step === reviewIndex && (
+        <div className="bg-white border border-gray-200 rounded-md p-4">
+          <h2 className="font-semibold mb-3">Review</h2>
+          <dl className="grid grid-cols-1 gap-2">
+            {ALL_FIELDS.map((f: any) => (
+              <div key={f.name} className="flex justify-between border-b border-gray-100 py-1">
+                <dt className="text-sm text-gray-500">{f.label}</dt>
+                <dd className="text-sm text-gray-900">{values[f.name] ?? ''}</dd>
               </div>
+            ))}
+          </dl>
+        </div>
+      )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="machine_type">Machine Type</Label>
-                  {isEditing ? (
-                    <Input
-                      id="machine_type"
-                      name="machine_type"
-                      value={proposal.machine_type || ''}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    <p className="mt-1 text-sm text-gray-900">{proposal.machine_type || 'Not specified'}</p>
-                  )}
-                </div>
+      {step === doneIndex && (
+        <div className="bg-white border border-gray-200 rounded-md p-4">
+          <h2 className="font-semibold mb-3">Created</h2>
+          <p className="text-sm text-gray-600 mb-4">
+            Record #{String(created?.id ?? '')} saved. Finish by running the action below.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              className="px-3 py-2 bg-blue-600 text-white rounded-md text-sm font-medium disabled:opacity-50"
+              disabled={!created?.id || sendMutation.isPending}
+              onClick={() => { if (created?.id) sendMutation.mutate(Number(created.id)); }}
+            >
+              Send
+            </button>
+            <Link to="/proposals" className="px-3 py-2 bg-gray-100 rounded-md text-sm font-medium">
+              Back to list
+            </Link>
+          </div>
+        </div>
+      )}
 
-                <div>
-                  <Label htmlFor="machine_count">Machine Count</Label>
-                  {isEditing ? (
-                    <Input
-                      id="machine_count"
-                      name="machine_count"
-                      type="number"
-                      value={proposal.machine_count ?? ''}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    <p className="mt-1 text-sm text-gray-900">{proposal.machine_count || 0}</p>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="monthly_revenue_estimate">Monthly Revenue Estimate</Label>
-                  {isEditing ? (
-                    <Input
-                      id="monthly_revenue_estimate"
-                      name="monthly_revenue_estimate"
-                      type="number"
-                      value={proposal.monthly_revenue_estimate ?? ''}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    <p className="mt-1 text-sm text-gray-900">
-                      ${proposal.monthly_revenue_estimate?.toLocaleString() || 0}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <Label htmlFor="commission_split">Commission Split (%)</Label>
-                  {isEditing ? (
-                    <Input
-                      id="commission_split"
-                      name="commission_split"
-                      type="number"
-                      value={proposal.commission_split ?? ''}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    <p className="mt-1 text-sm text-gray-900">{proposal.commission_split || 0}%</p>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="contract_term_months">Contract Term (months)</Label>
-                  {isEditing ? (
-                    <Input
-                      id="contract_term_months"
-                      name="contract_term_months"
-                      type="number"
-                      value={proposal.contract_term_months ?? ''}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    <p className="mt-1 text-sm text-gray-900">{proposal.contract_term_months || 0}</p>
-                  )}
-                </div>
-
-                <div>
-                  <Label htmlFor="placement_fee">Placement Fee</Label>
-                  {isEditing ? (
-                    <Input
-                      id="placement_fee"
-                      name="placement_fee"
-                      type="number"
-                      value={proposal.placement_fee ?? ''}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    <p className="mt-1 text-sm text-gray-900">
-                      ${proposal.placement_fee?.toLocaleString() || 0}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {proposal.pdf_url && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Proposal Preview</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <iframe
-                  src={proposal.pdf_url}
-                  className="w-full h-96 border border-gray-200 rounded"
-                  title="Proposal Preview"
-                />
-              </CardContent>
-            </Card>
+      {step !== doneIndex && (
+        <div className="flex justify-between mt-4">
+          <button
+            type="button"
+            className="px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium disabled:opacity-50"
+            disabled={step === 0}
+            onClick={() => setStep((s) => Math.max(0, s - 1))}
+          >
+            Back
+          </button>
+          {step < reviewIndex ? (
+            <button
+              type="button"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium disabled:opacity-50"
+              disabled={blocked.length > 0}
+              title={blocked.length > 0 ? 'Required: ' + blocked.join(', ') : undefined}
+              onClick={() => setStep((s) => s + 1)}
+            >
+              Next
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium disabled:opacity-50"
+              disabled={createMutation.isPending}
+              onClick={() => createMutation.mutate()}
+            >
+              {createMutation.isPending ? 'Saving...' : 'Create'}
+            </button>
           )}
         </div>
-
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Lead Information</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {lead ? (
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">{lead.name}</p>
-                  <p className="text-sm text-gray-600">{lead.email}</p>
-                  <p className="text-sm text-gray-600">{lead.phone}</p>
-                  <p className="text-sm text-gray-600">{lead.company}</p>
-                </div>
-              ) : (
-                <p className="text-sm text-gray-600">Lead information not available</p>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Proposal Status</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Status</span>
-                  <Badge variant={proposal.status === 'draft' ? 'default' : proposal.status === 'sent' ? 'secondary' : 'outline'}>
-                    {proposal.status}
-                  </Badge>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Created</span>
-                  <span className="text-sm text-gray-600">
-                    {proposal.created_at ? new Date(proposal.created_at).toLocaleDateString() : 'N/A'}
-                  </span>
-                </div>
-
-                {proposal.sent_at && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Sent</span>
-                    <span className="text-sm text-gray-600">
-                      {new Date(proposal.sent_at).toLocaleDateString()}
-                    </span>
-                  </div>
-                )}
-
-                {proposal.viewed_at && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Viewed</span>
-                    <span className="text-sm text-gray-600">
-                      {new Date(proposal.viewed_at).toLocaleDateString()}
-                    </span>
-                  </div>
-                )}
-
-                {proposal.signed_at && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Signed</span>
-                    <span className="text-sm text-gray-600">
-                      {new Date(proposal.signed_at).toLocaleDateString()}
-                    </span>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          {isEditing && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Actions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Button onClick={handleSave} className="w-full">
-                  Save Changes
-                </Button>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 }
-
-export default ProposalBuilder;

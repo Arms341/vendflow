@@ -1,0 +1,1234 @@
+{
+  "emit_page_tests_version": "1.0.0",
+  "provider_stack": [
+    "BrandProvider",
+    "__ROUTER__",
+    "AuthProvider"
+  ],
+  "pages": {
+    "AlertsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getAlerts",
+        "deleteAlerts"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "AlertsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createAlerts",
+        "getAlerts",
+        "listMachines",
+        "updateAlerts"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "AlertsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listAlerts"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "AnalyticsDashboard": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listDailyReports",
+        "listMachines",
+        "listWholesaleAccounts",
+        "listWholesaleOrders"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "AnalyticsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getAnalytics",
+        "deleteAnalytics"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "AnalyticsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createAnalytics",
+        "getAnalytics",
+        "updateAnalytics"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "AnalyticsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listAnalytics"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "DailyReportsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getDailyReports",
+        "deleteDailyReports"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "DailyReportsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createDailyReports",
+        "getDailyReports",
+        "listMachines",
+        "updateDailyReports"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "DailyReportsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listDailyReports"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "Dashboard": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listDailyReports",
+        "listMachines",
+        "listWholesaleAccounts",
+        "listWholesaleOrders"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "EmailCampaigns": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createEmailSequences",
+        "createEmailSequencesActivate"
+      ],
+      "actions": [],
+      "actions_conditional": [
+        "Activate",
+        "Back",
+        "Next",
+        "Create"
+      ],
+      "route_params": []
+    },
+    "EmailSendLogsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getEmailSendLogs",
+        "deleteEmailSendLogs"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "EmailSendLogsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createEmailSendLogs",
+        "getEmailSendLogs",
+        "listLeads",
+        "updateEmailSendLogs"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "EmailSendLogsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listEmailSendLogs"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "EmailSequencesDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getEmailSequences",
+        "deleteEmailSequences",
+        "createEmailSequencesActivate"
+      ],
+      "actions": [
+        "Delete",
+        "Activate"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "EmailSequencesFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createEmailSequences",
+        "getEmailSequences",
+        "listOperators",
+        "updateEmailSequences"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "EmailSequencesPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listEmailSequences"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "InventoriesDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getInventories",
+        "deleteInventories",
+        "createInventoriesClearPrice"
+      ],
+      "actions": [
+        "Delete",
+        "Clear Price"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "InventoriesFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createInventories",
+        "getInventories",
+        "listMachines",
+        "listProducts",
+        "updateInventories"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "InventoriesPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listInventories",
+        "createInventoriesBulkPrice"
+      ],
+      "actions": [],
+      "actions_conditional": [
+        "Bulk Price"
+      ],
+      "route_params": []
+    },
+    "InventoryRestock": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listInventories",
+        "updateInventories"
+      ],
+      "actions": [],
+      "actions_conditional": [
+        "Restock"
+      ],
+      "route_params": []
+    },
+    "LandownerPayoutsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getLandownerPayouts",
+        "deleteLandownerPayouts",
+        "createLandownerPayoutsPay"
+      ],
+      "actions": [
+        "Delete",
+        "Pay"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "LandownerPayoutsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createLandownerPayouts",
+        "getLandownerPayouts",
+        "listLandowners",
+        "listOperators",
+        "updateLandownerPayouts"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "LandownerPayoutsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listLandownerPayouts",
+        "createLandownerPayoutsCalculate"
+      ],
+      "actions": [],
+      "actions_conditional": [
+        "Calculate"
+      ],
+      "route_params": []
+    },
+    "LandownersDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getLandowners",
+        "deleteLandowners"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "LandownersFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createLandowners",
+        "getLandowners",
+        "listOperators",
+        "updateLandowners"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "LandownersPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listLandowners"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "LeadPipeline": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listLeads",
+        "updateLeads"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "LeadsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getLeads",
+        "deleteLeads"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "LeadsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createLeads",
+        "getLeads",
+        "listOperators",
+        "updateLeads"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "LeadsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listLeads"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "LocationsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getLocations",
+        "deleteLocations"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "LocationsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createLocations",
+        "getLocations",
+        "listLandowners",
+        "listOperators",
+        "updateLocations"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "LocationsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listLocations"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "Login": {
+      "contract_backed": false,
+      "raw_api": false,
+      "client_fns": [],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "MachineDetail": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getMachines"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "MachineMap": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listLocations",
+        "listMachines"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "MachinesDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getMachines",
+        "deleteMachines",
+        "createMachinesTelemetry"
+      ],
+      "actions": [
+        "Delete",
+        "Telemetry"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "MachinesFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createMachines",
+        "getMachines",
+        "listLocations",
+        "listOperators",
+        "updateMachines"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "MachinesPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listMachines"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "MarketingDashboard": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listEmailSendLogs",
+        "listEmailSequences",
+        "listLeads",
+        "listProposals"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "MarketingTemplatesDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getMarketingTemplates",
+        "deleteMarketingTemplates"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "MarketingTemplatesFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createMarketingTemplates",
+        "getMarketingTemplates",
+        "updateMarketingTemplates"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "MarketingTemplatesPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listMarketingTemplates"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "NotFound": {
+      "contract_backed": false,
+      "raw_api": false,
+      "client_fns": [],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "OperatorDashboard": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listDailyReports",
+        "listMachines",
+        "listWholesaleAccounts",
+        "listWholesaleOrders"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "OperatorWebsitesDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getOperatorWebsites",
+        "deleteOperatorWebsites",
+        "createOperatorWebsitesPublish"
+      ],
+      "actions": [
+        "Delete",
+        "Publish"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "OperatorWebsitesFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createOperatorWebsites",
+        "getOperatorWebsites",
+        "listOperators",
+        "updateOperatorWebsites"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "OperatorWebsitesPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listOperatorWebsites"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "OperatorsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getOperators",
+        "deleteOperators"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "OperatorsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createOperators",
+        "getOperators",
+        "updateOperators"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "OperatorsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listOperators"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "Pricing": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listInventories",
+        "deleteInventories",
+        "createInventoriesClearPrice"
+      ],
+      "actions": [],
+      "actions_conditional": [
+        "Clear Price",
+        "Delete"
+      ],
+      "route_params": []
+    },
+    "ProductsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getProducts",
+        "deleteProducts"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "ProductsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createProducts",
+        "getProducts",
+        "listOperators",
+        "updateProducts"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "ProductsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listProducts"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "ProposalBuilder": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createProposals",
+        "createProposalsSend"
+      ],
+      "actions": [],
+      "actions_conditional": [
+        "Send",
+        "Back",
+        "Next",
+        "Create"
+      ],
+      "route_params": []
+    },
+    "ProposalsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getProposals",
+        "deleteProposals",
+        "createProposalsSend"
+      ],
+      "actions": [
+        "Delete",
+        "Send"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "ProposalsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createProposals",
+        "getProposals",
+        "listLeads",
+        "listOperators",
+        "updateProposals"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "ProposalsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listProposals"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "Register": {
+      "contract_backed": false,
+      "raw_api": false,
+      "client_fns": [],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "RevenueShareAgreementsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getRevenueShareAgreements",
+        "deleteRevenueShareAgreements"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "RevenueShareAgreementsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createRevenueShareAgreements",
+        "getRevenueShareAgreements",
+        "listLandowners",
+        "listLocations",
+        "listMachines",
+        "listOperators",
+        "updateRevenueShareAgreements"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "RevenueShareAgreementsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listRevenueShareAgreements"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "RoutePlanner": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listRoutes",
+        "deleteRoutes",
+        "createRoutesOptimize"
+      ],
+      "actions": [],
+      "actions_conditional": [
+        "Optimize",
+        "Delete"
+      ],
+      "route_params": []
+    },
+    "RoutesDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getRoutes",
+        "deleteRoutes",
+        "createRoutesOptimize"
+      ],
+      "actions": [
+        "Delete",
+        "Optimize"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "RoutesFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createRoutes",
+        "getRoutes",
+        "listOperators",
+        "updateRoutes"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "RoutesPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listRoutes"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "ServiceVisitsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getServiceVisits",
+        "deleteServiceVisits"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "ServiceVisitsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createServiceVisits",
+        "getServiceVisits",
+        "listMachines",
+        "listRoutes",
+        "updateServiceVisits"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "ServiceVisitsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listServiceVisits"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "StandingOrdersDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getStandingOrders",
+        "deleteStandingOrders"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "StandingOrdersFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createStandingOrders",
+        "getStandingOrders",
+        "listMachines",
+        "listOperators",
+        "updateStandingOrders"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "StandingOrdersPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listStandingOrders",
+        "createStandingOrdersRun"
+      ],
+      "actions": [],
+      "actions_conditional": [
+        "Run"
+      ],
+      "route_params": []
+    },
+    "TransactionsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getTransactions",
+        "deleteTransactions"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "TransactionsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createTransactions",
+        "getTransactions",
+        "listMachines",
+        "listProducts",
+        "updateTransactions"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "TransactionsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listTransactions"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "UsersDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getUsers"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "UsersPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listUsers"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "WebsiteBuilder": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listOperatorWebsites",
+        "updateOperatorWebsites",
+        "createOperatorWebsitesPublish"
+      ],
+      "actions": [
+        "Save",
+        "Publish"
+      ],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "WholesaleAccountsDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getWholesaleAccounts",
+        "deleteWholesaleAccounts",
+        "createWholesaleAccountsCharge"
+      ],
+      "actions": [
+        "Delete",
+        "Charge"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "WholesaleAccountsFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createWholesaleAccounts",
+        "getWholesaleAccounts",
+        "listOperators",
+        "updateWholesaleAccounts"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "WholesaleAccountsPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listWholesaleAccounts"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    },
+    "WholesaleOrdersDetailPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "getWholesaleOrders",
+        "deleteWholesaleOrders"
+      ],
+      "actions": [
+        "Delete"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "WholesaleOrdersFormPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "createWholesaleOrders",
+        "getWholesaleOrders",
+        "listMachines",
+        "listOperators",
+        "listStandingOrders",
+        "listTransactions",
+        "updateWholesaleOrders"
+      ],
+      "actions": [
+        "Save"
+      ],
+      "actions_conditional": [],
+      "route_params": [
+        "id"
+      ]
+    },
+    "WholesaleOrdersPage": {
+      "contract_backed": true,
+      "raw_api": false,
+      "client_fns": [
+        "listWholesaleOrders"
+      ],
+      "actions": [],
+      "actions_conditional": [],
+      "route_params": []
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.jarvisapps.buildvending06251612',
+  appId: 'com.jarvisapps.vendingmachinebuild09171242',
   appName: 'JARVIS App',
   webDir: 'dist',
   server: {

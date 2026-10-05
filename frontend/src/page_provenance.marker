@@ -1,0 +1,7 @@
+JARVIS-PAGE-PROVENANCE v1
+Every file under src/pages carries a producer marker: an emitted page names its
+emitter ("Generated deterministically by frontend_codegen"), and every other page
+opens with "// JARVIS-PROVENANCE: <template|ai>".
+This file states the GENERATION only and carries NO COUNTS. Its absence means the
+build predates FSB v1.65.0, so a validator must report that it CANNOT CLASSIFY the
+page set -- never that the build is clean.

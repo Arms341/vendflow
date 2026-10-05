@@ -1,14 +1,16 @@
+// JARVIS-PROVENANCE: template — Login came from the locked scaffold template library, not from a contract-bound emitter.
 // JARVIS App — Login Page
 // react-hook-form + Zod. Sends OAuth2 form-encoded credentials.
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { LogIn } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { useBrand } from '@/contexts/BrandContext';
 import { getErrorMessage } from '@/types';
+import { BRAND } from '@/config/brand';
 
 const schema = z.object({
   username: z.string().min(1, 'Username is required'),
@@ -52,7 +54,7 @@ export default function Login() {
             <img src={company.logo_url} alt={company.company_name} className="h-12 mx-auto mb-3" />
           ) : (
             <h1 className="text-2xl font-bold text-[var(--color-brand)] mb-1">
-              {company?.company_name || 'JARVIS App'}
+              {company?.company_name || BRAND.name}
             </h1>
           )}
           {company?.tagline && (
@@ -110,12 +112,6 @@ export default function Login() {
             </button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-gray-600">
-            Need access?{' '}
-            <Link to="/register" className="text-[var(--color-brand)] hover:underline font-medium">
-              Register for free
-            </Link>
-          </p>
         </div>
       </div>
     </div>

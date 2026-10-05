@@ -1,0 +1,48 @@
+{
+  "is_split": true,
+  "default": "management",
+  "sections": [
+    {
+      "id": "management",
+      "label": "Management",
+      "primary": true,
+      "route": "/",
+      "hero_comp": "Dashboard",
+      "entities": [
+        "alerts",
+        "analytics",
+        "daily_reports",
+        "inventories",
+        "landowner_payouts",
+        "landowners",
+        "locations",
+        "machines",
+        "operators",
+        "products",
+        "revenue_share_agreements",
+        "routes",
+        "service_visits",
+        "standing_orders",
+        "transactions",
+        "users",
+        "wholesale_accounts",
+        "wholesale_orders"
+      ]
+    },
+    {
+      "id": "marketing",
+      "label": "Marketing",
+      "primary": false,
+      "route": "/marketing",
+      "hero_comp": "MarketingDashboard",
+      "entities": [
+        "email_send_logs",
+        "email_sequences",
+        "leads",
+        "marketing_templates",
+        "operator_websites",
+        "proposals"
+      ]
+    }
+  ]
+}

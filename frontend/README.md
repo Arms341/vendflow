@@ -44,7 +44,7 @@ npm run dev
 ## Project Structure
 
 ```
-build_vending_0625_1612/
+vending_machine_build_0917_1242/
 ├── src/
 │   ├── components/     # Reusable UI components
 │   ├── pages/          # Page components

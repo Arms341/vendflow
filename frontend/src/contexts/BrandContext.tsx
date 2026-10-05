@@ -1,16 +1,19 @@
-// JARVIS App — Brand / Company Context  v2.0.1
-// Loads GET /company on mount. Applies CSS variables for brand colors.
-// Provides useBrand() hook — AI-generated pages use this for company name, logo, colors.
+// VendFlow — Brand / Company Context  v3.0.0  (S191)
+// v3.0.0: NO NETWORK CALL. The brand comes from src/config/brand.ts.
+//   Before this, BrandProvider called GET /company on mount. The vending
+//   backend does not serve that route, so it 404'd twice per page load and the
+//   app fell back to calling itself "JARVIS App" in the tab title, the navbar
+//   and the login page. contract_diff never caught it because the call went
+//   through `api` directly rather than the generated client. [MEASURED S191]
+//   Builder home: Road 1 / A4 — brand belongs to the gig profile, not a fetch.
 // v2.0.1: Fixed TS2345 — applyBrandColors accepts string | undefined.
-// v2.0.0: normalizeColor() ensures # prefix — DB stores hex without #, CSS needs it.
+// v2.0.0: normalizeColor() ensures # prefix.
 import React, {
   createContext, useContext, useEffect, useState,
   type ReactNode,
 } from 'react';
-import api from '@/lib/api';
 import type { Company } from '@/types';
-
-// ── Context shape ─────────────────────────────────────────────────────────────
+import { BRAND } from '@/config/brand';
 
 interface BrandContextValue {
   company: Company | null;
@@ -19,17 +22,22 @@ interface BrandContextValue {
   secondaryColor: string;
 }
 
-const DEFAULT_PRIMARY = '#1D4ED8';
-const DEFAULT_SECONDARY = '#6B7280';
+const DEFAULT_PRIMARY = BRAND.primaryColor;
+const DEFAULT_SECONDARY = BRAND.secondaryColor;
+
+const LOCAL_COMPANY = {
+  company_name: BRAND.name,
+  tagline: BRAND.tagline,
+  primary_color: BRAND.primaryColor,
+  secondary_color: BRAND.secondaryColor,
+} as unknown as Company;
 
 const BrandContext = createContext<BrandContextValue>({
-  company: null,
-  isLoading: true,
+  company: LOCAL_COMPANY,
+  isLoading: false,
   primaryColor: DEFAULT_PRIMARY,
   secondaryColor: DEFAULT_SECONDARY,
 });
-
-// ── Normalize color: ensure # prefix ──────────────────────────────────────────
 
 function normalizeColor(color: string | null | undefined, fallback: string): string {
   if (!color) return fallback;
@@ -37,8 +45,6 @@ function normalizeColor(color: string | null | undefined, fallback: string): str
   if (!trimmed) return fallback;
   return trimmed.startsWith('#') ? trimmed : `#${trimmed}`;
 }
-
-// ── Apply CSS variables helper ────────────────────────────────────────────────
 
 function applyBrandColors(primary: string | undefined, secondary: string | undefined) {
   const root = document.documentElement;
@@ -49,35 +55,26 @@ function applyBrandColors(primary: string | undefined, secondary: string | undef
   root.style.setProperty('--color-brand-hover', p + 'DD');
 }
 
-// ── Provider ──────────────────────────────────────────────────────────────────
-
 export function BrandProvider({ children }: { children: ReactNode }) {
-  const [company, setCompany] = useState<Company | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [company] = useState<Company | null>(LOCAL_COMPANY);
 
   useEffect(() => {
-    api.get<Company>('/company')
-      .then((res) => {
-        setCompany(res.data);
-        applyBrandColors(res.data.primary_color, res.data.secondary_color);
-      })
-      .catch(() => {
-        applyBrandColors(DEFAULT_PRIMARY, DEFAULT_SECONDARY);
-      })
-      .finally(() => setIsLoading(false));
+    applyBrandColors(BRAND.primaryColor, BRAND.secondaryColor);
   }, []);
 
-  const primaryColor = normalizeColor(company?.primary_color, DEFAULT_PRIMARY);
-  const secondaryColor = normalizeColor(company?.secondary_color, DEFAULT_SECONDARY);
-
   return (
-    <BrandContext.Provider value={{ company, isLoading, primaryColor, secondaryColor }}>
+    <BrandContext.Provider
+      value={{
+        company,
+        isLoading: false,
+        primaryColor: DEFAULT_PRIMARY,
+        secondaryColor: DEFAULT_SECONDARY,
+      }}
+    >
       {children}
     </BrandContext.Provider>
   );
 }
-
-// ── Hook ──────────────────────────────────────────────────────────────────────
 
 export function useBrand(): BrandContextValue {
   return useContext(BrandContext);

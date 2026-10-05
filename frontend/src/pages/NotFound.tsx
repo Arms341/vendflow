@@ -1,3 +1,4 @@
+// JARVIS-PROVENANCE: template — NotFound came from the locked scaffold template library, not from a contract-bound emitter.
 // JARVIS App — 404 Not Found
 import { Link } from 'react-router-dom';
 

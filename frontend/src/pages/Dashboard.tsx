@@ -1,226 +1,218 @@
-// Gig-specific Dashboard — vending_machine (VendFlow fleet command).
-// Overrides the universal placeholder Dashboard. Reads GET /reports/dashboard
-// (one server-side aggregate call) so the landing page never pulls raw rows.
-import { ReactNode } from 'react';
+// VendFlow — Operator Dashboard  v2.0.1  (S191; S194 stock_tracked)
+// Was: 6 entity-count tiles + 3 bar charts of wholesale data that rendered as
+// EMPTY AXES because those tables have no rows, and a "Total Revenue" that
+// summed gross and ignored voids. [MEASURED S191]
+//
+// Now: the four numbers an operator actually opens this page for, one
+// single-series revenue chart with a real empty state, and the recent
+// transactions — a table, because six rows is not a chart.
+// Builder home: Road 1 / B6.
 import { useQuery } from '@tanstack/react-query';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import { Box, Banknote, CreditCard, PackageX, type LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import {
-  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
-  PieChart, Pie, Cell,
-} from 'recharts';
-import { Boxes, DollarSign, AlertTriangle, Wrench, Activity, ArrowUpRight } from 'lucide-react';
-import { format, parseISO } from 'date-fns';
-import { api } from '@/lib/api';
+  listDailyReports, listMachines, listTransactions, listInventories,
+} from '@/lib/apiClient';
+import type {
+  DailyReportResponse, MachineResponse, TransactionResponse, InventoryItemResponse,
+} from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import { fmtCurrency, fmtValue } from '@/lib/format';
+import { fetchAll } from '@/lib/paginate';
 
-interface TrendPoint { date: string; revenue: number; }
-interface RecentAlert {
-  id: number;
-  machine_id: number | null;
-  alert_type: string | null;
-  severity: string | null;
-  message: string | null;
-  created_at: string | null;
-}
-interface DashboardData {
-  fleet: { total: number; online: number; offline: number; down: number; status_mix: Record<string, number>; };
-  revenue: { total: number; transactions: number; trend: TrendPoint[]; };
-  alerts: { open: number; by_severity: Record<string, number>; recent: RecentAlert[]; };
-  operator: { name: string | null; monthly_volume: number } | null;
-}
+const BRAND_HUE = '#0074C8';
+const LOW_STOCK_FRACTION = 0.25;
 
-const BRAND = 'var(--color-brand, #4f46e5)';
-const STATUS_COLORS: Record<string, string> = {
-  active: '#16a34a', maintenance: '#f59e0b', offline: '#dc2626', unknown: '#9ca3af',
-};
-const SEV_PILL: Record<string, string> = {
-  high: 'bg-red-100 text-red-700', medium: 'bg-amber-100 text-amber-800', low: 'bg-blue-100 text-blue-700',
-};
+type Tone = 'neutral' | 'good' | 'warn';
 
-function fmtMoney(n: number): string {
-  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(2)}M`;
-  if (n >= 1_000) return `$${(n / 1_000).toFixed(1)}K`;
-  return `$${n.toFixed(0)}`;
-}
-const fmtInt = (n: number): string => n.toLocaleString('en-US');
-
-interface KpiProps {
-  to: string;
-  label: string;
-  value: string;
-  sub: string;
-  icon: ReactNode;
-  accent: string;
-  alert?: boolean;
-}
-function Kpi({ to, label, value, sub, icon, accent, alert }: KpiProps) {
+function StatTile({ label, value, sub, icon: Icon, tone = 'neutral' }: {
+  label: string; value: string; sub?: string;
+  icon: LucideIcon;
+  tone?: Tone;
+}) {
+  // Tone is state, never decoration: it only fires when the number means something.
+  const chip =
+    tone === 'warn' ? 'bg-amber-50 text-amber-600'
+    : tone === 'good' ? 'bg-emerald-50 text-emerald-600'
+    : 'bg-slate-100 text-slate-500';
   return (
-    <Link
-      to={to}
-      className={`group relative block rounded-2xl border bg-white p-5 shadow-sm transition hover:shadow-md ${
-        alert ? 'border-red-200' : 'border-gray-200'
-      }`}
-    >
-      <div className="flex items-start justify-between">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl"
-             style={{ background: `${accent}1a`, color: accent }}>
-          {icon}
+    <div className="bg-white rounded-xl border border-gray-200 p-4 hover:border-gray-300 transition-colors">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">{label}</div>
+          <div className="text-xl xl:text-[26px] leading-tight font-bold text-gray-900 mt-1 tabular-nums truncate">{value}</div>
+          {sub ? <div className="text-xs text-gray-400 mt-1">{sub}</div> : null}
         </div>
-        <ArrowUpRight className="h-4 w-4 text-gray-300 transition group-hover:text-gray-500" />
+        <div className={`h-9 w-9 rounded-lg flex items-center justify-center shrink-0 ${chip}`}>
+          <Icon size={17} />
+        </div>
       </div>
-      <div className="mt-4 text-3xl font-bold tracking-tight text-gray-900">{value}</div>
-      <div className="mt-1 text-sm font-medium text-gray-500">{label}</div>
-      <div className="mt-2 text-xs text-gray-400">{sub}</div>
-    </Link>
+    </div>
+  );
+}
+
+/** Status is state, not a series: reserved colors, always with the label. */
+function StatusBadge({ status }: { status: string }) {
+  const s = String(status || '').toLowerCase();
+  const tone =
+    s === 'approved' ? 'bg-green-50 text-green-700 ring-green-600/20'
+    : s === 'voided' || s === 'refunded' ? 'bg-gray-100 text-gray-600 ring-gray-500/20'
+    : s === 'declined' || s === 'failed' ? 'bg-red-50 text-red-700 ring-red-600/20'
+    : 'bg-gray-100 text-gray-600 ring-gray-500/20';
+  return (
+    <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ring-1 ring-inset ${tone}`}>
+      {fmtValue('payment_status', status)}
+    </span>
+  );
+}
+
+function EmptyPlot({ message }: { message: string }) {
+  return (
+    <div className="h-[220px] flex flex-col items-center justify-center text-center rounded-lg border border-dashed border-gray-200">
+      <div className="text-sm text-gray-500">{message}</div>
+      <div className="text-xs text-gray-400 mt-1">It will appear here as soon as there is data.</div>
+    </div>
   );
 }
 
 export default function Dashboard() {
-  const { data, isLoading, isError } = useQuery<DashboardData>({
-    queryKey: ['dashboard'],
-    queryFn: () => api.get('/reports/dashboard').then((r) => r.data),
+  const dailyReports = useQuery<DailyReportResponse[]>({ queryKey: ['daily_reports'], queryFn: () => fetchAll((q) => listDailyReports(q)) });
+  const machines = useQuery<MachineResponse[]>({ queryKey: ['machines'], queryFn: () => fetchAll((q) => listMachines(q)) });
+  const transactions = useQuery<TransactionResponse[]>({ queryKey: ['transactions'], queryFn: () => fetchAll((q) => listTransactions(q)) });
+  const inventories = useQuery<InventoryItemResponse[]>({ queryKey: ['inventories'], queryFn: () => fetchAll((q) => listInventories(q)) });
+
+  if (dailyReports.isLoading || machines.isLoading || transactions.isLoading || inventories.isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  const reports = dailyReports.data ?? [];
+  const machineRows = machines.data ?? [];
+  const txRows = transactions.data ?? [];
+  const invRows = inventories.data ?? [];
+
+  // Net revenue: the daily reports are the ledger, and since webhooks v1.3.0 a
+  // void backs its parent out of them. Summing them is summing NET.
+  const netRevenue = reports.reduce((a, r) => a + Number(r.total_revenue ?? 0), 0);
+  const onlineCount = machineRows.filter((m) => m.is_online).length;
+  const settledCount = txRows.filter((t) => String(t.payment_status) === 'approved').length;
+  const reversedCount = txRows.filter((t) => String(t.payment_status) === 'voided').length;
+  const lowSlots = invRows.filter((i) => {
+    // S194: a self-replenishing slot (ice maker, water line) is never "low" —
+    // stock_tracked=false opts it out; undefined/null/true keep the old rule.
+    if ((i as { stock_tracked?: boolean | null }).stock_tracked === false) return false;
+    const cur = Number(i.current_qty ?? 0);
+    const max = Number(i.max_qty ?? 0);
+    return max > 0 && cur <= max * LOW_STOCK_FRACTION;
   });
 
-  if (isLoading) return <LoadingSpinner fullPage />;
-  if (isError || !data) return <div className="p-6 text-red-600">Failed to load the dashboard.</div>;
+  // One bar per DAY, not per report row: with a fleet, every machine files its
+  // own daily report, so plotting rows directly would draw N bars per date.
+  const byDay = new Map<string, number>();
+  for (const r of reports) {
+    const day = String(r.report_date ?? '');
+    if (!day) continue;
+    byDay.set(day, (byDay.get(day) ?? 0) + Number(r.total_revenue ?? 0));
+  }
+  const revenueByDay = [...byDay.entries()]
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .slice(-42)
+    .map(([day, revenue]) => ({ day: day.slice(5), revenue }));
+  const hasRevenue = revenueByDay.some((d) => d.revenue > 0);
 
-  const { fleet, revenue, alerts, operator } = data;
-  const statusData = Object.entries(fleet.status_mix).map(([name, value]) => ({ name, value }));
-  const avgDay = revenue.trend.length ? revenue.total / revenue.trend.length : 0;
-  const highOpen = alerts.by_severity.high ?? 0;
+  const recentTx = [...txRows].sort((a, b) => (b.id ?? 0) - (a.id ?? 0)).slice(0, 8);
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Fleet Command</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            {operator?.name ?? 'Fleet'} · {fmtInt(fleet.total)} ice machines across West Texas
-          </p>
-        </div>
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500" />
-          </span>
-          Live · 30-day window
-        </div>
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <p className="text-sm text-gray-500 mt-0.5">
+          {machineRows.length} machine{machineRows.length === 1 ? '' : 's'} · {new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}
+        </p>
       </div>
 
-      {/* KPIs */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Kpi to="/machine-map" label="Machines online"
-             value={`${fmtInt(fleet.online)}/${fmtInt(fleet.total)}`}
-             sub={`${fmtInt(fleet.offline)} offline right now`} accent="#16a34a"
-             icon={<Boxes className="h-5 w-5" />} />
-        <Kpi to="/revenue-report" label="Revenue (30 days)" value={fmtMoney(revenue.total)}
-             sub={`${fmtMoney(avgDay)}/day · ${fmtInt(revenue.transactions)} vends`} accent="#4f46e5"
-             icon={<DollarSign className="h-5 w-5" />} />
-        <Kpi to="/alerts" label="Open alerts" value={fmtInt(alerts.open)}
-             sub={`${fmtInt(highOpen)} high severity`} accent="#dc2626" alert={highOpen > 0}
-             icon={<AlertTriangle className="h-5 w-5" />} />
-        <Kpi to="/service-visits" label="Needs service" value={fmtInt(fleet.down)}
-             sub="maintenance + offline units" accent="#f59e0b"
-             icon={<Wrench className="h-5 w-5" />} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <StatTile
+          label="Machines online" icon={Box}
+          value={`${onlineCount} / ${machineRows.length}`}
+          sub={onlineCount < machineRows.length ? `${machineRows.length - onlineCount} offline` : 'All reporting'}
+          tone={onlineCount < machineRows.length ? 'warn' : 'good'}
+        />
+        <StatTile
+          label="Net revenue" icon={Banknote}
+          value={fmtCurrency(netRevenue)} sub="Voids already backed out"
+        />
+        <StatTile
+          label="Settled sales" icon={CreditCard}
+          value={String(settledCount)}
+          sub={reversedCount ? `${reversedCount} voided` : 'None voided'}
+        />
+        <StatTile
+          label="Slots low" icon={PackageX}
+          value={String(lowSlots.length)}
+          sub={lowSlots.length ? 'At or below 25% full' : 'All slots stocked'}
+          tone={lowSlots.length ? 'warn' : 'good'}
+        />
       </div>
 
-      {/* Revenue trend */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-        <div className="mb-4 flex items-center justify-between">
-          <div>
-            <h2 className="text-base font-semibold text-gray-900">Daily revenue</h2>
-            <p className="text-xs text-gray-400">Fleet-wide ice &amp; water sales, last 30 days</p>
-          </div>
-          <div className="flex items-center gap-1 text-sm font-medium text-gray-500">
-            <Activity className="h-4 w-4" style={{ color: BRAND }} /> {fmtMoney(revenue.total)} total
-          </div>
-        </div>
-        <div className="h-72 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={revenue.trend} margin={{ top: 6, right: 8, left: 8, bottom: 0 }}>
-              <defs>
-                <linearGradient id="rev" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#4f46e5" stopOpacity={0.35} />
-                  <stop offset="100%" stopColor="#4f46e5" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-              <XAxis dataKey="date" tickFormatter={(d) => format(parseISO(String(d)), 'MMM d')}
-                     tick={{ fontSize: 12, fill: '#94a3b8' }} axisLine={false} tickLine={false} minTickGap={24} />
-              <YAxis tickFormatter={(v) => fmtMoney(Number(v))} tick={{ fontSize: 12, fill: '#94a3b8' }}
-                     axisLine={false} tickLine={false} width={56} />
+      <div className="bg-white rounded-xl border border-gray-200 p-4">
+        <h3 className="text-sm font-semibold text-gray-900 mb-3">Net revenue by day</h3>
+        {hasRevenue ? (
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={revenueByDay} margin={{ top: 4, right: 8, bottom: 0, left: 0 }}>
+              <CartesianGrid vertical={false} stroke="#F1F5F9" />
+              <XAxis dataKey="day" tickLine={false} axisLine={false}
+                     tick={{ fill: '#64748B', fontSize: 12 }} />
+              <YAxis tickLine={false} axisLine={false} width={56}
+                     tick={{ fill: '#64748B', fontSize: 12 }}
+                     tickFormatter={(v) => fmtCurrency(v)} />
               <Tooltip
-                formatter={(v) => [fmtMoney(Number(v)), 'Revenue']}
-                labelFormatter={(d) => format(parseISO(String(d)), 'EEE, MMM d')}
-                contentStyle={{ borderRadius: 12, border: '1px solid #e5e7eb', fontSize: 13 }}
+                cursor={{ fill: '#F8FAFC' }}
+                formatter={(v: number) => [fmtCurrency(v), 'Net revenue']}
+                contentStyle={{ borderRadius: 8, border: '1px solid #E2E8F0', fontSize: 12 }}
               />
-              <Area type="monotone" dataKey="revenue" stroke="#4f46e5" strokeWidth={2} fill="url(#rev)" />
-            </AreaChart>
+              <Bar dataKey="revenue" fill={BRAND_HUE} radius={[4, 4, 0, 0]} maxBarSize={48} />
+            </BarChart>
           </ResponsiveContainer>
-        </div>
+        ) : (
+          <EmptyPlot message={reports.length ? 'Every sale so far has been voided — net is zero.' : 'No sales recorded yet.'} />
+        )}
       </div>
 
-      {/* Fleet status + open alerts */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        {/* Status donut */}
-        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-          <h2 className="mb-4 text-base font-semibold text-gray-900">Fleet status</h2>
-          <div className="flex items-center gap-4">
-            <div className="h-40 w-40 shrink-0">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie data={statusData} dataKey="value" nameKey="name" innerRadius={48} outerRadius={72} paddingAngle={2}>
-                    {statusData.map((s) => (
-                      <Cell key={s.name} fill={STATUS_COLORS[s.name] ?? '#9ca3af'} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(v, n) => [`${fmtInt(Number(v))} machines`, String(n)]} />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            <ul className="space-y-2 text-sm">
-              {statusData.map((s) => (
-                <li key={s.name} className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full" style={{ background: STATUS_COLORS[s.name] ?? '#9ca3af' }} />
-                  <span className="capitalize text-gray-600">{s.name}</span>
-                  <span className="ml-auto font-semibold text-gray-900">{fmtInt(s.value)}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div className="bg-white rounded-xl border border-gray-200">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+          <h3 className="text-sm font-semibold text-gray-900">Recent transactions</h3>
+          <Link to="/transactions" className="text-sm text-[var(--color-brand)] hover:underline">View all</Link>
         </div>
-
-        {/* Open alerts */}
-        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm lg:col-span-2">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-base font-semibold text-gray-900">Open alerts</h2>
-            <Link to="/alerts" className="text-sm font-medium" style={{ color: BRAND }}>View all →</Link>
+        {recentTx.length === 0 ? (
+          <div className="px-4 py-10 text-center text-sm text-gray-500">No transactions yet.</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead>
+                <tr>
+                  {['Time', 'Amount', 'Status', 'Slot', 'Card', 'Reference'].map((h) => (
+                    <th key={h} className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {recentTx.map((t) => (
+                  <tr key={t.id} className="hover:bg-gray-50">
+                    <td className="px-4 py-2 text-sm text-gray-600 whitespace-nowrap">{fmtValue('created_at', t.created_at)}</td>
+                    <td className="px-4 py-2 text-sm font-medium text-gray-900">{fmtValue('amount', t.amount)}</td>
+                    <td className="px-4 py-2"><StatusBadge status={String(t.payment_status ?? '')} /></td>
+                    <td className="px-4 py-2 text-sm text-gray-600">{fmtValue('slot_number', t.slot_number)}</td>
+                    <td className="px-4 py-2 text-sm text-gray-600 whitespace-nowrap">
+                      {t.card_last_four ? `${fmtValue('card_brand', t.card_brand)} ••${t.card_last_four}` : fmtValue('card_brand', t.card_brand)}
+                    </td>
+                    <td className="px-4 py-2 text-sm text-gray-500 font-mono text-xs">{fmtValue('payment_ref', t.payment_ref)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <ul className="divide-y divide-gray-100">
-            {alerts.recent.length === 0 && (
-              <li className="py-6 text-center text-sm text-gray-400">No open alerts — fleet healthy.</li>
-            )}
-            {alerts.recent.map((a) => (
-              <li key={a.id} className="flex items-center gap-3 py-3">
-                <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${SEV_PILL[a.severity ?? 'medium'] ?? 'bg-gray-100 text-gray-600'}`}>
-                  {a.severity ?? 'medium'}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-gray-900">{a.message ?? a.alert_type ?? 'Alert'}</p>
-                  <p className="text-xs text-gray-400">
-                    Machine #{a.machine_id ?? '—'}
-                    {a.created_at ? ` · ${format(parseISO(a.created_at), 'MMM d, h:mm a')}` : ''}
-                  </p>
-                </div>
-                <Link to="/alerts"
-                      className="shrink-0 rounded-lg border border-gray-200 px-3 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50">
-                  Dispatch
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        )}
       </div>
     </div>
   );

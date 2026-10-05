@@ -1,150 +1,150 @@
+// JARVIS App — AnalyticsDashboard (CONTRACT-FIRST dashboard archetype, generated). DO NOT EDIT BY HAND.
+// Generated deterministically by frontend_codegen.py v1.33.0 (emit_dashboard_page).
 import { useQuery } from '@tanstack/react-query';
-import {
-  BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, Legend,
-} from 'recharts';
-import { TrendingUp, TrendingDown, DollarSign, Package, Activity } from 'lucide-react';
-import { api } from '@/lib/api';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { listDailyReports, listMachines, listWholesaleAccounts, listWholesaleOrders } from '@/lib/apiClient';
+import type { DailyReportResponse, MachineResponse, WholesaleAccountResponse, WholesaleOrderResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { Analytics } from '@/types/index';
+import { fmtValue } from '@/lib/format';
 
-function formatMoney(value: string | number | undefined | null): string {
-  if (value === undefined || value === null || value === '') return '$0.00';
-  const n = typeof value === 'number' ? value : parseFloat(String(value));
-  if (Number.isNaN(n)) return '$0.00';
-  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
-}
-
-const STATUS_COLORS: Record<string, string> = {
-  active: '#10B981',
-  inactive: '#EF4444',
-  pending: '#F59E0B',
-  completed: '#3B82F6',
-};
+type ChartDatum = { name: string; count: number };
 
 export default function AnalyticsDashboard() {
-  const { data, isLoading, isError } = useQuery<Analytics[]>({
-    queryKey: ['analytics'],
-    queryFn: () => api.get('/analytics/').then((r) => r.data),
+  const { data: dailyReportsData, isLoading: dailyReportsLoading } = useQuery<DailyReportResponse[]>({
+    queryKey: ["daily_reports"],
+    queryFn: () => listDailyReports(),
+  });
+  const { data: machinesData, isLoading: machinesLoading } = useQuery<MachineResponse[]>({
+    queryKey: ["machines"],
+    queryFn: () => listMachines(),
+  });
+  const { data: wholesaleAccountsData, isLoading: wholesaleAccountsLoading } = useQuery<WholesaleAccountResponse[]>({
+    queryKey: ["wholesale_accounts"],
+    queryFn: () => listWholesaleAccounts(),
+  });
+  const { data: wholesaleOrdersData, isLoading: wholesaleOrdersLoading } = useQuery<WholesaleOrderResponse[]>({
+    queryKey: ["wholesale_orders"],
+    queryFn: () => listWholesaleOrders(),
   });
 
+  const isLoading = dailyReportsLoading || machinesLoading || wholesaleAccountsLoading || wholesaleOrdersLoading;
   if (isLoading) return <LoadingSpinner />;
-  if (isError || !data) return <div className="p-6 text-red-600">Failed to load analytics data</div>;
 
-  // Prepare data for charts
-  const transactionsData = data
-    .filter((item: any) => item.title === 'transaction')
-    .map((item: any) => ({
-      name: item.description || 'Unknown',
-      value: item.id,
-      status: item.status || 'unknown',
-    }));
-
-  const topProductsData = data
-    .filter((item: any) => item.title === 'product')
-    .map((item: any) => ({
-      name: item.description || 'Unknown Product',
-      value: item.id,
-      status: item.status || 'unknown',
-    }));
-
-  const machineComparisonData = data
-    .filter((item: any) => item.title === 'machine')
-    .map((item: any) => ({
-      name: item.description || 'Unknown Machine',
-      value: item.id,
-      status: item.status || 'unknown',
-    }));
+  const wholesaleOrdersCount: number = (wholesaleOrdersData ?? []).length;
+  const wholesaleAccountsCount: number = (wholesaleAccountsData ?? []).length;
+  const dailyReportsCount: number = (dailyReportsData ?? []).length;
+  const machinesCount: number = (machinesData ?? []).length;
+  const sum0: number = (dailyReportsData ?? []).reduce((acc: number, r: DailyReportResponse) => acc + Number(r.total_revenue ?? 0), 0);
+  const sum1: number = (dailyReportsData ?? []).reduce((acc: number, r: DailyReportResponse) => acc + Number(r.card_revenue ?? 0), 0);
+  const chart0: ChartDatum[] = ["pending", "fulfilled", "cancelled"].map((v: string) => ({
+    name: v,
+    count: (wholesaleOrdersData ?? []).filter((r: WholesaleOrderResponse) => r.fulfillment_status === v).length,
+  }));
+  const chart1: ChartDatum[] = ["card_on_file", "account", "invoice", "cash"].map((v: string) => ({
+    name: v,
+    count: (wholesaleOrdersData ?? []).filter((r: WholesaleOrderResponse) => r.payment_method === v).length,
+  }));
+  const chart2: ChartDatum[] = ["active", "inactive", "suspended"].map((v: string) => ({
+    name: v,
+    count: (wholesaleAccountsData ?? []).filter((r: WholesaleAccountResponse) => r.status === v).length,
+  }));
+  const recentRows: DailyReportResponse[] = [...(dailyReportsData ?? [])].sort((a: DailyReportResponse, b: DailyReportResponse) => (b.id ?? 0) - (a.id ?? 0)).slice(0, 8);
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Analytics Dashboard</h1>
-      </div>
+    <div className="p-6 space-y-6">
+      <h1 className="text-2xl font-bold">Analyticsdashboard</h1>
 
-      {/* Stat cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center">
-            <div className="p-3 rounded-lg bg-blue-100 text-blue-600">
-              <DollarSign size={24} />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Total Revenue</p>
-              <p className="text-2xl font-semibold text-gray-900">{formatMoney(data.length * 1250)}</p>
-            </div>
-          </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="text-sm text-gray-500">Wholesale Orders</div>
+          <div className="text-2xl font-bold">{wholesaleOrdersCount}</div>
         </div>
-
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center">
-            <div className="p-3 rounded-lg bg-green-100 text-green-600">
-              <Package size={24} />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Total Transactions</p>
-              <p className="text-2xl font-semibold text-gray-900">{data.filter((item: any) => item.title === 'transaction').length}</p>
-            </div>
-          </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="text-sm text-gray-500">Wholesale Accounts</div>
+          <div className="text-2xl font-bold">{wholesaleAccountsCount}</div>
         </div>
-
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center">
-            <div className="p-3 rounded-lg bg-purple-100 text-purple-600">
-              <Activity size={24} />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Active Machines</p>
-              <p className="text-2xl font-semibold text-gray-900">{data.filter((item: any) => item.title === 'machine' && item.status === 'active').length}</p>
-            </div>
-          </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="text-sm text-gray-500">Daily Reports</div>
+          <div className="text-2xl font-bold">{dailyReportsCount}</div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="text-sm text-gray-500">Machines</div>
+          <div className="text-2xl font-bold">{machinesCount}</div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="text-sm text-gray-500">Total Revenue</div>
+          <div className="text-2xl font-bold">{sum0.toFixed(2)}</div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="text-sm text-gray-500">Total Card Revenue</div>
+          <div className="text-2xl font-bold">{sum1.toFixed(2)}</div>
         </div>
       </div>
 
-      {/* Charts row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-6">
-          <h3 className="text-sm font-semibold text-gray-700 mb-4">Transactions by Category</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={transactionsData}>
-              <CartesianGrid strokeDasharray="3 3" />
+        <div className="bg-white rounded-lg shadow p-4">
+          <h3 className="text-sm font-semibold mb-2">Wholesale Orders by Fulfillment Status</h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={chart0}>
               <XAxis dataKey="name" />
-              <YAxis />
+              <YAxis allowDecimals={false} />
               <Tooltip />
-              <Legend />
-              <Bar dataKey="value" name="Transaction Count" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="count" fill="#2563eb" />
             </BarChart>
           </ResponsiveContainer>
         </div>
-
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h3 className="text-sm font-semibold text-gray-700 mb-4">Top Products</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie data={topProductsData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
-                {topProductsData.map((entry: any, i: any) => (
-                  <Cell key={i} fill={STATUS_COLORS[entry.status] || '#6B7280'} />
-                ))}
-              </Pie>
+        <div className="bg-white rounded-lg shadow p-4">
+          <h3 className="text-sm font-semibold mb-2">Wholesale Orders by Payment Method</h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={chart1}>
+              <XAxis dataKey="name" />
+              <YAxis allowDecimals={false} />
               <Tooltip />
-              <Legend />
-            </PieChart>
+              <Bar dataKey="count" fill="#16a34a" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <h3 className="text-sm font-semibold mb-2">Wholesale Accounts by Status</h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={chart2}>
+              <XAxis dataKey="name" />
+              <YAxis allowDecimals={false} />
+              <Tooltip />
+              <Bar dataKey="count" fill="#f59e0b" />
+            </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <h3 className="text-sm font-semibold text-gray-700 mb-4">Machine Performance Comparison</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={machineComparisonData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="value" name="Performance Score" fill="var(--color-brand-secondary)" radius={[4, 4, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
+      <div>
+        <h2 className="text-lg font-semibold mb-2">Recent Daily Reports</h2>
+        <div className="overflow-x-auto bg-white rounded-lg shadow">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Machine Id</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Report Date</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total Transactions</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total Revenue</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Card Revenue</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {recentRows.map((row: DailyReportResponse) => (
+                <tr key={row.id}>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("id", row.id)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("machine_id", row.machine_id)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("report_date", row.report_date)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("total_transactions", row.total_transactions)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("total_revenue", row.total_revenue)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("card_revenue", row.card_revenue)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -1,210 +1,145 @@
+// JARVIS App — OperatorDashboard (CONTRACT-FIRST dashboard archetype, generated). DO NOT EDIT BY HAND.
+// Generated deterministically by frontend_codegen.py v1.33.0 (emit_dashboard_page).
 import { useQuery } from '@tanstack/react-query';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { AlertTriangle, Activity, DollarSign, TrendingUp } from 'lucide-react';
-import { api } from '@/lib/api';
-import { Machine } from '@/types/index';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { listDailyReports, listMachines, listWholesaleAccounts, listWholesaleOrders } from '@/lib/apiClient';
+import type { DailyReportResponse, MachineResponse, WholesaleAccountResponse, WholesaleOrderResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import { fmtValue } from '@/lib/format';
 
-function formatMoney(value: string | number | undefined | null): string {
-  if (value === undefined || value === null || value === '') return '$0.00';
-  const n = typeof value === 'number' ? value : parseFloat(String(value));
-  if (Number.isNaN(n)) return '$0.00';
-  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
-}
+type ChartDatum = { name: string; count: number };
 
 export default function OperatorDashboard() {
-  const {
-    data: machines,
-    isLoading: machinesLoading,
-    error: machinesError,
-  } = useQuery<Machine[]>({
-    queryKey: ['machines'],
-    queryFn: () => api.get('/machines/').then((r) => r.data),
+  const { data: dailyReportsData, isLoading: dailyReportsLoading } = useQuery<DailyReportResponse[]>({
+    queryKey: ["daily_reports"],
+    queryFn: () => listDailyReports(),
+  });
+  const { data: machinesData, isLoading: machinesLoading } = useQuery<MachineResponse[]>({
+    queryKey: ["machines"],
+    queryFn: () => listMachines(),
+  });
+  const { data: wholesaleAccountsData, isLoading: wholesaleAccountsLoading } = useQuery<WholesaleAccountResponse[]>({
+    queryKey: ["wholesale_accounts"],
+    queryFn: () => listWholesaleAccounts(),
+  });
+  const { data: wholesaleOrdersData, isLoading: wholesaleOrdersLoading } = useQuery<WholesaleOrderResponse[]>({
+    queryKey: ["wholesale_orders"],
+    queryFn: () => listWholesaleOrders(),
   });
 
-  const {
-    data: transactions,
-    isLoading: transactionsLoading,
-    error: transactionsError,
-  } = useQuery({
-    queryKey: ['transactions'],
-    queryFn: () => api.get('/transactions/').then((r) => r.data),
-  });
+  const isLoading = dailyReportsLoading || machinesLoading || wholesaleAccountsLoading || wholesaleOrdersLoading;
+  if (isLoading) return <LoadingSpinner />;
 
-  const {
-    data: alerts,
-    isLoading: alertsLoading,
-    error: alertsError,
-  } = useQuery({
-    queryKey: ['alerts'],
-    queryFn: () => api.get('/alerts/').then((r) => r.data),
-  });
-
-  const {
-    data: dailyReports,
-    isLoading: dailyReportsLoading,
-    error: dailyReportsError,
-  } = useQuery({
-    queryKey: ['daily_reports'],
-    queryFn: () => api.get('/daily_reports/').then((r) => r.data),
-  });
-
-  if (machinesLoading || transactionsLoading || alertsLoading || dailyReportsLoading) {
-    return <LoadingSpinner />;
-  }
-
-  if (machinesError || transactionsError || alertsError || dailyReportsError) {
-    return (
-      <div className="p-6 text-red-600">
-        Failed to load dashboard data
-      </div>
-    );
-  }
-
-  const totalMachines = machines?.length ?? 0;
-  const activeMachines = machines?.filter((m: any) => m.is_active).length ?? 0;
-  const onlineMachines = machines?.filter((m: any) => m.is_online).length ?? 0;
-  const revenue = transactions?.reduce((sum: any, t: any) => sum + (t.amount ?? 0), 0) ?? 0;
-  const activeAlerts = alerts?.filter((a: any) => a.status === 'active').length ?? 0;
-
-  const machineStatusData = [
-    { name: 'Active', value: activeMachines },
-    { name: 'Inactive', value: totalMachines - activeMachines },
-    { name: 'Online', value: onlineMachines },
-    { name: 'Offline', value: totalMachines - onlineMachines },
-  ];
+  const wholesaleOrdersCount: number = (wholesaleOrdersData ?? []).length;
+  const wholesaleAccountsCount: number = (wholesaleAccountsData ?? []).length;
+  const dailyReportsCount: number = (dailyReportsData ?? []).length;
+  const machinesCount: number = (machinesData ?? []).length;
+  const sum0: number = (dailyReportsData ?? []).reduce((acc: number, r: DailyReportResponse) => acc + Number(r.total_revenue ?? 0), 0);
+  const sum1: number = (dailyReportsData ?? []).reduce((acc: number, r: DailyReportResponse) => acc + Number(r.card_revenue ?? 0), 0);
+  const chart0: ChartDatum[] = ["pending", "fulfilled", "cancelled"].map((v: string) => ({
+    name: v,
+    count: (wholesaleOrdersData ?? []).filter((r: WholesaleOrderResponse) => r.fulfillment_status === v).length,
+  }));
+  const chart1: ChartDatum[] = ["card_on_file", "account", "invoice", "cash"].map((v: string) => ({
+    name: v,
+    count: (wholesaleOrdersData ?? []).filter((r: WholesaleOrderResponse) => r.payment_method === v).length,
+  }));
+  const chart2: ChartDatum[] = ["active", "inactive", "suspended"].map((v: string) => ({
+    name: v,
+    count: (wholesaleAccountsData ?? []).filter((r: WholesaleAccountResponse) => r.status === v).length,
+  }));
+  const recentRows: DailyReportResponse[] = [...(dailyReportsData ?? [])].sort((a: DailyReportResponse, b: DailyReportResponse) => (b.id ?? 0) - (a.id ?? 0)).slice(0, 8);
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Operator Dashboard</h1>
+    <div className="p-6 space-y-6">
+      <h1 className="text-2xl font-bold">Operatordashboard</h1>
 
-      {/* Stat cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <Activity className="h-6 w-6 text-blue-600" />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Total Machines</p>
-              <p className="text-2xl font-semibold text-gray-900">{totalMachines}</p>
-            </div>
-          </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="text-sm text-gray-500">Wholesale Orders</div>
+          <div className="text-2xl font-bold">{wholesaleOrdersCount}</div>
         </div>
-
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <Activity className="h-6 w-6 text-green-600" />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Active Machines</p>
-              <p className="text-2xl font-semibold text-gray-900">{activeMachines}</p>
-            </div>
-          </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="text-sm text-gray-500">Wholesale Accounts</div>
+          <div className="text-2xl font-bold">{wholesaleAccountsCount}</div>
         </div>
-
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <Activity className="h-6 w-6 text-purple-600" />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Online Machines</p>
-              <p className="text-2xl font-semibold text-gray-900">{onlineMachines}</p>
-            </div>
-          </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="text-sm text-gray-500">Daily Reports</div>
+          <div className="text-2xl font-bold">{dailyReportsCount}</div>
         </div>
-
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center">
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <DollarSign className="h-6 w-6 text-yellow-600" />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Revenue</p>
-              <p className="text-2xl font-semibold text-gray-900">{formatMoney(revenue)}</p>
-            </div>
-          </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="text-sm text-gray-500">Machines</div>
+          <div className="text-2xl font-bold">{machinesCount}</div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="text-sm text-gray-500">Total Revenue</div>
+          <div className="text-2xl font-bold">{sum0.toFixed(2)}</div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="text-sm text-gray-500">Total Card Revenue</div>
+          <div className="text-2xl font-bold">{sum1.toFixed(2)}</div>
         </div>
       </div>
 
-      {/* Charts row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h3 className="text-sm font-semibold text-gray-700 mb-4">Machine Status Overview</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={machineStatusData}>
-              <CartesianGrid strokeDasharray="3 3" />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="bg-white rounded-lg shadow p-4">
+          <h3 className="text-sm font-semibold mb-2">Wholesale Orders by Fulfillment Status</h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={chart0}>
               <XAxis dataKey="name" />
-              <YAxis />
+              <YAxis allowDecimals={false} />
               <Tooltip />
-              <Bar dataKey="value" name="Count" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="count" fill="#2563eb" />
             </BarChart>
           </ResponsiveContainer>
         </div>
-
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h3 className="text-sm font-semibold text-gray-700 mb-4">Active Alerts</h3>
-          <div className="space-y-3">
-            {alerts?.slice(0, 5).map((alert: any) => (
-              <div key={alert.id} className="flex items-start p-3 bg-red-50 rounded-lg">
-                <AlertTriangle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-900">{alert.description}</p>
-                  <p className="text-xs text-gray-500">{alert.created_at}</p>
-                </div>
-              </div>
-            ))}
-            {alerts && alerts.length === 0 && (
-              <p className="text-sm text-gray-500">No active alerts</p>
-            )}
-          </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <h3 className="text-sm font-semibold mb-2">Wholesale Orders by Payment Method</h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={chart1}>
+              <XAxis dataKey="name" />
+              <YAxis allowDecimals={false} />
+              <Tooltip />
+              <Bar dataKey="count" fill="#16a34a" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <h3 className="text-sm font-semibold mb-2">Wholesale Accounts by Status</h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={chart2}>
+              <XAxis dataKey="name" />
+              <YAxis allowDecimals={false} />
+              <Tooltip />
+              <Bar dataKey="count" fill="#f59e0b" />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
 
-      {/* Machine status table */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100">
-          <h3 className="text-sm font-semibold text-gray-700">Machine Status Overview</h3>
-        </div>
-        <div className="overflow-x-auto">
+      <div>
+        <h2 className="text-lg font-semibold mb-2">Recent Daily Reports</h2>
+        <div className="overflow-x-auto bg-white rounded-lg shadow">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Machine</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Telemetry</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Id</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Machine Id</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Report Date</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total Transactions</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total Revenue</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Card Revenue</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {machines?.slice(0, 10).map((machine: any) => (
-                <tr key={machine.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{machine.name ?? machine.serial_number}</div>
-                    <div className="text-sm text-gray-500">{machine.serial_number}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {machine.machine_type ?? 'N/A'}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                      ${machine.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                      {machine.is_active ? 'Active' : 'Inactive'}
-                    </span>
-                    <span className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                      ${machine.is_online ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}`}>
-                      {machine.is_online ? 'Online' : 'Offline'}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {machine.location_id ?? 'N/A'}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {machine.last_telemetry_at ? new Date(machine.last_telemetry_at).toLocaleString() : 'N/A'}
-                  </td>
+              {recentRows.map((row: DailyReportResponse) => (
+                <tr key={row.id}>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("id", row.id)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("machine_id", row.machine_id)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("report_date", row.report_date)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("total_transactions", row.total_transactions)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("total_revenue", row.total_revenue)}</td>
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{fmtValue("card_revenue", row.card_revenue)}</td>
                 </tr>
               ))}
             </tbody>

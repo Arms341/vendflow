@@ -1,3 +1,4 @@
+// JARVIS-PROVENANCE: template — Register came from the locked scaffold template library, not from a contract-bound emitter.
 // JARVIS App — Registration Page
 // react-hook-form + Zod. Submission does NOT auto-login (admin approval required).
 import { useForm } from 'react-hook-form';
@@ -10,6 +11,7 @@ import toast from 'react-hot-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { useBrand } from '@/contexts/BrandContext';
 import { getErrorMessage } from '@/types';
+import { BRAND } from '@/config/brand';
 
 const schema = z.object({
   email: z.string().email('Valid email required'),
@@ -50,7 +52,7 @@ export default function Register() {
           <h2 className="text-2xl font-bold text-gray-900 mb-3">You're registered!</h2>
           <p className="text-gray-600 mb-2">
             Your account is pending approval by{' '}
-            <strong>{company?.company_name || 'JARVIS App'}</strong>.
+            <strong>{company?.company_name || BRAND.name}</strong>.
           </p>
           <p className="text-gray-500 text-sm">You'll receive an email once your account is activated.</p>
           <Link to="/login" className="mt-6 inline-block text-sm text-[var(--color-brand)] hover:underline">
@@ -66,7 +68,7 @@ export default function Register() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-[var(--color-brand)]">
-            {company?.company_name || 'JARVIS App'}
+            {company?.company_name || BRAND.name}
           </h1>
           <p className="text-sm text-gray-500 mt-1">Create your free account</p>
         </div>
@@ -78,7 +80,7 @@ export default function Register() {
               { name: 'email'            as const, label: 'Email Address',    type: 'email',    auto: 'email' },
               { name: 'password'         as const, label: 'Password',         type: 'password', auto: 'new-password' },
               { name: 'confirm_password' as const, label: 'Confirm Password', type: 'password', auto: 'new-password' },
-            ].map(({ name, label, type, auto }) => (
+            ].map(({ name, label, type, auto }: { name: 'full_name' | 'email' | 'password' | 'confirm_password'; label: string; type: string; auto: string }) => (
               <div key={name}>
                 <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1">
                   {label}

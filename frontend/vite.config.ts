@@ -20,6 +20,14 @@ export default defineConfig({
       },
     },
   },
+  test: {
+    globals: false,
+    environment: 'jsdom',
+    setupFiles: ['./src/setupTests.ts'],
+    css: false,
+    include: ['src/**/*.test.{ts,tsx}'],
+    testTimeout: 15000,
+  },
   build: {
     outDir: 'dist',
     sourcemap: true,
